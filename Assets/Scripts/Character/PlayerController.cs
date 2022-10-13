@@ -6,12 +6,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    PlayerInputActions inputActions;
+
+    public float moveSpeed = 3f;
+    public float rotationSpeed = 10f;
+
     Vector3 inputDir = Vector3.zero;
     Quaternion targetRotation = Quaternion.identity;
 
-    public float moveSpeed = 3f;
-
+    PlayerInputActions inputActions;
     private void Awake()
     {
         inputActions = new PlayerInputActions();
@@ -32,12 +34,15 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
+
     }
 
     private void Update()
     {
         transform.Translate(moveSpeed * Time.deltaTime * inputDir, Space.World);
-        transform.rotation = targetRotation;
+
+        //transform.rotation = targetRotation;
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
 
@@ -48,9 +53,13 @@ public class PlayerController : MonoBehaviour
         inputDir.z = input.y;
         inputDir.y = 0f;
 
-        Quaternion cameraYRotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
-        inputDir = cameraYRotation * inputDir;
+        if (!context.canceled)
+        {
+            //카메라의 Y축 회전만 뽑음
+            Quaternion cameraYRotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
+            inputDir = cameraYRotation * inputDir;  //inputDir과 카메라 방향을 일치 시킨다
 
-        targetRotation = Quaternion.LookRotation(inputDir);
+            targetRotation = Quaternion.LookRotation(inputDir);
+        }
     }
 }
