@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 3f;
     public float rotationSpeed = 10f;
 
+    
+
     Vector3 inputDir = Vector3.zero;
     Quaternion targetRotation = Quaternion.identity;
 
