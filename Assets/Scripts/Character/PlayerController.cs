@@ -7,28 +7,41 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
 
-    public float moveSpeed = 3f;
-    public float rotationSpeed = 10f;
+    public float walkSpeed = 3f;
+    public float runSpeed = 5f;
+    float currentSpeed = 3f;
+    enum MoveMode
+    {
+        Walk = 0,
+        Run
+    }
+    MoveMode moveMode = MoveMode.Walk;
 
-    
+    public float rotationSpeed = 10f;
 
     Vector3 inputDir = Vector3.zero;
     Quaternion targetRotation = Quaternion.identity;
 
     PlayerInputActions inputActions;
+    Animator animator;
     private void Awake()
     {
         inputActions = new PlayerInputActions();
+        animator = GetComponent<Animator>();
     }
     private void OnEnable()
     {
         inputActions.Player.Enable();
         inputActions.Player.Move.performed += OnMoveInput;
         inputActions.Player.Move.canceled += OnMoveInput;
+        inputActions.Player.MoveModeChange.performed += MoveModeChange;
     }
+
+
 
     private void OnDisable()
     {
+        inputActions.Player.MoveModeChange.performed -= MoveModeChange;
         inputActions.Player.Move.performed -= OnMoveInput;
         inputActions.Player.Move.canceled -= OnMoveInput;
         inputActions.Player.Disable();
@@ -41,7 +54,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(moveSpeed * Time.deltaTime * inputDir, Space.World);
+        transform.Translate(currentSpeed * Time.deltaTime * inputDir, Space.World);
 
         //transform.rotation = targetRotation;
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -62,6 +75,31 @@ public class PlayerController : MonoBehaviour
             inputDir = cameraYRotation * inputDir;  //inputDir과 카메라 방향을 일치 시킨다
 
             targetRotation = Quaternion.LookRotation(inputDir);
+            if (moveMode == MoveMode.Walk)
+            {
+                animator.SetFloat("Speed", 0.3f);
+            }
+            else if (moveMode == MoveMode.Run)
+            {
+                animator.SetFloat("Speed", 1f);
+            }
+        }
+        else
+        {
+            animator.SetFloat("Speed", 0f);
+        }
+    }
+    private void MoveModeChange(InputAction.CallbackContext _)
+    {
+        if (moveMode == MoveMode.Walk)
+        {
+            moveMode = MoveMode.Run;
+            currentSpeed = runSpeed;
+        }
+        else
+        {
+            moveMode = MoveMode.Walk;
+            currentSpeed = walkSpeed;
         }
     }
 }

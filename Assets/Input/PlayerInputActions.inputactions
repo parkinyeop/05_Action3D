@@ -13,6 +13,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "MoveModeChange",
+                    "type": "Button",
+                    "id": "1a7fcb21-14c8-482d-9cb7-e4360b4faa75",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -70,6 +79,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "dc2b3a68-c854-4bbb-b2a3-5fe0c6f40011",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveModeChange",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
