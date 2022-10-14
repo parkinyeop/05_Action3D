@@ -95,11 +95,19 @@ public class PlayerController : MonoBehaviour
         {
             moveMode = MoveMode.Run;
             currentSpeed = runSpeed;
+            if(inputDir != Vector3.zero)
+            {
+                animator.SetFloat("Speed", 1f);
+            }
         }
         else
         {
             moveMode = MoveMode.Walk;
             currentSpeed = walkSpeed;
+            if(inputDir!= Vector3.zero)
+            {
+                animator.SetFloat("Speed", 0.3f);
+            }
         }
     }
 }
