@@ -15,9 +15,30 @@ public class RandomIdleSelector : StateMachineBehaviour
 
     int RandomeSelect()
     {
-        int selelct = Random.Range(0, 5);
+        float num = Random.Range(0, 1f);
+        int select ;
+        if(num < 0.7f)
+        {
+            select = 0;
+        }
+        else if (num < 0.9f)
+        {
+            select = 1;
+        }
+        else if (num < 0.94)
+        {
+            select = 2;
+        }
+        else if (num < 0.97)
+        {
+            select = 3;
+        }
+        else
+        {
+            select = 4;
+        }
 
-        return selelct;
+        return select;
     }
 
 
