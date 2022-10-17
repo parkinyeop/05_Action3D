@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(Rigidbody))]   //필수적으로 필요한 컴포넌트가 있을 때 자동으로 넣어주는 속성
 [RequireComponent(typeof(Animator))]
@@ -18,8 +19,9 @@ public class Enemy : MonoBehaviour
     float waitTimer;
     protected EnemyState state;
 
-    Rigidbody rb;
+    //Rigidbody rb;
     Animator animator;
+    NavMeshAgent agent;
 
     protected enum EnemyState
     {
@@ -27,7 +29,7 @@ public class Enemy : MonoBehaviour
         Patrol
     }
 
-    Action StateUpdate;
+    Action stateUpdate;
 
     protected Transform MoveTarget
     {
@@ -35,7 +37,8 @@ public class Enemy : MonoBehaviour
         set
         {
             moveTarget = value;
-            lookDir = (moveTarget.position - transform.position).normalized;
+            //lookDir = (moveTarget.position - transform.position).normalized;
+            
         }
     }
 
@@ -48,14 +51,17 @@ public class Enemy : MonoBehaviour
             switch (state)
             {
                 case EnemyState.Wait:
+                    agent.isStopped = true;
                     waitTimer = waitTime;
                     animator.SetTrigger("Stop");
-                    StateUpdate = Update_Wait;
+                    stateUpdate = Update_Wait;
                     break;
 
                 case EnemyState.Patrol:
+                    agent.isStopped = false;
+                    agent.SetDestination(moveTarget.position);
                     animator.SetTrigger("Move");
-                    StateUpdate = Update_Patrol;
+                    stateUpdate = Update_Patrol;
                     break;
 
                 default:
@@ -70,7 +76,7 @@ public class Enemy : MonoBehaviour
         set
         {
             waitTimer = value;
-            if(waitTime < 0)
+            if(waitTimer < 0)
             {
                 State = EnemyState.Patrol;
             }
@@ -79,12 +85,16 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        //rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
     private void Start()
     {
+        agent.speed = moveSpeed;
+        //moveSpeedPerSecond = moveSpeed * Time.fixedDeltaTime;
+
         if (waypoint != null)
         {
             MoveTarget = waypoint.Current;
@@ -94,25 +104,33 @@ public class Enemy : MonoBehaviour
             MoveTarget = transform;
         }
 
-        moveSpeedPerSecond = moveSpeed * Time.fixedDeltaTime;
-
-        state = EnemyState.Wait;
+        State = EnemyState.Wait;
         animator.ResetTrigger("Stop");
     }
 
     private void FixedUpdate()
     {
-        StateUpdate();
+        stateUpdate();
     }
 
     void Update_Patrol()
     {
-        rb.MovePosition(transform.position + moveSpeedPerSecond * lookDir);
-        rb.rotation = Quaternion.Slerp(rb.rotation, Quaternion.LookRotation(lookDir), 0.2f);
+        //rb.MovePosition(transform.position + moveSpeedPerSecond * lookDir);
+        //rb.rotation = Quaternion.Slerp(rb.rotation, Quaternion.LookRotation(lookDir), 0.2f);
+        
+        //도착 확인 
+        //if ((transform.position - moveTarget.position).sqrMagnitude < 0.01f)
+        //{
+        //    //transform.position = moveTarget.position;
+        //    MoveTarget = waypoint.MoveNext();
+        //    State = EnemyState.Wait;
+        //}
 
-        if ((transform.position - moveTarget.position).sqrMagnitude < 0.01f)
+        //agnet.pathPending : 경로 계산이 진행중인지 확인. true면 아직 경로 계산 중
+        //agent.remainingDistance : 도작지점까지 남아 있는 거리
+        //agent.stoppingDistance : 도착지점으로 인정되는 거리
+        if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            transform.position = moveTarget.position;
             MoveTarget = waypoint.MoveNext();
             State = EnemyState.Wait;
         }
@@ -120,6 +138,6 @@ public class Enemy : MonoBehaviour
 
     void Update_Wait()
     {
-        waitTime -= Time.fixedDeltaTime;
+        WaitTimer -= Time.fixedDeltaTime;
     }
 }
