@@ -172,7 +172,7 @@ public class Enemy : MonoBehaviour
     {
 #if UNITY_EDITOR
         //Gizmos.DrawWireSphere(transform.position, sightRange);
-        Handles.color = Color.red;
+        Handles.color = Color.green;
         Handles.DrawWireDisc(transform.position, transform.up, sightRange);
 #endif
     }
