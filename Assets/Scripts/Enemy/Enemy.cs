@@ -16,10 +16,11 @@ public class Enemy : MonoBehaviour
     public float moveSpeed = 3f;
 
     public float sightRange = 10f;
+    public float sightHalfAngle = 50;
 
     Transform moveTarget;
     Vector3 lookDir;
-    float moveSpeedPerSecond;
+    //float moveSpeedPerSecond;
 
     float waitTime = 1f;
     float waitTimer;
@@ -151,14 +152,21 @@ public class Enemy : MonoBehaviour
         bool result = false;
 
         // 레이어 마스크를 통해 오브젝트를 감지하는 물리 구체
-        Collider[] collider = 
-            Physics.OverlapSphere(transform.position, sightRange, 
+        Collider[] collider =
+            Physics.OverlapSphere(transform.position, sightRange,
             LayerMask.GetMask("Player"));
 
-        if(collider.Length > 0)
+        if (collider.Length > 0)
         {
-            Debug.Log("Player Detect");
+            Vector3 playerPos = collider[0].transform.position;
+            float angle = Vector3.Angle(transform.forward, playerPos - transform.position);
+            if (sightHalfAngle > angle)
+            {
+                result = true;
+            }
         }
+
+
 
         return result;
     }
@@ -171,9 +179,28 @@ public class Enemy : MonoBehaviour
     private void OnDrawGizmos()
     {
 #if UNITY_EDITOR
-        //Gizmos.DrawWireSphere(transform.position, sightRange);
-        Handles.color = Color.red;
+
+        if (SearchPlayer())
+        {
+            Handles.color = Color.red;
+        }
+        else
+        {
+            Handles.color = Color.green;
+        }
         Handles.DrawWireDisc(transform.position, transform.up, sightRange);
+
+        Vector3 forward = transform.forward * sightHalfAngle;
+        Quaternion q1 = Quaternion.AngleAxis(-sightHalfAngle, transform.up);
+        Quaternion q2 = Quaternion.AngleAxis(sightHalfAngle, transform.up);
+
+        Handles.DrawLine(transform.position, transform.forward * sightRange + q1 * forward);
+        Handles.DrawLine(transform.position, transform.forward * sightRange + q2 * forward);
+        //Handles.DrawLine(transform.position, 
+        //    transform.position + transform.forward * sightRange + transform.right * 5f);
+
+        //Handles.DrawLine(transform.position, 
+        //    transform.position + transform.forward * sightRange + transform.right * -5f);
 #endif
     }
 }

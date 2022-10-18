@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
         Walk = 0,
         Run
     }
+
     MoveMode moveMode = MoveMode.Walk;
 
     public float rotationSpeed = 10f;
