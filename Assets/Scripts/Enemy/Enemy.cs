@@ -159,10 +159,17 @@ public class Enemy : MonoBehaviour
         if (collider.Length > 0)
         {
             Vector3 playerPos = collider[0].transform.position;
-            float angle = Vector3.Angle(transform.forward, playerPos - transform.position);
+            Vector3 toPlayerDir = playerPos - transform.position;
+            float angle = Vector3.Angle(transform.forward, toPlayerDir);
             if (sightHalfAngle > angle)
             {
-                result = true;
+                Ray ray = new(transform.position + transform.up * 0.5f, toPlayerDir);
+                if (Physics.Raycast(ray, out RaycastHit hit, sightRange))
+                {
+                    if (hit.collider.CompareTag("Player"))
+                        result = true;
+                }
+
             }
         }
 
@@ -170,6 +177,8 @@ public class Enemy : MonoBehaviour
 
         return result;
     }
+
+
 
     public void Test()
     {
@@ -186,14 +195,14 @@ public class Enemy : MonoBehaviour
         {
             Handles.color = Color.red;
         }
-       
+
 
         Vector3 forward = transform.forward * sightRange;
         Quaternion q1 = Quaternion.AngleAxis(-sightHalfAngle, transform.up);
         Quaternion q2 = Quaternion.AngleAxis(sightHalfAngle, transform.up);
 
-        Handles.DrawLine(transform.position, transform.position  + q1 * forward);
-        Handles.DrawLine(transform.position, transform.position  + q2 * forward);
+        Handles.DrawLine(transform.position, transform.position + q1 * forward);
+        Handles.DrawLine(transform.position, transform.position + q2 * forward);
 
         Handles.DrawWireArc(transform.position, transform.up, q1 * forward, sightHalfAngle * 2, sightRange, 5.0f);
         //Handles.DrawLine(transform.position, 
