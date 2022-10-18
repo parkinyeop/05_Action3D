@@ -179,23 +179,23 @@ public class Enemy : MonoBehaviour
     private void OnDrawGizmos()
     {
 #if UNITY_EDITOR
+        Handles.color = Color.green;
+        Handles.DrawWireDisc(transform.position, transform.up, sightRange);
 
         if (SearchPlayer())
         {
             Handles.color = Color.red;
         }
-        else
-        {
-            Handles.color = Color.green;
-        }
-        Handles.DrawWireDisc(transform.position, transform.up, sightRange);
+       
 
-        Vector3 forward = transform.forward * sightHalfAngle;
+        Vector3 forward = transform.forward * sightRange;
         Quaternion q1 = Quaternion.AngleAxis(-sightHalfAngle, transform.up);
         Quaternion q2 = Quaternion.AngleAxis(sightHalfAngle, transform.up);
 
-        Handles.DrawLine(transform.position, transform.forward * sightRange + q1 * forward);
-        Handles.DrawLine(transform.position, transform.forward * sightRange + q2 * forward);
+        Handles.DrawLine(transform.position, transform.position  + q1 * forward);
+        Handles.DrawLine(transform.position, transform.position  + q2 * forward);
+
+        Handles.DrawWireArc(transform.position, transform.up, q1 * forward, sightHalfAngle * 2, sightRange, 5.0f);
         //Handles.DrawLine(transform.position, 
         //    transform.position + transform.forward * sightRange + transform.right * 5f);
 
