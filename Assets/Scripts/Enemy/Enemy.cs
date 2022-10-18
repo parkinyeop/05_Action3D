@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 [RequireComponent(typeof(Rigidbody))]   //필수적으로 필요한 컴포넌트가 있을 때 자동으로 넣어주는 속성
 [RequireComponent(typeof(Animator))]
 public class Enemy : MonoBehaviour
@@ -40,7 +44,6 @@ public class Enemy : MonoBehaviour
         {
             moveTarget = value;
             //lookDir = (moveTarget.position - transform.position).normalized;
-
         }
     }
 
@@ -145,16 +148,16 @@ public class Enemy : MonoBehaviour
 
     bool SearchPlayer()
     {
-
         bool result = false;
 
+        // 레이어 마스크를 통해 오브젝트를 감지하는 물리 구체
         Collider[] collider = 
             Physics.OverlapSphere(transform.position, sightRange, 
             LayerMask.GetMask("Player"));
 
-        foreach(var col in collider)
+        if(collider.Length > 0)
         {
-            Debug.Log($"{col.gameObject.name}");
+            Debug.Log("Player Detect");
         }
 
         return result;
@@ -163,5 +166,14 @@ public class Enemy : MonoBehaviour
     public void Test()
     {
         SearchPlayer();
+    }
+
+    private void OnDrawGizmos()
+    {
+#if UNITY_EDITOR
+        //Gizmos.DrawWireSphere(transform.position, sightRange);
+        Handles.color = Color.red;
+        Handles.DrawWireDisc(transform.position, transform.up, sightRange);
+#endif
     }
 }
