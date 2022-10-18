@@ -11,6 +11,8 @@ public class Enemy : MonoBehaviour
     public WayPoint waypoint;
     public float moveSpeed = 3f;
 
+    public float sightRange = 10f;
+
     Transform moveTarget;
     Vector3 lookDir;
     float moveSpeedPerSecond;
@@ -38,7 +40,7 @@ public class Enemy : MonoBehaviour
         {
             moveTarget = value;
             //lookDir = (moveTarget.position - transform.position).normalized;
-            
+
         }
     }
 
@@ -76,7 +78,7 @@ public class Enemy : MonoBehaviour
         set
         {
             waitTimer = value;
-            if(waitTimer < 0)
+            if (waitTimer < 0)
             {
                 State = EnemyState.Patrol;
             }
@@ -117,7 +119,7 @@ public class Enemy : MonoBehaviour
     {
         //rb.MovePosition(transform.position + moveSpeedPerSecond * lookDir);
         //rb.rotation = Quaternion.Slerp(rb.rotation, Quaternion.LookRotation(lookDir), 0.2f);
-        
+
         //도착 확인 
         //if ((transform.position - moveTarget.position).sqrMagnitude < 0.01f)
         //{
@@ -129,7 +131,7 @@ public class Enemy : MonoBehaviour
         //agnet.pathPending : 경로 계산이 진행중인지 확인. true면 아직 경로 계산 중
         //agent.remainingDistance : 도작지점까지 남아 있는 거리
         //agent.stoppingDistance : 도착지점으로 인정되는 거리
-        if(!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
             MoveTarget = waypoint.MoveNext();
             State = EnemyState.Wait;
@@ -139,5 +141,27 @@ public class Enemy : MonoBehaviour
     void Update_Wait()
     {
         WaitTimer -= Time.fixedDeltaTime;
+    }
+
+    bool SearchPlayer()
+    {
+
+        bool result = false;
+
+        Collider[] collider = 
+            Physics.OverlapSphere(transform.position, sightRange, 
+            LayerMask.GetMask("Player"));
+
+        foreach(var col in collider)
+        {
+            Debug.Log($"{col.gameObject.name}");
+        }
+
+        return result;
+    }
+
+    public void Test()
+    {
+        SearchPlayer();
     }
 }
