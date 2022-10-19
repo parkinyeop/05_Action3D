@@ -17,14 +17,15 @@ public class Enemy : MonoBehaviour
 
     public float sightRange = 10f;
     public float sightHalfAngle = 50;
+    Transform chaseTarget;
 
-    Transform moveTarget;
+    Transform wayPointTarget;
     Vector3 lookDir;
     //float moveSpeedPerSecond;
 
     float waitTime = 1f;
     float waitTimer;
-    protected EnemyState state;
+    protected EnemyState state = EnemyState.Patrol;
 
     //Rigidbody rb;
     Animator animator;
@@ -33,45 +34,57 @@ public class Enemy : MonoBehaviour
     protected enum EnemyState
     {
         Wait = 0,
-        Patrol
+        Patrol,
+        Chase
     }
 
     Action stateUpdate;
 
-    protected Transform MoveTarget
+    protected Transform WayPointTarget
     {
-        get => moveTarget;
+        get => wayPointTarget;
         set
         {
-            moveTarget = value;
+            wayPointTarget = value;
             //lookDir = (moveTarget.position - transform.position).normalized;
         }
     }
 
     protected EnemyState State
     {
+
+
         get => state;
         set
         {
-            state = value;
-            switch (state)
+            if (state != value)
             {
-                case EnemyState.Wait:
-                    agent.isStopped = true;
-                    waitTimer = waitTime;
-                    animator.SetTrigger("Stop");
-                    stateUpdate = Update_Wait;
-                    break;
+                state = value;
+                switch (state)
+                {
+                    case EnemyState.Wait:
+                        agent.isStopped = true;
+                        waitTimer = waitTime;
+                        animator.SetTrigger("Stop");
+                        stateUpdate = Update_Wait;
+                        break;
 
-                case EnemyState.Patrol:
-                    agent.isStopped = false;
-                    agent.SetDestination(moveTarget.position);
-                    animator.SetTrigger("Move");
-                    stateUpdate = Update_Patrol;
-                    break;
+                    case EnemyState.Patrol:
+                        agent.isStopped = false;
+                        agent.SetDestination(wayPointTarget.position);
+                        animator.SetTrigger("Move");
+                        stateUpdate = Update_Patrol;
+                        break;
+                    case EnemyState.Chase:
+                        agent.isStopped = false;
+                        animator.SetTrigger("Move");
+                        stateUpdate = Update_Chase;
 
-                default:
-                    break;
+                        break;
+
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -103,11 +116,11 @@ public class Enemy : MonoBehaviour
 
         if (waypoint != null)
         {
-            MoveTarget = waypoint.Current;
+            WayPointTarget = waypoint.Current;
         }
         else
         {
-            MoveTarget = transform;
+            WayPointTarget = transform;
         }
 
         State = EnemyState.Wait;
@@ -116,6 +129,11 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (SearchPlayer())
+        {
+            State = EnemyState.Chase;
+        }
+
         stateUpdate();
     }
 
@@ -137,7 +155,19 @@ public class Enemy : MonoBehaviour
         //agent.stoppingDistance : 도착지점으로 인정되는 거리
         if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
         {
-            MoveTarget = waypoint.MoveNext();
+            WayPointTarget = waypoint.MoveNext();
+            State = EnemyState.Wait;
+        }
+    }
+
+    void Update_Chase()
+    {
+        if (chaseTarget != null)
+        {
+            agent.SetDestination(chaseTarget.position);
+        }
+        else
+        {
             State = EnemyState.Wait;
         }
     }
@@ -150,6 +180,7 @@ public class Enemy : MonoBehaviour
     bool SearchPlayer()
     {
         bool result = false;
+        chaseTarget = null;
 
         // 레이어 마스크를 통해 오브젝트를 감지하는 물리 구체
         Collider[] collider =
@@ -167,14 +198,13 @@ public class Enemy : MonoBehaviour
                 if (Physics.Raycast(ray, out RaycastHit hit, sightRange))
                 {
                     if (hit.collider.CompareTag("Player"))
+                    {
+                        chaseTarget = collider[0].transform;
                         result = true;
+                    }
                 }
-
             }
         }
-
-
-
         return result;
     }
 
@@ -195,7 +225,6 @@ public class Enemy : MonoBehaviour
         {
             Handles.color = Color.red;
         }
-
 
         Vector3 forward = transform.forward * sightRange;
         Quaternion q1 = Quaternion.AngleAxis(-sightHalfAngle, transform.up);
