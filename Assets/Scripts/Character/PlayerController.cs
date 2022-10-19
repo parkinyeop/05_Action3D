@@ -25,10 +25,13 @@ public class PlayerController : MonoBehaviour
 
     PlayerInputActions inputActions;
     Animator animator;
+    CharacterController characterController;
+
     private void Awake()
     {
         inputActions = new PlayerInputActions();
         animator = GetComponent<Animator>();
+        characterController = GetComponent<CharacterController>();
     }
     private void OnEnable()
     {
@@ -55,7 +58,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(currentSpeed * Time.deltaTime * inputDir, Space.World);
+        characterController.Move(currentSpeed * Time.deltaTime * inputDir);
+        //characterController.SimpleMove(currentSpeed * inputDir);
+
+        //transform.Translate(currentSpeed * Time.deltaTime * inputDir, Space.World);
 
         //transform.rotation = targetRotation;
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
