@@ -121,13 +121,10 @@ public class PlayerController : MonoBehaviour
     }
     private void OnAttack(InputAction.CallbackContext _)
     {
-        Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime);//현재 재생되고 있는 애니메이션의 진행상태를 얻어옴(0~1)
+       // Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime);//현재 재생되고 있는 애니메이션의 진행상태를 얻어옴(0~1)
+
         int comboState = animator.GetInteger("ComboState");
         comboState++;
-        if(comboState > 3)
-        {
-            comboState = 0;
-        }
         animator.SetInteger("ComboState",comboState);
         animator.SetTrigger("Attack");
     }
