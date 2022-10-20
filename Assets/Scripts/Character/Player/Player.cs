@@ -9,9 +9,9 @@ public class Player : MonoBehaviour, IBattle, IHealth
     Transform weaponR;
     Collider weaponBlade;
 
-    float attackPower = 10f;
-    float defencePower = 3f;
-    float hp = 100f;
+    public float attackPower = 10f;
+    public float defencePower = 3f;
+    public float hp = 100f;
     public float maxHp = 100f;
 
     public float AttackPower => attackPower;
@@ -89,7 +89,7 @@ public class Player : MonoBehaviour, IBattle, IHealth
 
     public void Defence(float damage)
     {
-        HP -= (damage - defencePower);
+        HP -= (damage - DefencePower);
     }
 
     public void Die()

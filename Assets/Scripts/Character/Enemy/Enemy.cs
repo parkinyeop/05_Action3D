@@ -19,9 +19,9 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
     public float sightHalfAngle = 50;
     Transform chaseTarget;
 
-    float attackPower = 10f;
-    float defencePower = 3f;
-    float hp = 100f;
+    public float attackPower = 10f;
+    public float defencePower = 3f;
+    public float hp = 100f;
     public float maxHp = 100f;
 
     Transform wayPointTarget;
@@ -57,8 +57,6 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
 
     protected EnemyState State
     {
-
-
         get => state;
         set
         {
@@ -80,11 +78,11 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
                         animator.SetTrigger("Move");
                         stateUpdate = Update_Patrol;
                         break;
+
                     case EnemyState.Chase:
                         agent.isStopped = false;
                         animator.SetTrigger("Move");
                         stateUpdate = Update_Chase;
-
                         break;
 
                     default:
@@ -115,7 +113,9 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
             if (hp != value)
             {
                 hp = value;
+
                 onHealthChange?.Invoke();
+
                 if (hp < 0)
                 {
                     Die();
@@ -125,12 +125,9 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
     }
 
     public float MaxHP => maxHp;
-
     public Action onHealthChange { get; set; }
     public Action onDie { get; set; }
-
     public float AttackPower => attackPower;
-
     public float DefencePower => defencePower;
 
     private void Awake()
@@ -156,6 +153,9 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
 
         State = EnemyState.Wait;
         animator.ResetTrigger("Stop");
+
+        onHealthChange += Test_HP_Change;
+        onDie += Test_Die;
     }
 
     private void FixedUpdate()
@@ -251,7 +251,7 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
 
     public void Defence(float damage)
     {
-        HP -= (damage - defencePower);
+        HP -= (damage - DefencePower);
     }
     private void OnDrawGizmos()
     {
@@ -278,5 +278,13 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
     {
         SearchPlayer();
     }
+    void Test_HP_Change()
+    {
+        Debug.Log($"{gameObject.name}의 HP가 {HP}로 변경되었습니다");
+    }
 
+    void Test_Die()
+    {
+        Debug.Log($"{gameObject.name}가 죽었습니다");
+    }
 }
