@@ -10,7 +10,7 @@ using UnityEditor;
 
 [RequireComponent(typeof(Rigidbody))]   //필수적으로 필요한 컴포넌트가 있을 때 자동으로 넣어주는 속성
 [RequireComponent(typeof(Animator))]
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour , IHealth, IBattle
 {
     public WayPoint waypoint;
     public float moveSpeed = 3f;
@@ -18,6 +18,11 @@ public class Enemy : MonoBehaviour
     public float sightRange = 10f;
     public float sightHalfAngle = 50;
     Transform chaseTarget;
+
+    float attackPower = 10f;
+    float defencePower = 3f;
+    float hp = 100f;
+    public float maxHp = 100f;
 
     Transform wayPointTarget;
     Vector3 lookDir;
@@ -101,6 +106,32 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
+    public float HP
+    {
+        get => hp;
+        set
+        {
+            if (hp != value)
+            {
+                hp = value;
+                onHealthChange?.Invoke();
+                if (hp < 0)
+                {
+                    Die();
+                }
+            }
+        }
+    }
+
+    public float MaxHP => maxHp;
+
+    public Action onHealthChange { get; set; }
+    public Action onDie { get; set; }
+
+    public float AttackPower => attackPower;
+
+    public float DefencePower => defencePower;
 
     private void Awake()
     {
@@ -207,14 +238,21 @@ public class Enemy : MonoBehaviour
         }
         return result;
     }
-
-
-
-    public void Test()
+   
+    public void Die()
     {
-        SearchPlayer();
+        onDie?.Invoke();
     }
 
+    public void Attack(IBattle target)
+    {
+        target?.Defence(AttackPower);
+    }
+
+    public void Defence(float damage)
+    {
+        HP -= (damage - defencePower);
+    }
     private void OnDrawGizmos()
     {
 #if UNITY_EDITOR
@@ -234,11 +272,11 @@ public class Enemy : MonoBehaviour
         Handles.DrawLine(transform.position, transform.position + q2 * forward);
 
         Handles.DrawWireArc(transform.position, transform.up, q1 * forward, sightHalfAngle * 2, sightRange, 5.0f);
-        //Handles.DrawLine(transform.position, 
-        //    transform.position + transform.forward * sightRange + transform.right * 5f);
-
-        //Handles.DrawLine(transform.position, 
-        //    transform.position + transform.forward * sightRange + transform.right * -5f);
 #endif
     }
+    public void Test()
+    {
+        SearchPlayer();
+    }
+
 }

@@ -27,7 +27,7 @@ public class Player : MonoBehaviour, IBattle, IHealth
             {
                 hp = value;
                 onHealthChange?.Invoke();
-                if(hp<0)
+                if (hp < 0)
                 {
                     Die();
                 }
@@ -38,12 +38,12 @@ public class Player : MonoBehaviour, IBattle, IHealth
     public float MaxHP => maxHp;
 
     public Action onHealthChange { get; set; }
+    public Action onDie { get; set; }
 
 
     private void Awake()
     {
         weaponR = GetComponentInChildren<WeaponPosition>().transform;
-
 
         weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
         weaponBlade = weaponR.GetComponentInChildren<Collider>();
@@ -76,17 +76,20 @@ public class Player : MonoBehaviour, IBattle, IHealth
     }
     public void WeaponBladeDisable()
     {
-        weaponBlade.enabled = false;
+        if (weaponBlade != null)
+        {
+            weaponBlade.enabled = false;
+        }
     }
 
     public void Attack(IBattle target)
     {
-        target.Defence(AttackPower);
+        target?.Defence(AttackPower);
     }
 
     public void Defence(float damage)
     {
-        HP -= (attackPower - defencePower);
+        HP -= (damage - defencePower);
     }
 
     public void Die()
