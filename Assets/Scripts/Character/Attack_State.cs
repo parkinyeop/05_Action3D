@@ -37,7 +37,7 @@ public class Attack_State : StateMachineBehaviour
     // OnStateMachineEnter is called when entering a state machine via its Entry Node
     override public void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
     {
-
+        GameManager.Inst.Player.WeaponEffectSwitch(true);
     }
 
     // OnStateMachineExit is called when exiting a state machine via its Exit Node
@@ -45,5 +45,6 @@ public class Attack_State : StateMachineBehaviour
     {
         animator.SetInteger("ComboState", 0);
         animator.ResetTrigger("Attack");
+        GameManager.Inst.Player.WeaponEffectSwitch(false);
     }
 }
