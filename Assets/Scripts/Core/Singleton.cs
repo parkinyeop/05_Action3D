@@ -38,7 +38,6 @@ public class Singleton<T> : MonoBehaviour where T : Component
                 }
                 else
                 {
-                    
                     GameObject gameObj = new GameObject();  // 다른 객체가 없으면 새로 만든다.
                     gameObj.name = $"{typeof(T).Name}";
                     _instance = gameObj.AddComponent<T>();

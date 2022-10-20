@@ -95,7 +95,7 @@ public class Enemy : MonoBehaviour
         set
         {
             waitTimer = value;
-            if (waitTimer < 0)
+            if (waypoint != null && waitTimer < 0)
             {
                 State = EnemyState.Patrol;
             }
