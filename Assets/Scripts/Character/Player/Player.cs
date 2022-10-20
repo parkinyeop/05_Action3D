@@ -26,18 +26,20 @@ public class Player : MonoBehaviour, IBattle, IHealth
             if (hp != value)
             {
                 hp = value;
-                onHealthChange?.Invoke();
                 if (hp < 0)
                 {
                     Die();
                 }
+                hp = Mathf.Clamp(hp, 0.0f, maxHp);
+
+                onHealthChange?.Invoke(hp/maxHp);
             }
         }
     }
 
     public float MaxHP => maxHp;
 
-    public Action onHealthChange { get; set; }
+    public Action<float> onHealthChange { get; set; }
     public Action onDie { get; set; }
 
 

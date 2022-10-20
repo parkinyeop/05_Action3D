@@ -9,7 +9,7 @@ public interface IHealth
     float MaxHP { get; }
 
 
-    Action onHealthChange { get; set; }
+    Action<float> onHealthChange { get; set; }
 
     void Die();
 

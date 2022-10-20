@@ -114,18 +114,21 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
             {
                 hp = value;
 
-                onHealthChange?.Invoke();
 
                 if (hp < 0)
                 {
                     Die();
                 }
+
+                hp = Mathf.Clamp(hp, 0.0f, maxHp);
+
+                onHealthChange?.Invoke(hp/maxHp);
             }
         }
     }
 
     public float MaxHP => maxHp;
-    public Action onHealthChange { get; set; }
+    public Action<float> onHealthChange { get; set; }
     public Action onDie { get; set; }
     public float AttackPower => attackPower;
     public float DefencePower => defencePower;
@@ -278,7 +281,7 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
     {
         SearchPlayer();
     }
-    void Test_HP_Change()
+    void Test_HP_Change(float ratio)
     {
         Debug.Log($"{gameObject.name}의 HP가 {HP}로 변경되었습니다");
     }
