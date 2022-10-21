@@ -10,7 +10,8 @@ public class RandomIdleSelector : StateMachineBehaviour
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if(!animator.IsInTransition(0))
-        animator.SetInteger("IdleSelect", RandomeSelect());
+        //animator.SetInteger("IdleSelect", RandomeSelect());
+        animator.SetInteger("IdleSelect", 4);
     }
 
     int RandomeSelect()
@@ -19,23 +20,23 @@ public class RandomIdleSelector : StateMachineBehaviour
         int select ;
         if(num < 0.5f)
         {
-            select = 0;
+            select = 1;
         }
         else if (num < 0.7f)
         {
-            select = 1;
+            select = 2;
         }
         else if (num < 0.8)
         {
-            select = 2;
+            select = 3;
         }
         else if (num < 0.9)
         {
-            select = 3;
+            select = 4;
         }
         else
         {
-            select = 4;
+            select = 0;
         }
 
         return select;
