@@ -10,7 +10,7 @@ using UnityEditor;
 
 [RequireComponent(typeof(Rigidbody))]   //필수적으로 필요한 컴포넌트가 있을 때 자동으로 넣어주는 속성
 [RequireComponent(typeof(Animator))]
-public class Enemy : MonoBehaviour , IHealth, IBattle
+public class Enemy : MonoBehaviour, IHealth, IBattle
 {
     public WayPoint waypoint;
     public float moveSpeed = 3f;
@@ -41,7 +41,8 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
     {
         Wait = 0,
         Patrol,
-        Chase
+        Chase,
+        Dead
     }
 
     Action stateUpdate;
@@ -86,6 +87,12 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
                         stateUpdate = Update_Chase;
                         break;
 
+                    case EnemyState.Dead:
+                        animator.SetTrigger("Die");
+                        agent.isStopped = true;
+                        stateUpdate = Update_Dead;
+                        break;
+
                     default:
                         break;
                 }
@@ -115,14 +122,14 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
             {
                 hp = value;
 
-                if (isAlive && hp < 0)
+                if (State != EnemyState.Dead && hp < 0)
                 {
                     Die();
                 }
 
                 hp = Mathf.Clamp(hp, 0.0f, maxHp);
 
-                onHealthChange?.Invoke(hp/maxHp);
+                onHealthChange?.Invoke(hp / maxHp);
             }
         }
     }
@@ -163,7 +170,7 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
 
     private void FixedUpdate()
     {
-        if (SearchPlayer())
+        if (State != EnemyState.Dead && SearchPlayer())
         {
             State = EnemyState.Chase;
         }
@@ -211,6 +218,10 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
         WaitTimer -= Time.fixedDeltaTime;
     }
 
+    void Update_Dead()
+    {
+    }
+
     bool SearchPlayer()
     {
         bool result = false;
@@ -241,25 +252,26 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
         }
         return result;
     }
-   
+
 
     public void Attack(IBattle target)
     {
         target?.Defence(AttackPower);
     }
-   
+
     public void Defence(float damage)
     {
-        HP -= (damage - DefencePower);
-        animator.SetTrigger("Hit");
+        if (State != EnemyState.Dead)
+        {
+            HP -= (damage - DefencePower);
+            animator.SetTrigger("Hit");
+        }
     }
     public void Die()
     {
+        State = EnemyState.Dead;
         onDie?.Invoke();
-        animator.SetTrigger("Die");
-        Collider col = GetComponent<Collider>();
-        col.enabled = false;
-        isAlive = false;
+        
         //Destroy(this.gameObject);
     }
     private void OnDrawGizmos()
