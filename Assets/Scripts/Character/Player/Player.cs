@@ -101,13 +101,11 @@ public class Player : MonoBehaviour, IBattle, IHealth
 
     public  void WeaponToggleOn()
     {
-        Debug.Log("Weapon ON");
         weaponR.gameObject.SetActive(true);
     }
 
     public void WeaponToggleOff()
     {
-        Debug.Log("Weapon OFF");
         weaponR.gameObject.SetActive(false);
     }
 

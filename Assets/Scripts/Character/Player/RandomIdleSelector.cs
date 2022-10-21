@@ -11,26 +11,26 @@ public class RandomIdleSelector : StateMachineBehaviour
     {
         if(!animator.IsInTransition(0))
         //animator.SetInteger("IdleSelect", RandomeSelect());
-        animator.SetInteger("IdleSelect", 4);
+        animator.SetInteger("IdleSelect", RandomeSelect());
     }
 
     int RandomeSelect()
     {
         float num = Random.Range(0, 1f);
         int select ;
-        if(num < 0.5f)
+        if(num < 0.25f)
         {
             select = 1;
         }
-        else if (num < 0.7f)
+        else if (num < 0.50f)
         {
             select = 2;
         }
-        else if (num < 0.8)
+        else if (num < 0.75)
         {
             select = 3;
         }
-        else if (num < 0.9)
+        else if (num < 0.99)
         {
             select = 4;
         }
