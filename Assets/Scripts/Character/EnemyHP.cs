@@ -17,8 +17,8 @@ public class EnemyHP : MonoBehaviour
 
     private void LateUpdate()
     {
-        //transform.forward = Camera.main.transform.forward;
-        transform.rotation = Camera.main.transform.rotation;
+        transform.forward = Camera.main.transform.forward;
+        //transform.rotation = Camera.main.transform.rotation;
     }
 
     private void Refresh(float ratio)

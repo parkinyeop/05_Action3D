@@ -31,6 +31,7 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
     float waitTime = 1f;
     float waitTimer;
     protected EnemyState state = EnemyState.Patrol;
+    bool isAlive = true;
 
     //Rigidbody rb;
     Animator animator;
@@ -114,8 +115,7 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
             {
                 hp = value;
 
-
-                if (hp < 0)
+                if (isAlive && hp < 0)
                 {
                     Die();
                 }
@@ -242,19 +242,25 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
         return result;
     }
    
-    public void Die()
-    {
-        onDie?.Invoke();
-    }
 
     public void Attack(IBattle target)
     {
         target?.Defence(AttackPower);
     }
-
+   
     public void Defence(float damage)
     {
         HP -= (damage - DefencePower);
+        animator.SetTrigger("Hit");
+    }
+    public void Die()
+    {
+        onDie?.Invoke();
+        animator.SetTrigger("Die");
+        Collider col = GetComponent<Collider>();
+        col.enabled = false;
+        isAlive = false;
+        //Destroy(this.gameObject);
     }
     private void OnDrawGizmos()
     {
@@ -283,7 +289,7 @@ public class Enemy : MonoBehaviour , IHealth, IBattle
     }
     void Test_HP_Change(float ratio)
     {
-        Debug.Log($"{gameObject.name}의 HP가 {HP}로 변경되었습니다");
+        //Debug.Log($"{gameObject.name}의 HP가 {HP}로 변경되었습니다");
     }
 
     void Test_Die()
