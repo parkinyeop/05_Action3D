@@ -17,19 +17,19 @@ public class RandomIdleSelector : StateMachineBehaviour
     {
         float num = Random.Range(0, 1f);
         int select ;
-        if(num < 0.7f)
+        if(num < 0.5f)
         {
             select = 0;
         }
-        else if (num < 0.9f)
+        else if (num < 0.7f)
         {
             select = 1;
         }
-        else if (num < 0.94)
+        else if (num < 0.8)
         {
             select = 2;
         }
-        else if (num < 0.97)
+        else if (num < 0.9)
         {
             select = 3;
         }

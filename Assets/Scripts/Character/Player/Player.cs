@@ -32,7 +32,7 @@ public class Player : MonoBehaviour, IBattle, IHealth
                 }
                 hp = Mathf.Clamp(hp, 0.0f, maxHp);
 
-                onHealthChange?.Invoke(hp/maxHp);
+                onHealthChange?.Invoke(hp / maxHp);
             }
         }
     }
@@ -98,4 +98,6 @@ public class Player : MonoBehaviour, IBattle, IHealth
     {
         onDie?.Invoke();
     }
+
+
 }
