@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public GameObject hitEffect;
     Player player;
 
     private void Start()
@@ -20,6 +21,13 @@ public class Weapon : MonoBehaviour
             if(target != null)
             {
                 player.Attack(target);
+
+                Vector3 impactPoint = transform.position + transform.up;
+                Vector3 effectPoint = other.ClosestPoint(impactPoint);
+
+                Instantiate(hitEffect, effectPoint, Quaternion.identity);
+
+                
             }
         }
     }
