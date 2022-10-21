@@ -42,8 +42,6 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Attack.performed += OnAttack;
     }
 
-    
-
     private void OnDisable()
     {
         inputActions.Player.Attack.performed -= OnAttack;
@@ -92,6 +90,8 @@ public class PlayerController : MonoBehaviour
             {
                 animator.SetFloat("Speed", 1f);
             }
+
+            inputDir.y = -2f;
         }
         else
         {

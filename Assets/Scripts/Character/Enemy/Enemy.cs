@@ -31,7 +31,6 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     float waitTime = 1f;
     float waitTimer;
     protected EnemyState state = EnemyState.Patrol;
-    bool isAlive = true;
 
     //Rigidbody rb;
     Animator animator;

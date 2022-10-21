@@ -7,6 +7,7 @@ public class Player : MonoBehaviour, IBattle, IHealth
 {
     ParticleSystem weaponPS;
     Transform weaponR;
+    Transform weaponL;
     Collider weaponBlade;
 
     public float attackPower = 10f;
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour, IBattle, IHealth
     private void Awake()
     {
         weaponR = GetComponentInChildren<WeaponPosition>().transform;
+        weaponL = GetComponentInChildren<ShieldPosition>().transform;
 
         weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
         weaponBlade = weaponR.GetComponentInChildren<Collider>();
@@ -82,6 +84,12 @@ public class Player : MonoBehaviour, IBattle, IHealth
         {
             weaponBlade.enabled = false;
         }
+    }
+
+    public void ShowWeaponAndSheild(bool isShow)
+    {
+        weaponR.gameObject.SetActive(isShow);
+        weaponL.gameObject.SetActive(isShow);
     }
 
     public void Attack(IBattle target)
