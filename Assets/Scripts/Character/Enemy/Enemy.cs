@@ -133,9 +133,9 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         }
     }
 
-    public float MaxHP => maxHp;
     public Action<float> onHealthChange { get; set; }
     public Action onDie { get; set; }
+    public float MaxHP => maxHp;
     public float AttackPower => attackPower;
     public float DefencePower => defencePower;
 
