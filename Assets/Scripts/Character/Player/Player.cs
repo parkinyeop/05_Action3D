@@ -21,14 +21,14 @@ public class Player : MonoBehaviour, IBattle, IHealth
     public float AttackPower => attackPower;
 
     public float DefencePower => defencePower;
-    public bool IsAlive => isAlive;
+    
 
     public float HP
     {
         get => hp;
         set
         {
-            if (IsAlive && hp != value)
+            if (isAlive && hp != value)
             {
                 hp = value;
                 if (hp < 0)
@@ -43,7 +43,7 @@ public class Player : MonoBehaviour, IBattle, IHealth
     }
 
     public float MaxHP => maxHp;
-
+    public bool IsAlive => isAlive;
     /// <summary>
     /// 델리게이트
     /// </summary>
@@ -67,6 +67,7 @@ public class Player : MonoBehaviour, IBattle, IHealth
         hp = maxHp;
         weaponBlade.enabled = false;
         animator.SetBool("isAlive", true);
+        isAlive = true;
     }
     public void WeaponEffectSwitch(bool on)
     {
@@ -110,19 +111,20 @@ public class Player : MonoBehaviour, IBattle, IHealth
 
     public void Defence(float damage)
     {
-        if (IsAlive)
+        if (isAlive)
         {
-            HP -= (damage - DefencePower);
             animator.SetTrigger("Hit");
+            HP -= (damage - DefencePower);
         }
     }
 
     public void Die()
     {
-        animator.SetLayerWeight(1, 0);
-        animator.SetBool("isAlive", false);
-        onDie?.Invoke();
         isAlive = false;
+        animator.SetLayerWeight(1, 0);
+        animator.SetBool("isAlive", IsAlive);
+        onDie?.Invoke();
+        Debug.Log($"Player Class {isAlive}");
     }
 
 

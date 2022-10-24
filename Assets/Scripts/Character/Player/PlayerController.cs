@@ -61,13 +61,16 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (player.IsAlive)
+        {
+            Debug.Log($"Update : {player.IsAlive}");
             characterController.Move(currentSpeed * Time.deltaTime * inputDir);
-        //characterController.SimpleMove(currentSpeed * inputDir);
+            //characterController.SimpleMove(currentSpeed * inputDir);
 
-        //transform.Translate(currentSpeed * Time.deltaTime * inputDir, Space.World);
+            //transform.Translate(currentSpeed * Time.deltaTime * inputDir, Space.World);
 
-        //transform.rotation = targetRotation;
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            //transform.rotation = targetRotation;
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
     }
 
 
@@ -80,6 +83,7 @@ public class PlayerController : MonoBehaviour
 
         if (!context.canceled && player.IsAlive)
         {
+            Debug.Log($"PlayerController Class {player.IsAlive}");
             //카메라의 Y축 회전만 뽑음
             Quaternion cameraYRotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
             inputDir = cameraYRotation * inputDir;  //inputDir과 카메라 방향을 일치 시킨다
