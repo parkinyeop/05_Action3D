@@ -9,22 +9,26 @@ public class Player : MonoBehaviour, IBattle, IHealth
     Transform weaponR;
     Transform weaponL;
     Collider weaponBlade;
+    Animator animator;
 
     public float attackPower = 10f;
     public float defencePower = 3f;
     public float hp = 100f;
     public float maxHp = 100f;
+    bool isAlive = true;
+
 
     public float AttackPower => attackPower;
 
     public float DefencePower => defencePower;
+    public bool IsAlive => isAlive;
 
     public float HP
     {
         get => hp;
         set
         {
-            if (hp != value)
+            if (IsAlive && hp != value)
             {
                 hp = value;
                 if (hp < 0)
@@ -40,8 +44,12 @@ public class Player : MonoBehaviour, IBattle, IHealth
 
     public float MaxHP => maxHp;
 
+    /// <summary>
+    /// 델리게이트
+    /// </summary>
     public Action<float> onHealthChange { get; set; }
     public Action onDie { get; set; }
+
 
 
     private void Awake()
@@ -51,11 +59,14 @@ public class Player : MonoBehaviour, IBattle, IHealth
 
         weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
         weaponBlade = weaponR.GetComponentInChildren<Collider>();
+
+        animator = GetComponent<Animator>();
     }
     private void Start()
     {
         hp = maxHp;
         weaponBlade.enabled = false;
+        animator.SetBool("isAlive", true);
     }
     public void WeaponEffectSwitch(bool on)
     {
@@ -99,12 +110,19 @@ public class Player : MonoBehaviour, IBattle, IHealth
 
     public void Defence(float damage)
     {
-        HP -= (damage - DefencePower);
+        if (IsAlive)
+        {
+            HP -= (damage - DefencePower);
+            animator.SetTrigger("Hit");
+        }
     }
 
     public void Die()
     {
+        animator.SetLayerWeight(1, 0);
+        animator.SetBool("isAlive", false);
         onDie?.Invoke();
+        isAlive = false;
     }
 
 

@@ -14,7 +14,7 @@ public class Test_Battle :  Test_Base
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-        player.Defence(10);
+        player.Defence(50);
     }
     protected override void Test2(InputAction.CallbackContext _)
     {

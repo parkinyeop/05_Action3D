@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     MoveMode moveMode = MoveMode.Walk;
 
     public float rotationSpeed = 10f;
+    Player player;
 
     Vector3 inputDir = Vector3.zero;
     Quaternion targetRotation = Quaternion.identity;
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
         inputActions = new PlayerInputActions();
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
+        player = GetComponent<Player>();
     }
     private void OnEnable()
     {
@@ -58,7 +60,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        characterController.Move(currentSpeed * Time.deltaTime * inputDir);
+        if (player.IsAlive)
+            characterController.Move(currentSpeed * Time.deltaTime * inputDir);
         //characterController.SimpleMove(currentSpeed * inputDir);
 
         //transform.Translate(currentSpeed * Time.deltaTime * inputDir, Space.World);
@@ -75,7 +78,7 @@ public class PlayerController : MonoBehaviour
         inputDir.z = input.y;
         inputDir.y = 0f;
 
-        if (!context.canceled)
+        if (!context.canceled && player.IsAlive)
         {
             //카메라의 Y축 회전만 뽑음
             Quaternion cameraYRotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
@@ -104,7 +107,7 @@ public class PlayerController : MonoBehaviour
         {
             moveMode = MoveMode.Run;
             currentSpeed = runSpeed;
-            if(inputDir != Vector3.zero)
+            if (inputDir != Vector3.zero)
             {
                 animator.SetFloat("Speed", 1f);
             }
@@ -113,7 +116,7 @@ public class PlayerController : MonoBehaviour
         {
             moveMode = MoveMode.Walk;
             currentSpeed = walkSpeed;
-            if(inputDir!= Vector3.zero)
+            if (inputDir != Vector3.zero)
             {
                 animator.SetFloat("Speed", 0.3f);
             }
@@ -121,11 +124,13 @@ public class PlayerController : MonoBehaviour
     }
     private void OnAttack(InputAction.CallbackContext _)
     {
-       // Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime);//현재 재생되고 있는 애니메이션의 진행상태를 얻어옴(0~1)
-
-        int comboState = animator.GetInteger("ComboState");
-        comboState++;
-        animator.SetInteger("ComboState",comboState);
-        animator.SetTrigger("Attack");
+        // Debug.Log(animator.GetCurrentAnimatorStateInfo(0).normalizedTime);//현재 재생되고 있는 애니메이션의 진행상태를 얻어옴(0~1)
+        if (player.IsAlive)
+        {
+            int comboState = animator.GetInteger("ComboState");
+            comboState++;
+            animator.SetInteger("ComboState", comboState);
+            animator.SetTrigger("Attack");
+        }
     }
 }
