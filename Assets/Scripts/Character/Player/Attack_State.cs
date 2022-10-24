@@ -38,6 +38,7 @@ public class Attack_State : StateMachineBehaviour
     override public void OnStateMachineEnter(Animator animator, int stateMachinePathHash)
     {
         GameManager.Inst.Player.WeaponEffectSwitch(true);
+        GameManager.Inst.Player.ShowWeaponAndSheild(true);
     }
 
     // OnStateMachineExit is called when exiting a state machine via its Exit Node

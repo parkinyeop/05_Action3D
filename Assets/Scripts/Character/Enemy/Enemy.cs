@@ -12,19 +12,22 @@ using UnityEditor;
 [RequireComponent(typeof(Animator))]
 public class Enemy : MonoBehaviour, IHealth, IBattle
 {
+    [Header("---------Patrol Data")]
     public WayPoint waypoint;
     public float moveSpeed = 3f;
+    Transform wayPointTarget;
 
+    [Header("---------Chasing Data")]
     public float sightRange = 10f;
     public float sightHalfAngle = 50;
     Transform chaseTarget;
 
+    [Header("---------Battle Data")]
     public float attackPower = 10f;
     public float defencePower = 3f;
     public float hp = 100f;
     public float maxHp = 100f;
 
-    Transform wayPointTarget;
     Vector3 lookDir;
     //float moveSpeedPerSecond;
 
@@ -35,6 +38,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     //Rigidbody rb;
     Animator animator;
     NavMeshAgent agent;
+    ParticleSystem dieEffect;
 
     protected enum EnemyState
     {
@@ -88,8 +92,10 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
 
                     case EnemyState.Dead:
                         animator.SetTrigger("Die");
-                        agent.isStopped = true;
-                        stateUpdate = Update_Dead;
+                        agent.isStopped = true;         //길찾기 정지
+                        stateUpdate = Update_Dead;      //fixedUpdate 에서 실행될 델리게이트 변경
+
+                        dieEffect.Play();
                         break;
 
                     default:
@@ -144,6 +150,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         //rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        dieEffect = GetComponentInChildren<ParticleSystem>();
     }
 
     private void Start()
