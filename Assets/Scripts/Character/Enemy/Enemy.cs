@@ -35,9 +35,10 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     float waitTimer;
     protected EnemyState state = EnemyState.Patrol;
 
-    //Rigidbody rb;
+    Rigidbody rb;
     Animator animator;
     NavMeshAgent agent;
+    SphereCollider bodyCollider;
     ParticleSystem dieEffect;
 
     protected enum EnemyState
@@ -95,7 +96,8 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
                         agent.isStopped = true;         //길찾기 정지
                         stateUpdate = Update_Dead;      //fixedUpdate 에서 실행될 델리게이트 변경
 
-                        dieEffect.Play();
+                        
+                        StartCoroutine(DieRoutine());
                         break;
 
                     default:
@@ -147,10 +149,11 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
 
     private void Awake()
     {
-        //rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         dieEffect = GetComponentInChildren<ParticleSystem>();
+        bodyCollider = GetComponent<SphereCollider>();
     }
 
     private void Start()
@@ -279,6 +282,26 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         onDie?.Invoke();
         
         //Destroy(this.gameObject);
+    }
+
+    IEnumerator DieRoutine()
+    {
+        dieEffect.Play();
+        dieEffect.transform.parent = null;
+        EnemyHP enemyHP = GetComponentInChildren<EnemyHP>();
+       //enemyHP.gameObject.SetActive(false);
+        Destroy(enemyHP.gameObject, 1f);
+
+        yield return new WaitForSeconds(1.5f);
+        // 죽은 상태에서 처리 할 것들
+        agent.enabled = false;
+        bodyCollider.enabled = false;
+        rb.isKinematic = false;
+        rb.drag = 10f;
+
+        yield return new WaitForSeconds(2f);
+        Destroy(dieEffect.gameObject);
+        Destroy(this.gameObject);
     }
     private void OnDrawGizmos()
     {
