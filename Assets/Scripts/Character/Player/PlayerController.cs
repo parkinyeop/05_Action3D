@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
 
     PlayerInputActions inputActions;
     Animator animator;
+    //CharacterController Component는 기본적으로 Capsule Collider를 갖고 있다
     CharacterController characterController;
 
     private void Awake()
@@ -62,10 +63,11 @@ public class PlayerController : MonoBehaviour
     {
         if (player.IsAlive)
         {
-            Debug.Log($"Update : {player.IsAlive}");
-            characterController.Move(currentSpeed * Time.deltaTime * inputDir);
-            //characterController.SimpleMove(currentSpeed * inputDir);
+            //characterController.Move(currentSpeed * Time.deltaTime * inputDir);
+            //CharacterController 에서 SimpleMove 메소드를 사용해서 움직이는 경우
+            characterController.SimpleMove(currentSpeed * inputDir);
 
+            //transform 을 사용하여 이동하는 경우
             //transform.Translate(currentSpeed * Time.deltaTime * inputDir, Space.World);
 
             //transform.rotation = targetRotation;
@@ -83,7 +85,6 @@ public class PlayerController : MonoBehaviour
 
         if (!context.canceled && player.IsAlive)
         {
-            Debug.Log($"PlayerController Class {player.IsAlive}");
             //카메라의 Y축 회전만 뽑음
             Quaternion cameraYRotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
             inputDir = cameraYRotation * inputDir;  //inputDir과 카메라 방향을 일치 시킨다
@@ -98,7 +99,11 @@ public class PlayerController : MonoBehaviour
                 animator.SetFloat("Speed", 1f);
             }
 
-            inputDir.y = -2f;
+            
+            //CharacterController Component는 Rigidbody 를 갖고 있지 않으므로 강제로 Y 값을 내려줄 필요가 있다
+            //그러나 SimpleMove메소드를 사용하면 중력값을 갖고 있다
+            //float gravity = -10f;
+            //inputDir.y = gravity * Time.deltaTime;
         }
         else
         {
