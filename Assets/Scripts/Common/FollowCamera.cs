@@ -30,13 +30,13 @@ public class FollowCamera : MonoBehaviour
     {
         if (isTargetAlive)
         {
-            transform.position = Vector3.Lerp(transform.position, 
+            transform.position = Vector3.Slerp(transform.position, 
                 target.position + offset, moveSpeed * Time.deltaTime);
         }
         else
         {
             float delta = moveSpeed/3f* Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position,diePosition, delta);
+            transform.position = Vector3.Slerp(transform.position,diePosition, delta);
             transform.rotation = Quaternion.Slerp(transform.rotation, dieRotation, delta);
         }
     }

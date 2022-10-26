@@ -124,6 +124,7 @@ public class Player : MonoBehaviour, IBattle, IHealth
         animator.SetLayerWeight(1, 0);
         animator.SetBool("isAlive", IsAlive);
         onDie?.Invoke();
+        ShowWeaponAndSheild(true);
         Debug.Log($"Player Class {isAlive}");
     }
 
