@@ -28,6 +28,8 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     public float hp = 100f;
     public float maxHp = 100f;
 
+    public GameObject[] dropItemPrefabs;
+
     Vector3 lookDir;
     //float moveSpeedPerSecond;
 
@@ -96,7 +98,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
                         agent.isStopped = true;         //길찾기 정지
                         stateUpdate = Update_Dead;      //fixedUpdate 에서 실행될 델리게이트 변경
 
-                        
+
                         StartCoroutine(DieRoutine());
                         break;
 
@@ -280,8 +282,29 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     {
         State = EnemyState.Dead;
         onDie?.Invoke();
-        
+        MakeDpopItem();
+
         //Destroy(this.gameObject);
+    }
+
+    void MakeDpopItem()
+    {
+        float percentage = UnityEngine.Random.Range(0, 1.0f);
+        int index;
+
+        if (percentage < 0.6f)      //60%
+        {
+            index = 0;
+        }
+        else if (percentage < 0.9f) //30%
+        {
+            index = 1;
+        }
+        else
+        {
+            index = 2;
+        }
+        Instantiate(dropItemPrefabs[index],transform.position, transform.rotation);
     }
 
     IEnumerator DieRoutine()
@@ -289,7 +312,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         dieEffect.Play();
         dieEffect.transform.parent = null;
         EnemyHP enemyHP = GetComponentInChildren<EnemyHP>();
-       //enemyHP.gameObject.SetActive(false);
+        //enemyHP.gameObject.SetActive(false);
         Destroy(enemyHP.gameObject, 1f);
 
         yield return new WaitForSeconds(1.5f);
