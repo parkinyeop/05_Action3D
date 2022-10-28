@@ -43,16 +43,20 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Move.canceled += OnMoveInput;
         inputActions.Player.MoveModeChange.performed += MoveModeChange;
         inputActions.Player.Attack.performed += OnAttack;
+        inputActions.Player.ItemPickUp.performed += OnPickUp;
     }
 
     private void OnDisable()
     {
+        inputActions.Player.ItemPickUp.performed -= OnPickUp;
         inputActions.Player.Attack.performed -= OnAttack;
         inputActions.Player.MoveModeChange.performed -= MoveModeChange;
         inputActions.Player.Move.performed -= OnMoveInput;
         inputActions.Player.Move.canceled -= OnMoveInput;
         inputActions.Player.Disable();
     }
+
+    
 
     private void Start()
     {
@@ -141,5 +145,10 @@ public class PlayerController : MonoBehaviour
             animator.SetInteger("ComboState", comboState);
             animator.SetTrigger("Attack");
         }
+    }
+
+    private void OnPickUp(InputAction.CallbackContext _)
+    {
+        player.ItemPickUp();
     }
 }

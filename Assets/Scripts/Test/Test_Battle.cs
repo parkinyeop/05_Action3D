@@ -20,4 +20,9 @@ public class Test_Battle :  Test_Base
     {
         player.HP = 100;
     }
+
+    protected override void Test3(InputAction.CallbackContext _)
+    {
+       
+    }
 }

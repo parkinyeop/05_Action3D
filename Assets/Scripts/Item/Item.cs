@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    public GameObject prefab;
+    public ItemData data;
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(prefab,transform.position,transform.rotation,transform);
+        Instantiate(data.modelPrefap, transform.position,transform.rotation,transform);
     }
 
     // Update is called once per frame
