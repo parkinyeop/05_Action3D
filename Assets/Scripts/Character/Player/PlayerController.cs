@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
 
     private void ItemPickup(InputAction.CallbackContext obj)
     {
-        float range = 5f;
+        float range = 2f;
         Collider[] collider =
             Physics.OverlapSphere(transform.position, range,
             LayerMask.GetMask("Item"));
