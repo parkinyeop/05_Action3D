@@ -304,7 +304,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         {
             index = 2;
         }
-        Instantiate(dropItemPrefabs[index],transform.position, transform.rotation);
+        Instantiate(dropItemPrefabs[index], transform.position, transform.rotation);
     }
 
     IEnumerator DieRoutine()

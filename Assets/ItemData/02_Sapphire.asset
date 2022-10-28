@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ed02df88573c3478c0121f97b5a4ce, type: 3}
   m_Name: 02_Sapphire
   m_EditorClassIdentifier: 
-  id: 0
-  itemName: "\uC544\uC774\uD15C"
-  prefap: {fileID: 0}
-  value: 0
+  id: 2
+  itemName: "\uC0AC\uD30C\uC774\uC5B4"
+  modelPrefap: {fileID: 7136485991339975158, guid: cb580c94394bcdf4cb6f42c700767869, type: 3}
+  value: 1000

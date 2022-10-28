@@ -23,6 +23,8 @@ public class Test_Battle :  Test_Base
 
     protected override void Test3(InputAction.CallbackContext _)
     {
-       
+        GameObject obj = ItemFactory.MakeItem(1);
+        obj.transform.position = transform.position;
+        obj.transform.rotation = Quaternion.identity;
     }
 }

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ed02df88573c3478c0121f97b5a4ce, type: 3}
   m_Name: 01_Emerald
   m_EditorClassIdentifier: 
-  id: 0
-  itemName: "\uC544\uC774\uD15C"
-  prefap: {fileID: 0}
-  value: 0
+  id: 1
+  itemName: "\uC5D0\uBA54\uB784\uB4DC"
+  modelPrefap: {fileID: 7136485991339975158, guid: ad8b8ca25eca7324288effd04f03b92b, type: 3}
+  value: 500
