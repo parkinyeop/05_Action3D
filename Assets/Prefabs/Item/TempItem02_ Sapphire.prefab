@@ -98,5 +98,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 360
-  minHeight: 0.5
-  maxHeight: 1.5
+  minHeight: 1
+  maxHeight: 1.7
