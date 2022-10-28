@@ -43,15 +43,28 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.Move.canceled += OnMoveInput;
         inputActions.Player.MoveModeChange.performed += MoveModeChange;
         inputActions.Player.Attack.performed += OnAttack;
+        inputActions.Player.ItemPickUp.performed += ItemPickup;
     }
 
     private void OnDisable()
     {
+
+        inputActions.Player.ItemPickUp.performed -= ItemPickup;
         inputActions.Player.Attack.performed -= OnAttack;
         inputActions.Player.MoveModeChange.performed -= MoveModeChange;
         inputActions.Player.Move.performed -= OnMoveInput;
         inputActions.Player.Move.canceled -= OnMoveInput;
         inputActions.Player.Disable();
+    }
+
+    private void ItemPickup(InputAction.CallbackContext obj)
+    {
+        float range = 5f;
+        Collider[] collider =
+            Physics.OverlapSphere(transform.position, range,
+            LayerMask.GetMask("Item"));
+
+        Destroy(collider[0].gameObject);
     }
 
     private void Start()
