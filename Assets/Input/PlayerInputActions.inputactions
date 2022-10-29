@@ -192,6 +192,51 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Test_6",
+                    "type": "Button",
+                    "id": "d8861293-d53b-4247-9785-7f140aae0b25",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Test_7",
+                    "type": "Button",
+                    "id": "eee2f507-ddb6-43a6-bd21-f1a829d5b46c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Test_8",
+                    "type": "Button",
+                    "id": "2ac7a2e0-6530-4d8e-8d61-e6f7584d5942",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Test_9",
+                    "type": "Button",
+                    "id": "18b623d0-26fb-48d2-a4fa-371faf03d7a7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Test_0",
+                    "type": "Button",
+                    "id": "4e7dbed5-cd6b-4fc4-a1b2-cbd1b44e188b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -247,6 +292,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "Test_5",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ca569643-fd0e-4aec-939f-8e7e46590b46",
+                    "path": "<Keyboard>/6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test_6",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5f436c33-f4ac-4208-9098-b567cf800e31",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test_7",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "11cf7bcb-9f31-4429-956f-6dad7408919b",
+                    "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test_8",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "10a8ceb9-8ce0-45ff-a674-85047a0eb5fa",
+                    "path": "<Keyboard>/9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test_9",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2fc55fc1-2435-4ebc-bb5c-082a111b6edb",
+                    "path": "<Keyboard>/0",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test_0",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

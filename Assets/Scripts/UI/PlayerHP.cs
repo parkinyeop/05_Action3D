@@ -9,6 +9,7 @@ public class PlayerHP : MonoBehaviour
 {
     Slider slider;
     TextMeshProUGUI hpText;
+    
     float maxHP;
 
     private void Awake()

@@ -20,6 +20,11 @@ public class Test_Base : MonoBehaviour
         inputActions.Test.Test_3.performed += Test3;
         inputActions.Test.Test_4.performed += Test4;
         inputActions.Test.Test_5.performed += Test5;
+        inputActions.Test.Test_6.performed += Test6;
+        inputActions.Test.Test_7.performed += Test7;
+        inputActions.Test.Test_8.performed += Test8;
+        inputActions.Test.Test_9.performed += Test9;
+        inputActions.Test.Test_0.performed += Test0;
     }
     private void OnDisable()
     {
@@ -29,6 +34,11 @@ public class Test_Base : MonoBehaviour
         inputActions.Test.Test_3.performed -= Test3;
         inputActions.Test.Test_4.performed -= Test4;
         inputActions.Test.Test_5.performed -= Test5;
+        inputActions.Test.Test_6.performed -= Test6;
+        inputActions.Test.Test_7.performed -= Test7;
+        inputActions.Test.Test_8.performed -= Test8;
+        inputActions.Test.Test_9.performed -= Test9;
+        inputActions.Test.Test_0.performed -= Test0;
     }                                      
 
     protected virtual void Test1(InputAction.CallbackContext _)
@@ -44,6 +54,21 @@ public class Test_Base : MonoBehaviour
     {                                                        
     }                                                        
     protected virtual void Test5(InputAction.CallbackContext _)
+    {
+    }
+   protected virtual void Test6(InputAction.CallbackContext _)
+    {
+    }
+   protected virtual void Test7(InputAction.CallbackContext _)
+    {
+    }
+   protected virtual void Test8(InputAction.CallbackContext _)
+    {
+    }
+   protected virtual void Test9(InputAction.CallbackContext _)
+    {
+    }
+   protected virtual void Test0(InputAction.CallbackContext _)
     {
     }
    
