@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Xml.Schema;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -27,6 +28,15 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     public float defencePower = 3f;
     public float hp = 100f;
     public float maxHp = 100f;
+
+    [System.Serializable]
+    public struct ItemDropInfo
+    {
+        public ItemIdCode id;
+        [Range(0.0f, 1.0f)]
+        public float dropPercentage;
+    }
+    public ItemDropInfo[] dropItems;
 
     public GameObject[] dropItemPrefabs;
 
@@ -264,7 +274,6 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         return result;
     }
 
-
     public void Attack(IBattle target)
     {
         target?.Defence(AttackPower);
@@ -351,6 +360,26 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     {
         SearchPlayer();
     }
+
+#if UNITY_EDITOR
+    /// <summary>
+    /// 인스펙터 창에서 값이 변경이 성공적으로 일어 났을때 실행되는 함수
+    /// </summary>
+    void OnValidate()
+    {
+        //드랍 아이템의 드랍확률의 합을 1로 만들기
+        float totoal = 0;
+       foreach(var item in dropItems)
+        {
+            totoal += item.dropPercentage;          //전체 합 구하기
+        }
+
+       for(int i=0; i < dropItems.Length; i++)
+        {
+            dropItems[i].dropPercentage /= totoal;  //전체 합으로 나눠서 합이 1로 만듬
+        }
+    }
+#endif
     void Test_HP_Change(float ratio)
     {
         //Debug.Log($"{gameObject.name}의 HP가 {HP}로 변경되었습니다");
