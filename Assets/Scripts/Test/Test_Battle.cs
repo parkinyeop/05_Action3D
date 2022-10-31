@@ -24,9 +24,8 @@ public class Test_Battle :  Test_Base
     protected override void Test3(InputAction.CallbackContext _)
     {
         GameObject obj = ItemFactory.MakeItem(0);
-        GameObject obj2 = ItemFactory.MakeItem(ItemIdCode.Ruby, new Vector3(0,0,2f));
+        GameObject obj2 = ItemFactory.MakeItem(ItemIdCode.Emerald, new Vector3(0,0,2f));
         GameObject obj3 = ItemFactory.MakeItem(ItemIdCode.Sapphire, new Vector3(0,0,2f), true);
-        GameObject[] objs = ItemFactory.MakeItem(ItemIdCode.Sapphire, 2);
     }
     protected override void Test4(InputAction.CallbackContext _)
     {

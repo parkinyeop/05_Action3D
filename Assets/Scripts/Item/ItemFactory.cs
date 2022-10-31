@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //함수의 구성요소 : 이름 파라미터 리턴값 바디
-// overloading : 이름, 리턴값이 같다
+// overloading : 이름이 같고 파라미터가 다른 함수를 만드는 것
 // overriding ; 이름, 파라미터, 리턴값이 같은 함수를 만드는 것
 
 /// <summary>
@@ -43,13 +43,21 @@ public class ItemFactory
         obj.transform.position = position;
         return obj;
     }
-
     public static GameObject[] MakeItem(ItemIdCode code, int count)
     {
         GameObject[] objs = new GameObject[count];
         for(int i = 0; i < count; i++)
         {
             objs[i] = MakeItem(code);
+        }
+        return objs;
+    }
+    public static GameObject[] MakeItem(ItemIdCode code, int count, Vector3 position, bool randomNoise = false)
+    {
+        GameObject[] objs = new GameObject[count];
+        for (int i = 0; i < count; i++)
+        {
+            objs[i] = MakeItem(code, position, randomNoise);
         }
         return objs;
     }
@@ -62,7 +70,6 @@ public class ItemFactory
         }
         return MakeItem((ItemIdCode)id);
     }
-
     public static GameObject MakeItem(int id, Vector3 position, bool randomNoise = false)
     {
         GameObject obj = MakeItem((ItemIdCode)id);
@@ -75,6 +82,22 @@ public class ItemFactory
         obj.transform.position = position;
         return obj;
     }
-
-    
+    public static GameObject[] MakeItem(int id, int count)
+    {
+        GameObject[] objs = new GameObject[count];
+        for (int i = 0; i < count; i++)
+        {
+            objs[i] = MakeItem(id);
+        }
+        return objs;
+    }
+    public static GameObject[] MakeItem(int id, int count, Vector3 position, bool randomNoise = false)
+    {
+        GameObject[] objs = new GameObject[count];
+        for (int i = 0; i < count; i++)
+        {
+            objs[i] = MakeItem(id, position, randomNoise);
+        }
+        return objs;
+    }
 }
