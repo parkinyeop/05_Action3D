@@ -192,15 +192,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5432533142341384739, guid: ca2e6a9b1eb57ed4a8710416e5a2e867, type: 3}
       propertyPath: dropItems.Array.data[0].dropPercentage
-      value: 0.6
+      value: 0.110498436
       objectReference: {fileID: 0}
     - target: {fileID: 5432533142341384739, guid: ca2e6a9b1eb57ed4a8710416e5a2e867, type: 3}
       propertyPath: dropItems.Array.data[1].dropPercentage
-      value: 0.3
+      value: 0.7764311
       objectReference: {fileID: 0}
     - target: {fileID: 5432533142341384739, guid: ca2e6a9b1eb57ed4a8710416e5a2e867, type: 3}
       propertyPath: dropItems.Array.data[2].dropPercentage
-      value: 0.1
+      value: 0.11307043
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca2e6a9b1eb57ed4a8710416e5a2e867, type: 3}

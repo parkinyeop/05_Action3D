@@ -299,21 +299,33 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     void MakeDpopItem()
     {
         float percentage = UnityEngine.Random.Range(0, 1.0f);
-        int index;
+        int index = 0;  // 내가 가지고 있는 아이템중 드랍할 아이템의 인덱스
+        float max = 0;  //가장 드랍율이 높은 아이템을 찾기 위한 임시 값
 
-        if (percentage < 0.6f)      //60%
+        for(int i=0; i<dropItems.Length; i++)
         {
-            index = 0;
+            if(max < dropItems[i].dropPercentage)
+            {
+                max = dropItems[i].dropPercentage;  //가장 높은 드랍율을 가진 아이템 찾기
+                index = i;
+            }
         }
-        else if (percentage < 0.9f) //30%
+
+        float checkPercentage = 0f;                 //아이템의 드랍 확율을 누적하는 임시값
+        for(int i=0; i<dropItems.Length; i++)
         {
-            index = 1;
+            checkPercentage += dropItems[i].dropPercentage; //checkPercentage를 단계별로 누적 시킴
+            // checkPercentage 와 percentage 비교 (랜점 숫자가 누적된 확율보다 낮은지 확인, 낮은 해당 아이템 생성)
+            if( percentage <= checkPercentage)
+            {
+                index = i;
+                break;
+            }
         }
-        else
-        {
-            index = 2;
-        }
-        Instantiate(dropItemPrefabs[index], transform.position, transform.rotation);
+        
+        //GameObject obj = ItemFactory.MakeItem(dropItems[index].id, transform.position, true);
+        GameObject obj = ItemFactory.MakeItem(dropItems[index].id);
+        obj.transform.position = transform.position;
     }
 
     IEnumerator DieRoutine()
