@@ -24,7 +24,6 @@ public class Inventory
 
     public bool AddItem(ItemIdCode code)
     {
-
         return AddItem(dataManager[code]);
     }
 
