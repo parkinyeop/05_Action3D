@@ -24,5 +24,18 @@ public class Test_Inventory : Test_Base
         inven.AddItem(ItemIdCode.Sapphire);
         inven.AddItem(ItemIdCode.Emerald);
         inven.AddItem(ItemIdCode.Ruby);
+       
+    }
+
+    protected override void Test2(InputAction.CallbackContext _)
+    {
+        inven.PrintInventory();
+    }
+
+    protected override void Test3(InputAction.CallbackContext _)
+    {
+        inven.ClearItem(3);
+        inven.ClearItem(4);
+        inven.ClearItem(11);
     }
 }

@@ -7,8 +7,10 @@ public class Inventory
 {
     public const int Default_Invetory_Size = 6;
     ItemSlot[] slots = null;
-
+       
     ItemDataManager dataManager;
+
+    public int SlotCount => slots.Length;
 
     public Inventory(int size = Default_Invetory_Size)
     {
@@ -36,11 +38,28 @@ public class Inventory
         {
             emptySlot.AssignSlotItem(data);
             result = true;
-            Debug.Log($"인벤토리 {emptySlot.Index}번 슬롯에 {data.itemName} 아이템 추가");
+           
         }
         else
         {
             Debug.Log("인벤토리가 가득 찼습니다");
+        }
+
+        return result;
+    }
+
+    public bool ClearItem(uint slotIndex)
+    {
+        bool result = false;
+        if(IsValidDlotIndex(slotIndex))
+        {
+            ItemSlot slot = slots[slotIndex];
+            slot.ClearSlotItem();
+            return true;
+        }
+        else
+        {
+            Debug.LogError($"{slotIndex}잘못된 인덱스 입니다");
         }
 
         return result;
@@ -57,5 +76,36 @@ public class Inventory
             }
         }
         return null;
+    }
+
+    private bool IsValidDlotIndex(uint index) => (index < SlotCount);
+    public void PrintInventory()
+    {
+        string printText = "[";
+
+        for(int i = 0; i<SlotCount; i++)
+        {
+            if (!slots[i].IsEmpty)
+            {
+                printText += $"{slots[i].ItemData.itemName}({slots[i].ItemCount})";
+            }
+            else
+            {
+                printText += "(빈칸)";
+            }
+            printText += ",";
+        }
+
+        ItemSlot lastSlot = slots[SlotCount-1];
+        if(!lastSlot.IsEmpty)
+        {
+            printText += $"{lastSlot.ItemData.itemName}({lastSlot.ItemCount})]";
+        }
+        else
+        {
+            printText += "(빈칸)]";
+        }
+
+        Debug.Log(printText);
     }
 }

@@ -12,6 +12,10 @@ public class ItemSlot
     public bool IsEmpty => slotsItemData == null;
     public uint Index => slotIndex;
 
+    public ItemData ItemData => slotsItemData;
+
+    public uint ItemCount => itemCount;
+
     public ItemSlot(uint index)
     {
         slotIndex = index;
@@ -21,5 +25,13 @@ public class ItemSlot
     {
         itemCount = count;
         slotsItemData = data;
+        Debug.Log($"인벤토리 {Index}번 슬롯에 {data.itemName} 아이템 추가");
+    }
+
+    public void ClearSlotItem()
+    {
+        slotsItemData = null;
+        itemCount = 0;
+        Debug.Log($"인벤토리 {Index}번 슬롯 아이템 삭제");
     }
 }
