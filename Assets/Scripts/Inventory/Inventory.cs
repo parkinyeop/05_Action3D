@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Android.Types;
 using UnityEngine;
 
 //인벤토리의 정보만 가지는 클래스
@@ -32,26 +33,49 @@ public class Inventory
     public bool AddItem(ItemData data)
     {
         bool result = false;
-
-        ItemSlot emptySlot = FindEmptySlot();
-        if(emptySlot != null)
+        ItemSlot targetSlot = FindSameItem(data);
+        if(targetSlot != null)
         {
-            emptySlot.AssignSlotItem(data);
-            result = true;
-           
+            targetSlot.IncreaseSlotItem();
+            return true;
         }
         else
         {
-            Debug.Log("인벤토리가 가득 찼습니다");
+            ItemSlot emptySlot = FindEmptySlot();
+            if (emptySlot != null)
+            {
+                emptySlot.AssignSlotItem(data);
+                result = true;
+            }
+            else
+            {
+                Debug.Log("인벤토리가 가득 찼습니다");
+            }
+
         }
 
         return result;
     }
 
+    public bool RemoveItam(uint slotIndex, uint decreaseCount = 1)
+    {
+        bool result = false;
+        if(IsValidSlotIndex(slotIndex))
+        {
+            ItemSlot slot = slots[slotIndex];
+            slot.DecreaseSlotItem(decreaseCount);
+            result = true;
+        }
+        else
+        {
+            Debug.LogError($"{slotIndex}잘못된 인덱스 입니다");
+        }
+        return result;
+    }
     public bool ClearItem(uint slotIndex)
     {
         bool result = false;
-        if(IsValidDlotIndex(slotIndex))
+        if(IsValidSlotIndex(slotIndex))
         {
             ItemSlot slot = slots[slotIndex];
             slot.ClearSlotItem();
@@ -78,7 +102,23 @@ public class Inventory
         return null;
     }
 
-    private bool IsValidDlotIndex(uint index) => (index < SlotCount);
+    public ItemSlot FindSameItem(ItemData itemData)
+    {
+        ItemSlot findSlot = null;
+
+        for(int i = 0; i < SlotCount; i++)
+        {
+            if(slots[i].ItemData == itemData)
+            {
+                findSlot = slots[i];
+                break;
+            }
+        }
+
+        return findSlot;
+    }
+
+    private bool IsValidSlotIndex(uint index) => (index < SlotCount);
     public void PrintInventory()
     {
         string printText = "[";

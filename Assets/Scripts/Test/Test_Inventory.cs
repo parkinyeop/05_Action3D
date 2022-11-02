@@ -34,8 +34,7 @@ public class Test_Inventory : Test_Base
 
     protected override void Test3(InputAction.CallbackContext _)
     {
-        inven.ClearItem(3);
-        inven.ClearItem(4);
-        inven.ClearItem(11);
+        inven.RemoveItam(0);
+        inven.RemoveItam(1,3);
     }
 }

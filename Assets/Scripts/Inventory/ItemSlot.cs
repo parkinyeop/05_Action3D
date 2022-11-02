@@ -34,4 +34,25 @@ public class ItemSlot
         itemCount = 0;
         Debug.Log($"인벤토리 {Index}번 슬롯 아이템 삭제");
     }
+
+    public void IncreaseSlotItem(uint count = 1)
+    {
+        itemCount += count;
+        Debug.Log($"인벤토리 {Index}번 슬롯에 {slotsItemData.itemName} 아이템 {count}개 증가");
+    }
+
+    public void DecreaseSlotItem(uint count = 1)
+    {
+        int newCount = (int)ItemCount - (int)count;
+
+        if(newCount < 0)
+        {
+            ClearSlotItem();
+        }
+        else
+        {
+            itemCount -= (uint)newCount;
+            Debug.Log($"인벤토리 {Index}번 슬롯에 {slotsItemData.itemName} 아이템 {count}개 감소");
+        }
+    }
 }
