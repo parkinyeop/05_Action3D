@@ -25,4 +25,9 @@ public class Test_Inventory : Test_Base
         inven.AddItem(ItemIdCode.Emerald);
         inven.AddItem(ItemIdCode.Ruby);
     }
+
+    protected override void Test2(InputAction.CallbackContext _)
+    {
+        inven.PrintInventory();
+    }
 }
