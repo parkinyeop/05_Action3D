@@ -93,7 +93,7 @@ public class Inventory
     {
         foreach(var slot in slots)
         {
-            if(slot.IsEmpty)
+            if(slot.IsEmpty )
             {
                 return slot;
                 break;
