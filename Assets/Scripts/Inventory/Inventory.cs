@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Android.Types;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //인벤토리의 정보만 가지는 클래스
@@ -8,7 +9,7 @@ public class Inventory
 {
     public const int Default_Invetory_Size = 6;
     ItemSlot[] slots = null;
-       
+
     ItemDataManager dataManager;
 
     public int SlotCount => slots.Length;
@@ -17,7 +18,7 @@ public class Inventory
     {
         Debug.Log($"{size} 칸 짜리 인벤토리 생성");
         slots = new ItemSlot[size];
-        for(int i=0; i<size; i++)
+        for (int i = 0; i < size; i++)
         {
             slots[i] = new ItemSlot((uint)i);
         }
@@ -34,7 +35,7 @@ public class Inventory
     {
         bool result = false;
         ItemSlot targetSlot = FindSameItem(data);
-        if(targetSlot != null)
+        if (targetSlot != null)
         {
             targetSlot.IncreaseSlotItem();
             return true;
@@ -56,6 +57,34 @@ public class Inventory
 
         return result;
     }
+
+    public bool AddItem(ItemIdCode code, uint index)
+    {
+        return AddItem(dataManager[code], index);
+    }
+
+    public bool AddItem(ItemData data, uint index)
+    {
+        bool result = false;
+        ItemSlot targetSlot = slots[index];
+        
+        if (targetSlot != null) return false;   //인덱스가 적절한가
+        else
+        {
+            if (targetSlot.IsEmpty)             //해당 슬롯에 아이템이 있는가?
+            {
+                targetSlot.AssignSlotItem(data);
+                result = true;
+            }
+            else if (targetSlot.ItemData == data)   //슬롯에 아이템이 있다면 같은 종류인가
+            {
+                targetSlot.IncreaseSlotItem();
+                result = true;
+            }
+        }
+
+        return result;
+    }
     /// <summary>
     /// 인벤토리 아이템 제거 
     /// </summary>
@@ -65,10 +94,10 @@ public class Inventory
     public bool RemoveItam(uint slotIndex, uint decreaseCount = 1)
     {
         bool result = false;
-        if(IsValidSlotIndex(slotIndex)) //적절한 인덱스 확인
+        if (IsValidSlotIndex(slotIndex)) //적절한 인덱스 확인
         {
             ItemSlot slot = slots[slotIndex];
-            slot.DecreaseSlotItem(decreaseCount); 
+            slot.DecreaseSlotItem(decreaseCount);
             result = true;
         }
         else
@@ -80,7 +109,7 @@ public class Inventory
     public bool ClearItem(uint slotIndex)
     {
         bool result = false;
-        if(IsValidSlotIndex(slotIndex))
+        if (IsValidSlotIndex(slotIndex))
         {
             ItemSlot slot = slots[slotIndex];
             slot.ClearSlotItem();
@@ -96,9 +125,9 @@ public class Inventory
 
     ItemSlot FindEmptySlot()
     {
-        foreach(var slot in slots)
+        foreach (var slot in slots)
         {
-            if(slot.IsEmpty )
+            if (slot.IsEmpty)
             {
                 return slot;
                 break;
@@ -111,9 +140,9 @@ public class Inventory
     {
         ItemSlot findSlot = null;
 
-        for(int i = 0; i < SlotCount; i++)
+        for (int i = 0; i < SlotCount; i++)
         {
-            if(slots[i].ItemData == itemData)
+            if (slots[i].ItemData == itemData)
             {
                 findSlot = slots[i];
                 break;
@@ -128,7 +157,7 @@ public class Inventory
     {
         string printText = "[";
 
-        for(int i = 0; i<SlotCount; i++)
+        for (int i = 0; i < SlotCount; i++)
         {
             if (!slots[i].IsEmpty)
             {
@@ -141,8 +170,8 @@ public class Inventory
             printText += ",";
         }
 
-        ItemSlot lastSlot = slots[SlotCount-1];
-        if(!lastSlot.IsEmpty)
+        ItemSlot lastSlot = slots[SlotCount - 1];
+        if (!lastSlot.IsEmpty)
         {
             printText += $"{lastSlot.ItemData.itemName}({lastSlot.ItemCount})]";
         }
