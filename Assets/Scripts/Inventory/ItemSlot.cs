@@ -31,7 +31,7 @@ public class ItemSlot
         get => itemCount;
         private set
         {
-            if(itemCount != value)  // 아이템 갯수가 변경 있을때
+            if (itemCount != value)  // 아이템 갯수가 변경 있을때
             {
                 itemCount = value;
                 onSlotItemChange?.Invoke();
@@ -50,9 +50,16 @@ public class ItemSlot
 
     public void AssignSlotItem(ItemData data, uint count = 1)
     {
-        ItemCount = count;
-        ItemData = data;
-        Debug.Log($"인벤토리 {Index}번 슬롯에 {data.itemName} 아이템 추가");
+        if (data != null)
+        {
+            ItemCount = count;
+            ItemData = data;
+            Debug.Log($"인벤토리 {Index}번 슬롯에 {data.itemName} 아이템 추가");
+        }
+        else
+        {
+            ClearSlotItem();
+        }
     }
 
     public void ClearSlotItem()
