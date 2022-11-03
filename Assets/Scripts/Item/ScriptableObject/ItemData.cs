@@ -9,4 +9,5 @@ public class ItemData : ScriptableObject
     public string itemName = "아이템";
     public GameObject modelPrefap;
     public uint value;
+    public uint maxStackCount = 1;
 }

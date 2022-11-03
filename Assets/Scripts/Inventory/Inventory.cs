@@ -40,8 +40,7 @@ public class Inventory
         ItemSlot targetSlot = FindSameItem(data);
         if (targetSlot != null)
         {
-            targetSlot.IncreaseSlotItem();
-            return true;
+            result = targetSlot.IncreaseSlotItem(out uint _);
         }
         else
         {
@@ -81,13 +80,11 @@ public class Inventory
             {
                 if (targetSlot.ItemData == data)   //슬롯에 아이템이 있다면 같은 종류인가
                 {
-                    targetSlot.IncreaseSlotItem();
-                    result = true;
+                    result = targetSlot.IncreaseSlotItem(out uint _);
                 }
                 else
                 {
                     Debug.Log($"실패: {targetSlot}에 다른 아이템이 있습니다");
-                    result = false;
                 }
             }
         }
@@ -144,8 +141,10 @@ public class Inventory
             ItemSlot toSlot = slots[to];
             if (fromSlot.ItemData == toSlot.ItemData)
             {
-                toSlot.IncreaseSlotItem(fromSlot.ItemCount);
-                fromSlot.ClearSlotItem();
+                //증가를 시도한 갯수
+                toSlot.IncreaseSlotItem(out uint overCount, fromSlot.ItemCount);
+                // from 에서 증가시도한 갯수만 감소
+                fromSlot.DecreaseSlotItem(fromSlot.ItemCount - overCount);
             }
             else
             {

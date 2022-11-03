@@ -16,3 +16,4 @@ MonoBehaviour:
   itemName: "\uB8E8\uBE44"
   modelPrefap: {fileID: 7136485991339975158, guid: 0d9edfae17826d847a3aab4ba903fb6d, type: 3}
   value: 100
+  maxStackCount: 5

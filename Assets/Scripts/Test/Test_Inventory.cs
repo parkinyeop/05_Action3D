@@ -34,13 +34,26 @@ public class Test_Inventory : Test_Base
 
     protected override void Test3(InputAction.CallbackContext _)
     {
-        Test1(_);                   //루비2, 에메2, 사파1
-        inven.PrintInventory();
-        //inven.AddItem(ItemIdCode.Sapphire, 3);
-        //inven.PrintInventory();     //루비2, 에메2, 사파1 , 사파1
-        //inven.MoveItem(3, 2);
-        //inven.PrintInventory();     // 루비2, 에메2, 사파2
-        inven.MoveItem(0, 1);
-        inven.PrintInventory();     // 루비2, 사파2, 에메2
+        inven.AddItem(ItemIdCode.Ruby);
+        inven.AddItem(ItemIdCode.Ruby);
+        inven.AddItem(ItemIdCode.Ruby);
+        inven.AddItem(ItemIdCode.Ruby);
+        inven.AddItem(ItemIdCode.Emerald);
+        inven.AddItem(ItemIdCode.Emerald);
+        inven.AddItem(ItemIdCode.Emerald);
+        inven.AddItem(ItemIdCode.Sapphire);
+        inven.PrintInventory(); // 루비4, 에메3, 사파1
+
+        inven.AddItem(ItemIdCode.Ruby, 3);
+        inven.AddItem(ItemIdCode.Ruby, 3);
+
+        inven.AddItem(ItemIdCode.Emerald, 4);
+        inven.PrintInventory(); // 루비4, 에메3, 사파1 , 루비2, 에메1
+        inven.MoveItem(0, 3); 
+        inven.PrintInventory();// 루비 1,에메3, 사파1, 루비5, 에메1
+        inven.MoveItem(1, 4);
+        inven.PrintInventory();//루비1, 에메1, 사파1, 루비5, 에메3
+                               //루비3, 에메 2, 사바1, 루비5, 에메3
+
     }
 }
