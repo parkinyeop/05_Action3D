@@ -56,14 +56,19 @@ public class Inventory
 
         return result;
     }
-
+    /// <summary>
+    /// 인벤토리 아이템 제거 
+    /// </summary>
+    /// <param name="slotIndex">제거할 슬롯</param>
+    /// <param name="decreaseCount"> 제거할 갯수</param>
+    /// <returns>성공/실패</returns>
     public bool RemoveItam(uint slotIndex, uint decreaseCount = 1)
     {
         bool result = false;
-        if(IsValidSlotIndex(slotIndex))
+        if(IsValidSlotIndex(slotIndex)) //적절한 인덱스 확인
         {
             ItemSlot slot = slots[slotIndex];
-            slot.DecreaseSlotItem(decreaseCount);
+            slot.DecreaseSlotItem(decreaseCount); 
             result = true;
         }
         else
