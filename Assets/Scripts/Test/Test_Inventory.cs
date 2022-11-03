@@ -36,5 +36,6 @@ public class Test_Inventory : Test_Base
     {
         inven.AddItem(ItemIdCode.Sapphire, 2);
         inven.AddItem(ItemIdCode.Sapphire, 4);
+        inven.AddItem(ItemIdCode.Sapphire, 11);
     }
 }

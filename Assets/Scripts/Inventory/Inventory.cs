@@ -68,13 +68,8 @@ public class Inventory
         bool result = false;
         ItemSlot targetSlot = slots[index];
 
-        //if (targetSlot != null)
-        //{
-        //    return false;   //인덱스가 적절한가
-        //    Debug.Log($"{index}잘못된 인덱스 입니다");
-        //}
-        //else
-        //{
+        if (IsValidSlotIndex(index))
+        {
             if (targetSlot.IsEmpty)             //해당 슬롯에 아이템이 있는가?
             {
                 targetSlot.AssignSlotItem(data);
@@ -87,7 +82,11 @@ public class Inventory
                 Debug.Log($"{index}에 아이템{data}를 추가하였습니다");
                 result = true;
             }
-        //}
+        }
+        else
+        {
+            IsValidSlotIndex(index);
+        }
 
         return result;
     }
