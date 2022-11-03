@@ -67,21 +67,27 @@ public class Inventory
     {
         bool result = false;
         ItemSlot targetSlot = slots[index];
-        
-        if (targetSlot != null) return false;   //인덱스가 적절한가
-        else
-        {
+
+        //if (targetSlot != null)
+        //{
+        //    return false;   //인덱스가 적절한가
+        //    Debug.Log($"{index}잘못된 인덱스 입니다");
+        //}
+        //else
+        //{
             if (targetSlot.IsEmpty)             //해당 슬롯에 아이템이 있는가?
             {
                 targetSlot.AssignSlotItem(data);
+                Debug.Log($"{index}에 새로운 아이템{data}를 추가하였습니다");
                 result = true;
             }
             else if (targetSlot.ItemData == data)   //슬롯에 아이템이 있다면 같은 종류인가
             {
                 targetSlot.IncreaseSlotItem();
+                Debug.Log($"{index}에 아이템{data}를 추가하였습니다");
                 result = true;
             }
-        }
+        //}
 
         return result;
     }

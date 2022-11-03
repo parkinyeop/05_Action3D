@@ -34,7 +34,7 @@ public class Test_Inventory : Test_Base
 
     protected override void Test3(InputAction.CallbackContext _)
     {
-        inven.RemoveItam(0);
-        inven.RemoveItam(1,3);
+        inven.AddItem(ItemIdCode.Sapphire, 2);
+        inven.AddItem(ItemIdCode.Sapphire, 4);
     }
 }
