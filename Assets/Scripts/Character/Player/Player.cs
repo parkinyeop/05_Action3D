@@ -15,10 +15,13 @@ public class Player : MonoBehaviour, IBattle, IHealth
     Collider weaponBlade;
     Animator animator;
 
+
+    [Header("-------[Player Status]")]
     public float attackPower = 10f;
     public float defencePower = 3f;
     public float hp = 100f;
     public float maxHp = 100f;
+
     bool isAlive = true;
     public float itemPickupRange = 2f;
 
@@ -31,14 +34,16 @@ public class Player : MonoBehaviour, IBattle, IHealth
         get => hp;
         set
         {
+            //플레이어가 살아있고 hp의 값이 바뀌었으면
             if (isAlive && hp != value)
             {
-                hp = value;
+                hp = value; //현재 hp 를 갱신
                 if (hp < 0)
                 {
                     Die();
                 }
-                hp = Mathf.Clamp(hp, 0.0f, maxHp);
+                // Clamp 는 최소값/최대값을 설정하고 hp가 이 값을 넘지 못하도록 방지
+                hp = Mathf.Clamp(hp, 0.0f, maxHp); 
 
                 onHealthChange?.Invoke(hp / maxHp);
             }
