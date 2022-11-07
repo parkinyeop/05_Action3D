@@ -139,6 +139,16 @@ public class Inventory
 
         return result;
     }
+    /// <summary>
+    /// 인벤토리 모든 아이템 비우는 함수
+    /// </summary>
+    public void ClearInventory()
+    {
+        foreach(var slot in slots)
+        {
+            slot.ClearSlotItem();
+        }
+    }
 
     public void MoveItem(uint from, uint to)
     {

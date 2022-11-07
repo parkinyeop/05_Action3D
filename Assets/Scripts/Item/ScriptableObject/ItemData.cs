@@ -8,6 +8,7 @@ public class ItemData : ScriptableObject
     public uint id = 0;
     public string itemName = "아이템";
     public GameObject modelPrefap;
+    public Sprite itemIcon;
     public uint value;
     public uint maxStackCount = 1;
 }

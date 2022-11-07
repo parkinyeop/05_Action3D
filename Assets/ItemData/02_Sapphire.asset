@@ -15,4 +15,6 @@ MonoBehaviour:
   id: 2
   itemName: "\uC0AC\uD30C\uC774\uC5B4"
   modelPrefap: {fileID: 7136485991339975158, guid: cb580c94394bcdf4cb6f42c700767869, type: 3}
+  itemIcon: {fileID: 21300000, guid: 3c9805506cdde8f44889fc034ab0097e, type: 3}
   value: 1000
+  maxStackCount: 1
