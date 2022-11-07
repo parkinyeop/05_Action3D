@@ -10,10 +10,4 @@ public class Item : MonoBehaviour
     {
         Instantiate(data.modelPrefap, transform.position,transform.rotation,transform); //아이템의 외형 추가
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

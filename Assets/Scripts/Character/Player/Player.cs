@@ -26,9 +26,9 @@ public class Player : MonoBehaviour, IBattle, IHealth
     public float itemPickupRange = 2f;
 
     public float AttackPower => attackPower;
-
     public float DefencePower => defencePower;
-
+    public float MaxHP => maxHp;
+    public bool IsAlive => isAlive;
     public float HP
     {
         get => hp;
@@ -50,8 +50,7 @@ public class Player : MonoBehaviour, IBattle, IHealth
         }
     }
 
-    public float MaxHP => maxHp;
-    public bool IsAlive => isAlive;
+    
     /// <summary>
     /// 델리게이트
     /// </summary>
