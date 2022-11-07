@@ -16,13 +16,13 @@ public class Test_Inventory : Test_Base
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-        inven.PrintInventory();
+        Test_AddItemForUI();
+        inventoryUI.InitailizeInventory(inven);
     }
 
     protected override void Test2(InputAction.CallbackContext _)
     {
-        Test_AddItemForUI();
-        inventoryUI.InitailizeInventory(inven);
+        inven.MoveItem(0, 3);
     }
 
     protected override void Test3(InputAction.CallbackContext _)
