@@ -17,6 +17,7 @@ public class ItemSlotUI : MonoBehaviour
     private void Awake()
     {
         itemImage = transform.GetChild(0).GetComponent<Image>();
+        itemCountText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
     }
     /// <summary>
     /// 슬롯 초기화 함수
@@ -38,11 +39,13 @@ public class ItemSlotUI : MonoBehaviour
         {
             itemImage.sprite = null;
             itemImage.color = Color.clear;
+            itemCountText.text = null;
         }
         else
         {
             itemImage.sprite = ItemSlot.ItemData.itemIcon;
             itemImage.color = Color.white;
+            itemCountText.text = ItemSlot.ItemCount.ToString();
         }
     }
 
