@@ -144,7 +144,7 @@ public class Inventory
     /// </summary>
     public void ClearInventory()
     {
-        foreach(var slot in slots)
+        foreach (var slot in slots)
         {
             slot.ClearSlotItem();
         }
@@ -154,8 +154,9 @@ public class Inventory
     {
         if (IsValidAndNotEmptySlotIndex(from) && IsValidSlotIndex(to))
         {
-            ItemSlot fromSlot = slots[from];
-            ItemSlot toSlot = slots[to];
+            ItemSlot fromSlot = (from == Inventory.TempSlotIndex) ? TempSlot : slots[from];
+            ItemSlot toSlot = (to == Inventory.TempSlotIndex) ? TempSlot : slots[to];
+
             if (fromSlot.ItemData == toSlot.ItemData)
             {
                 //증가를 시도한 갯수
@@ -202,8 +203,16 @@ public class Inventory
         return findSlot;
     }
 
-    private bool IsValidSlotIndex(uint index) => (index < SlotCount);
-    bool IsValidAndNotEmptySlotIndex(uint index) => ((IsValidSlotIndex(index) && !slots[index].IsEmpty));
+    private bool IsValidSlotIndex(uint index) => (index < SlotCount) || (index == Inventory.TempSlotIndex);
+    bool IsValidAndNotEmptySlotIndex(uint index)
+    {
+        if (IsValidSlotIndex(index))
+        {
+            ItemSlot testSlot = (index == TempSlotIndex) ? TempSlot : slots[index];
+            return !testSlot.IsEmpty;
+        }
+        return false;
+    }
     public void PrintInventory()
     {
         string printText = "[";
@@ -220,8 +229,6 @@ public class Inventory
             }
             printText += ",";
         }
-
-
 
         ItemSlot lastSlot = slots[SlotCount - 1];
         if (!lastSlot.IsEmpty)

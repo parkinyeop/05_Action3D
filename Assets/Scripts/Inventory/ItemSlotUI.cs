@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System;
 
-public class ItemSlotUI : MonoBehaviour, IDragHandler,IBeginDragHandler,IPointerUpHandler,IPointerClickHandler
+public class ItemSlotUI : MonoBehaviour, IDragHandler,IBeginDragHandler,IEndDragHandler
 {
     uint id;        //몇번째 슬롯인가
     protected ItemSlot itemSlot;    // UI와 연결된 아이템 슬롯
@@ -20,7 +20,7 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler,IBeginDragHandler,IPointer
 
 
     public Action<uint> onDragStart;
-    public Action<uint> onMouseUp;
+    public Action<uint> onDragEnd;
 
 
     private void Awake()
@@ -84,14 +84,10 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler,IBeginDragHandler,IPointer
         onDragStart?.Invoke(ID);
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log($"OnPointUp : {ID}");
-        onMouseUp?.Invoke(ID);
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-       
+        GameObject obj = eventData.pointerCurrentRaycast.gameObject;
+        ItemSlotUI endSlot = obj.GetComponent<ItemSlotUI>();
+        onDragEnd?.Invoke(endSlot.ID);
     }
 }
