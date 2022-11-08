@@ -55,3 +55,4 @@ public class ItemSlotUI : MonoBehaviour
         rectTransform.sizeDelta = new Vector2(iconSize, iconSize);
     }
 }
+
