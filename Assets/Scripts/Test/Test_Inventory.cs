@@ -17,7 +17,7 @@ public class Test_Inventory : Test_Base
     protected override void Test1(InputAction.CallbackContext _)
     {
         Test_AddItemForUI();
-        inventoryUI.InitailizeInventory(inven);
+        //inventoryUI.InitailizeInventory(inven);
     }
 
     protected override void Test2(InputAction.CallbackContext _)

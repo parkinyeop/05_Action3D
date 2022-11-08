@@ -87,7 +87,6 @@ GameObject:
   - component: {fileID: 1502234957634225893}
   - component: {fileID: 5877528698140493404}
   - component: {fileID: 5158539808789476543}
-  - component: {fileID: 3636935844141200698}
   - component: {fileID: 8383370913688479952}
   m_Layer: 5
   m_Name: TempItemSlot
@@ -140,7 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -156,18 +155,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2.5
---- !u!114 &3636935844141200698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4395936141251142240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3aa0934fced3b6c43a7aa6841c2a1420, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &8383370913688479952
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +202,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 72.1, y: -73.2}
+  m_AnchoredPosition: {x: 72.1, y: -70.5}
   m_SizeDelta: {x: 71.368, y: 35.5289}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &3600852572504181167
