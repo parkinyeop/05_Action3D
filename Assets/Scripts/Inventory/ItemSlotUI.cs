@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ItemSlotUI : MonoBehaviour
 {
     uint id;        //몇번째 슬롯인가
-
     protected ItemSlot itemSlot;    // UI와 연결된 아이템 슬롯
-
     Image itemImage;
     public uint ID => id;
     public ItemSlot ItemSlot => itemSlot;
+    public TextMeshProUGUI itemCountText;
 
     private void Awake()
     {
