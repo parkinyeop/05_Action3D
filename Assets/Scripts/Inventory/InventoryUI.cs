@@ -13,16 +13,21 @@ public class InventoryUI : MonoBehaviour
     ItemSlotUI[] slotUIs;
     TempItemSlotUI tempSlotUI;
 
+    DetailInfoUI detail;
+
     private void Awake()
     {
-        //Transform slotParent = transform.GetChild(0);
+        Transform slotParent = transform.GetChild(0);
         //slotUIs = new ItemSlotUI[slotParent.childCount];
-        //for(int i=0; i < slotParent.childCount; i++)
+        //for (int i = 0; i < slotParent.childCount; i++)
         //{
         //    slotUIs[i] = new ItemSlotUI();
+        //    slotUIs[i] = GetComponentInChildren<ItemSlotUI>();
         //}
         slotUIs = GetComponentsInChildren<ItemSlotUI>();
         tempSlotUI = GetComponentInChildren<TempItemSlotUI>();
+
+        detail = GetComponentInChildren<DetailInfoUI>();
     }
     /// <summary>
     /// 입력 받은 인벤토리에 맞게 각종 초기화
@@ -61,20 +66,24 @@ public class InventoryUI : MonoBehaviour
         {
             slotUIs[i].InitializeSlot((uint)i, inven[i]);   //각 슬롯 초기화
             slotUIs[i].Resize(grid.cellSize.x * 0.75f);     //슬폿 크기에 맞게 내부 이미지 리사이즈
-            slotUIs[i].onDragStart += OnItemDragStart;
-            slotUIs[i].onDragEnd += OnItemDragEnd;
-            slotUIs[i].onDragCancel += OnItemDragEnd;
+            slotUIs[i].onDragStart += OnItemMoveStart;
+            slotUIs[i].onDragEnd += OnItemMoveEnd;
+            slotUIs[i].onDragCancel += OnItemMoveEnd;
+            slotUIs[i].onClick += OnItemMoveEnd;
+            slotUIs[i].onPointerEnter += OnItemDetailOn;
+            slotUIs[i].onPointerExit += OnItemDetailOff;
+
         }
         tempSlotUI.InitializeSlot(Inventory.TempSlotIndex, inven.TempSlot);
         tempSlotUI.Close();
     }
 
-    private void OnItemDragStart(uint slotID)
+    private void OnItemMoveStart(uint slotID)
     {
         inven.MoveItem(slotID, Inventory.TempSlotIndex);
         tempSlotUI.Open();
     }
-    private void OnItemDragEnd(uint slotID)
+    private void OnItemMoveEnd(uint slotID)
     {
         inven.MoveItem(Inventory.TempSlotIndex, slotID);
         if (tempSlotUI.ItemSlot.IsEmpty)
@@ -82,4 +91,13 @@ public class InventoryUI : MonoBehaviour
             tempSlotUI.Close();
         }
     }
+    private void OnItemDetailOn(uint slotID)
+    {
+        detail.Open(slotUIs[slotID].ItemSlot.ItemData);
+    }
+    private void OnItemDetailOff(uint _)
+    {
+        detail.Close();
+    }
+
 }

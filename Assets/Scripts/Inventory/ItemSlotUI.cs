@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using System;
 
-public class ItemSlotUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class ItemSlotUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     uint id;        //몇번째 슬롯인가
     protected ItemSlot itemSlot;    // UI와 연결된 아이템 슬롯
@@ -22,6 +22,9 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     public Action<uint> onDragStart;
     public Action<uint> onDragEnd;
     public Action<uint> onDragCancel;
+    public Action<uint> onClick;
+    public Action<uint> onPointerEnter;
+    public Action<uint> onPointerExit;
 
 
     private void Awake()
@@ -39,6 +42,14 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         this.id = id;
         this.itemSlot = slot;
         this.itemSlot.onSlotItemChange = Refresh;
+
+        onDragStart = null;
+        onDragEnd = null;
+        onDragCancel = null;
+        onPointerEnter = null;
+        onPointerExit = null;
+        onClick = null;
+
 
         Refresh();
     }
@@ -80,23 +91,39 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-
-        Debug.Log($"OnDragStart : {ID}");
+        //Debug.Log($"OnDragStart : {ID}");
         onDragStart?.Invoke(ID);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         GameObject obj = eventData.pointerCurrentRaycast.gameObject;
-        ItemSlotUI endSlot = obj.GetComponent<ItemSlotUI>();
+        if (obj != null)
+        {
+            ItemSlotUI endSlot = obj.GetComponent<ItemSlotUI>();
+            if (endSlot != null)
+            {
+                onDragEnd?.Invoke(endSlot.ID);
+            }
+            else
+            {
+                onClick?.Invoke(ID);
+            }
+        }
+    }
 
-        if (endSlot != null)
-        {
-            onDragEnd?.Invoke(endSlot.ID);
-        }
-        else
-        {
-            onDragCancel?.Invoke(ID);
-        }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        onDragEnd?.Invoke(ID);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        onPointerEnter?.Invoke(ID);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        onPointerExit?.Invoke(ID);
     }
 }
