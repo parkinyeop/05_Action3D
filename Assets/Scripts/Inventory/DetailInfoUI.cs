@@ -34,7 +34,6 @@ public class DetailInfoUI : MonoBehaviour
     private void Update()
     {
         transform.position = Mouse.current.position.ReadValue() + offset;
-        //Debug.Log(Mouse.current.position.ReadValue());
         if (Mouse.current.position.ReadValue().x + detailWindowWidth > Screen.width)
         {
             transform.position = new Vector2(transform.position.x - detailWindowWidth, transform.position.y);
