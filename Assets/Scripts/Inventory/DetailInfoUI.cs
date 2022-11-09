@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class DetailInfoUI : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class DetailInfoUI : MonoBehaviour
     Image itemIcon;
     CanvasGroup canvasGroup;
 
+    float detailWindowHeight = 300;
+    float detailWindowWidth = 400;
+    Vector2 offset;
     private void Awake()
     {
         itemIcon = transform.GetChild(0).GetComponent<Image>();
@@ -20,8 +24,18 @@ public class DetailInfoUI : MonoBehaviour
         itemValue = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         itemDesc = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         canvasGroup = GetComponent<CanvasGroup>();
-    }
 
+        offset = new Vector2(detailWindowWidth / 2, detailWindowHeight / 2);
+    }
+    private void Update()
+    {
+        transform.position = Mouse.current.position.ReadValue() + offset;
+        //Debug.Log(Mouse.current.position.ReadValue());
+        if (Mouse.current.position.ReadValue().x + offset.x > 1700)
+        {
+            transform.position = new Vector2(transform.position.x - offset.x * 2f, transform.position.y);
+        }
+    }
     public void Open(ItemData itemData)
     {
         if (itemData != null)
