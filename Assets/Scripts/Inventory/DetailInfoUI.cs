@@ -13,9 +13,10 @@ public class DetailInfoUI : MonoBehaviour
     TextMeshProUGUI itemDesc;
     Image itemIcon;
     CanvasGroup canvasGroup;
+    RectTransform rectWindow;
 
-    float detailWindowHeight = 300;
-    float detailWindowWidth = 400;
+    float detailWindowHeight;
+    float detailWindowWidth;
     Vector2 offset;
     private void Awake()
     {
@@ -24,7 +25,10 @@ public class DetailInfoUI : MonoBehaviour
         itemValue = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         itemDesc = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         canvasGroup = GetComponent<CanvasGroup>();
+        rectWindow = GetComponent<RectTransform>();
 
+        detailWindowWidth = rectWindow.rect.width;
+        detailWindowHeight = rectWindow.rect.height;
         offset = new Vector2(detailWindowWidth / 2, detailWindowHeight / 2);
     }
     private void Update()
