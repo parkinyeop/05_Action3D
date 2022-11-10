@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public class ItemSpliterUI : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class ItemSpliterUI : MonoBehaviour
 
     private void Start()
     {
+        inpuField.text = itemSplitCount.ToString();
         Close();
     }
 
@@ -35,11 +37,35 @@ public class ItemSpliterUI : MonoBehaviour
     {
         targetSlot = target.ItemSlot;
         itemImage.sprite = target.ItemSlot.ItemData.itemIcon;
+        slider.maxValue = target.ItemSlot.ItemCount-1;
         this.gameObject.SetActive(true);
     }
 
     public void Close()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void IncreseCount()
+    {
+        itemSplitCount += 1;
+        inpuField.text = itemSplitCount.ToString();
+        if(itemSplitCount >= slider.maxValue)
+        {
+            itemSplitCount = (uint)slider.maxValue -1;
+        }
+    }
+     public void DecreaseCount()
+    {
+        itemSplitCount -= 1;
+        inpuField.text = itemSplitCount.ToString();
+        if (itemSplitCount < slider.minValue)
+        {
+            itemSplitCount = (uint)slider.minValue;
+        }
+    }
+    public void SlideValue()
+    {
+        inpuField.text = ((int)slider.value).ToString();
     }
 }
