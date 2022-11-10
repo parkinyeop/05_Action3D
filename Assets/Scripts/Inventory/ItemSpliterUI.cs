@@ -37,6 +37,8 @@ public class ItemSpliterUI : MonoBehaviour
             }
         }
     }
+
+    public Action<uint, uint> onOkClick;
     private void Awake()
     {
         inpuField = GetComponentInChildren<TMP_InputField>();
@@ -48,10 +50,19 @@ public class ItemSpliterUI : MonoBehaviour
 
         Button increase = transform.GetChild(1).GetComponent<Button>();
         increase.onClick.AddListener(() => ItemSplitCount++);
+
         Button decrease = transform.GetChild(2).GetComponent<Button>();
         decrease.onClick.AddListener(() => ItemSplitCount--);
+
         Button ok = transform.GetChild(4).GetComponent<Button>();
+        ok.onClick.AddListener(() =>
+        {
+            onOkClick?.Invoke(targetSlot.Index, ItemSplitCount);
+            Close();
+        });
+
         Button cancel = transform.GetChild(5).GetComponent<Button>();
+        cancel.onClick.AddListener(() => Close());
 
         itemImage = transform.GetChild(6).GetComponent<Image>();
     }

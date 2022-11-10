@@ -174,6 +174,16 @@ public class Inventory
         }
     }
 
+    public void MoveItemToTempSlot(uint slotID, uint count)
+    {
+        if(IsValidAndNotEmptySlotIndex(slotID))
+        {
+            ItemSlot fromSlot = slots[slotID];
+            fromSlot.DecreaseSlotItem(count);
+            tempSlot.AssignSlotItem(fromSlot.ItemData, count);
+        }
+    }
+
     ItemSlot FindEmptySlot()
     {
         foreach (var slot in slots)
@@ -181,7 +191,7 @@ public class Inventory
             if (slot.IsEmpty)
             {
                 return slot;
-                break;
+                //break;
             }
         }
         return null;
@@ -213,6 +223,7 @@ public class Inventory
         }
         return false;
     }
+   
     public void PrintInventory()
     {
         string printText = "[";

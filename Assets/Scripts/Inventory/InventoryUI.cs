@@ -33,7 +33,11 @@ public class InventoryUI : MonoBehaviour
         detail = GetComponentInChildren<DetailInfoUI>();
 
         spliter = GetComponentInChildren<ItemSpliterUI>();
+        spliter.onOkClick += OnSplitOK;
     }
+
+   
+
     /// <summary>
     /// 입력 받은 인벤토리에 맞게 각종 초기화
     /// </summary>
@@ -73,7 +77,7 @@ public class InventoryUI : MonoBehaviour
             slotUIs[i].Resize(grid.cellSize.x * 0.75f);     //슬폿 크기에 맞게 내부 이미지 리사이즈
             slotUIs[i].onDragStart += OnItemMoveStart;
             slotUIs[i].onDragEnd += OnItemMoveEnd;
-            slotUIs[i].onDragCancel += OnItemMoveCancle;
+            slotUIs[i].onDragCancel += OnItemMoveCancel;
             slotUIs[i].onClick += OnItemMoveEnd;
             slotUIs[i].onShiftClick += OnItemSplit;
             slotUIs[i].onPointerEnter += OnItemDetailOn;
@@ -108,7 +112,7 @@ public class InventoryUI : MonoBehaviour
         detail.Close();
         detail.IsPause = true;
     }
-    private void OnItemMoveCancle(uint slotID)
+    private void OnItemMoveCancel(uint slotID)
     {
         inven.MoveItem(Inventory.TempSlotIndex, slotID);
         if (tempSlotUI.ItemSlot.IsEmpty)
@@ -134,5 +138,10 @@ public class InventoryUI : MonoBehaviour
     private void OnDetailPause(bool isPause)
     {
         detail.IsPause = isPause;
+    }
+    private void OnSplitOK(uint slotID, uint count)
+    {
+        inven.MoveItemToTempSlot(slotID, count);
+        tempSlotUI.Open();
     }
 }

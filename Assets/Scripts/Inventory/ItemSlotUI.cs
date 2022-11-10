@@ -121,7 +121,10 @@ public class ItemSlotUI : MonoBehaviour,
     {
         if (Keyboard.current.leftShiftKey.ReadValue() > 0)
         {
-            onShiftClick?.Invoke(ID);
+            if (ItemSlot.ItemCount > 1)
+            {
+                onShiftClick?.Invoke(ID);
+            }
         }
         else
         {
