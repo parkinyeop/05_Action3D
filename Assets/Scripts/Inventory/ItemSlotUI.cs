@@ -6,8 +6,12 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System;
+using UnityEngine.InputSystem;
 
-public class ItemSlotUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class ItemSlotUI : MonoBehaviour,
+    IDragHandler, IBeginDragHandler, IEndDragHandler,
+    IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler,
+    IPointerMoveHandler
 {
     uint id;        //몇번째 슬롯인가
     protected ItemSlot itemSlot;    // UI와 연결된 아이템 슬롯
@@ -18,13 +22,14 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     public uint ID => id;
     public ItemSlot ItemSlot => itemSlot;
 
-
     public Action<uint> onDragStart;
     public Action<uint> onDragEnd;
     public Action<uint> onDragCancel;
     public Action<uint> onClick;
+    public Action<uint> onShiftClick;
     public Action<uint> onPointerEnter;
     public Action<uint> onPointerExit;
+    public Action<Vector2> onPointerMove;
 
 
     private void Awake()
@@ -37,7 +42,7 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     /// </summary>
     /// <param name="id"></param>
     /// <param name="slot"></param>
-    public void InitializeSlot(uint id, ItemSlot slot)
+    public virtual void InitializeSlot(uint id, ItemSlot slot)
     {
         this.id = id;
         this.itemSlot = slot;
@@ -49,8 +54,8 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
         onPointerEnter = null;
         onPointerExit = null;
         onClick = null;
-
-
+        onShiftClick = null;
+        onPointerMove = null;
         Refresh();
     }
 
@@ -114,7 +119,14 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        onDragEnd?.Invoke(ID);
+        if (Keyboard.current.leftShiftKey.ReadValue() > 0)
+        {
+            onShiftClick?.Invoke(ID);
+        }
+        else
+        {
+            onClick?.Invoke(ID);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -125,5 +137,10 @@ public class ItemSlotUI : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     public void OnPointerExit(PointerEventData eventData)
     {
         onPointerExit?.Invoke(ID);
+    }
+
+    public virtual void OnPointerMove(PointerEventData eventData)
+    {
+        onPointerMove?.Invoke(eventData.position);
     }
 }
