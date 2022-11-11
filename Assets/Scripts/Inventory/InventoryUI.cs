@@ -18,6 +18,8 @@ public class InventoryUI : MonoBehaviour
 
     ItemSpliterUI spliter;
 
+    PlayerInputActions inputActions;
+
     private void Awake()
     {
         Transform slotParent = transform.GetChild(0);
@@ -34,9 +36,21 @@ public class InventoryUI : MonoBehaviour
 
         spliter = GetComponentInChildren<ItemSpliterUI>();
         spliter.onOkClick += OnSplitOK;
+
+        inputActions = new PlayerInputActions();
+        
     }
 
-   
+    private void OnEnable()
+    {
+        inputActions.UI.Enable();
+        inputActions.UI.Click.performed += spliter.OnMouseClick;
+    }
+    private void OnDisable()
+    {
+        inputActions.UI.Click.performed -= spliter.OnMouseClick;
+        inputActions.UI.Disable();
+    }
 
     /// <summary>
     /// 입력 받은 인벤토리에 맞게 각종 초기화

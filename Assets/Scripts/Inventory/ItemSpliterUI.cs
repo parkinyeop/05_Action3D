@@ -4,8 +4,10 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
-public class ItemSpliterUI : MonoBehaviour
+public class ItemSpliterUI : MonoBehaviour, IScrollHandler
 {
 
     const int itemCountMin = 1;
@@ -93,5 +95,20 @@ public class ItemSpliterUI : MonoBehaviour
     public void Close()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void OnMouseClick(InputAction.CallbackContext context)
+    {
+        Vector2 screenPos = Mouse.current.position.ReadValue();
+        Debug.Log(screenPos);
+        if(true)
+        {
+            Close();
+        }
+    }
+
+    public void OnScroll(PointerEventData eventData)
+    {
+        //eventData.scrollDelta;
     }
 }
