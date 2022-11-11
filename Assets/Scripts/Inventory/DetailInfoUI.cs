@@ -13,6 +13,9 @@ public class DetailInfoUI : MonoBehaviour
     Image itemIcon;
     CanvasGroup canvasGroup;
 
+    float targetAlpha = 0;
+    float targetAlphaTime = 10f;
+
     bool isPause = false;
     public bool IsOpen => (canvasGroup.alpha > 0);
     public bool IsPause
@@ -37,22 +40,32 @@ public class DetailInfoUI : MonoBehaviour
         itemDesc = transform.GetChild(3).GetComponent<TextMeshProUGUI>();
         canvasGroup = GetComponent<CanvasGroup>();
     }
+
+    private void Update()
+    {
+        if (targetAlpha > 0) 
+        { canvasGroup.alpha += Time.deltaTime * targetAlphaTime; }
+        else 
+        { canvasGroup.alpha -= Time.deltaTime * targetAlphaTime; }
+        canvasGroup.alpha = Mathf.Clamp(canvasGroup.alpha, 0, 1);
+    }
+
     public void Open(ItemData itemData)
     {
         if (!isPause && itemData != null)
         {
             itemIcon.sprite = itemData.itemIcon;
             itemName.text = itemData.itemName;
-            itemValue.text = itemData.value.ToString()+"골드";
+            itemValue.text = itemData.value.ToString() + "골드";
             itemDesc.text = itemData.itemDescription;
-            canvasGroup.alpha = 1.0f;
+            targetAlpha = 1;
 
             MovePosition(Mouse.current.position.ReadValue());
         }
     }
     public void Close()
     {
-        canvasGroup.alpha = 0.0f;
+        targetAlpha = 0;
     }
     public void MovePosition(Vector2 pos)
     {
