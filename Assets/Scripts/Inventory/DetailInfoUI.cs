@@ -47,24 +47,25 @@ public class DetailInfoUI : MonoBehaviour
             itemValue.text = itemData.value.ToString()+"골드";
             itemDesc.text = itemData.itemDescription;
             float delta = 0;
-            while(delta < 1)
+            while(Mathf.Sin(delta)< 1)
             {
                 delta += Time.deltaTime * time;
-                canvasGroup.alpha = delta;
-                Debug.Log(delta);
+                canvasGroup.alpha = Mathf.Sin(delta);
+                //    canvasGroup.alpha = delta;
+                   Debug.Log(canvasGroup.alpha);
             }
             MovePosition(Mouse.current.position.ReadValue());
         }
     }
     public void Close()
     {
-        float delta = 1;
-        while (delta > 0)
-        {
-            delta -= Time.deltaTime * time;
-            canvasGroup.alpha = delta;
-        }
-        //canvasGroup.alpha = Mathf.Lerp(1,0, Time.deltaTime * 30f);
+        //float delta = 1;
+        //while (delta > 0)
+        //{
+        //    delta -= Time.deltaTime * time;
+        //    canvasGroup.alpha = delta;
+        //}
+        canvasGroup.alpha = 0;
     }
     public void MovePosition(Vector2 pos)
     {
