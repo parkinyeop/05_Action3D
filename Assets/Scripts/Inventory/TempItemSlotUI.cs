@@ -27,7 +27,7 @@ public class TempItemSlotUI : ItemSlotUI
     }
     public void Open()
     {
-        if(!ItemSlot.IsEmpty)
+        if (!ItemSlot.IsEmpty)
         {
             transform.position = Mouse.current.position.ReadValue();
             onTempSlotOpenClose?.Invoke(true);
@@ -38,5 +38,20 @@ public class TempItemSlotUI : ItemSlotUI
     {
         onTempSlotOpenClose?.Invoke(false);
         gameObject.SetActive(false);
+    }
+
+    public void OnDrop(InputAction.CallbackContext _)
+    {
+        if (!itemSlot.IsEmpty)
+        {
+            Vector2 screenPos = Mouse.current.position.ReadValue();
+            Ray ray = Camera.main.ScreenPointToRay(screenPos);
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f, LayerMask.GetMask("Ground")))
+            {
+                ItemFactory.MakeItem((int)ItemSlot.ItemData.id,(int)itemSlot.ItemCount, hit.point, true);
+                ItemSlot.ClearSlotItem();
+                Close();
+            }
+        }
     }
 }

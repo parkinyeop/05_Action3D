@@ -14,8 +14,12 @@ public class Inventory
     ItemSlot tempSlot = null;
     ItemDataManager dataManager;
 
+
     public int SlotCount => slots.Length;
     public ItemSlot TempSlot => tempSlot;
+
+    Player owner;
+    public Player Owner => owner;
 
     /// <summary>
     /// 특정 번쨰의 ItemSlot을 돌려주는 인덱서
@@ -23,8 +27,8 @@ public class Inventory
     /// <param name="index">돌려줄 슬롯의 위치</param>
     /// <returns>index 번째에 있는 ItemSlot</returns>
     public ItemSlot this[int index] => slots[index];
-
-    public Inventory(int size = Default_Invetory_Size)
+      
+    public Inventory(Player owner, int size = Default_Invetory_Size)
     {
         Debug.Log($"{size} 칸 짜리 인벤토리 생성");
         slots = new ItemSlot[size];
@@ -34,8 +38,9 @@ public class Inventory
         }
         tempSlot = new ItemSlot(TempSlotIndex);
         dataManager = GameManager.Inst.ItemData;
-    }
 
+        this.owner= owner;
+    }
     public bool AddItem(ItemIdCode code)
     {
         return AddItem(dataManager[code]);
@@ -201,11 +206,11 @@ public class Inventory
     {
         ItemSlot findSlot = null;
 
-        for (int i = 0; i < SlotCount; i++)
+        foreach (var slot in slots)
         {
-            if (slots[i].ItemData == itemData)
+            if (slot.ItemData == itemData && slot.ItemCount < slot.ItemData.maxStackCount)
             {
-                findSlot = slots[i];
+                findSlot = slot;
                 break;
             }
         }

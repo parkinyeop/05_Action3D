@@ -23,31 +23,31 @@ public class InventoryUI : MonoBehaviour
     private void Awake()
     {
         Transform slotParent = transform.GetChild(0);
+        slotUIs = new ItemSlotUI[slotParent.childCount];
         //slotUIs = new ItemSlotUI[slotParent.childCount];
-        //for (int i = 0; i < slotParent.childCount; i++)
-        //{
-        //    slotUIs[i] = new ItemSlotUI();
-        //    slotUIs[i] = GetComponentInChildren<ItemSlotUI>();
-        //}
-        slotUIs = GetComponentsInChildren<ItemSlotUI>();
+        for (int i = 0; i < slotParent.childCount; i++)
+        {
+            Transform child = slotParent.GetChild(i);
+            slotUIs[i] = child.GetComponent<ItemSlotUI>();
+        }
+        
         tempSlotUI = GetComponentInChildren<TempItemSlotUI>();
-
         detail = GetComponentInChildren<DetailInfoUI>();
-
         spliter = GetComponentInChildren<ItemSpliterUI>();
         spliter.onOKClick += OnSplitOK;
 
         inputActions = new PlayerInputActions();
-        
     }
 
     private void OnEnable()
     {
         inputActions.UI.Enable();
         inputActions.UI.Click.performed += spliter.OnMouseClick;
+        inputActions.UI.Click.canceled += tempSlotUI.OnDrop;
     }
     private void OnDisable()
     {
+        inputActions.UI.Click.canceled -= tempSlotUI.OnDrop;
         inputActions.UI.Click.performed -= spliter.OnMouseClick;
         inputActions.UI.Disable();
     }

@@ -11,7 +11,7 @@ public class Test_Inventory : Test_Base
     public int invenCount;
     void Start()
     {
-        inven = new Inventory(invenCount);
+        inven = new Inventory(null);
         inventoryUI.InitailizeInventory(inven);
     }
     protected override void Test1(InputAction.CallbackContext _)

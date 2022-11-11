@@ -25,6 +25,8 @@ public class Player : MonoBehaviour, IBattle, IHealth
     bool isAlive = true;
     public float itemPickupRange = 2f;
 
+    Inventory inven;
+
     public float AttackPower => attackPower;
     public float DefencePower => defencePower;
     public float MaxHP => maxHp;
@@ -43,14 +45,14 @@ public class Player : MonoBehaviour, IBattle, IHealth
                     Die();
                 }
                 // Clamp 는 최소값/최대값을 설정하고 hp가 이 값을 넘지 못하도록 방지
-                hp = Mathf.Clamp(hp, 0.0f, maxHp); 
+                hp = Mathf.Clamp(hp, 0.0f, maxHp);
 
                 onHealthChange?.Invoke(hp / maxHp);
             }
         }
     }
 
-    
+
     /// <summary>
     /// 델리게이트
     /// </summary>
@@ -72,9 +74,12 @@ public class Player : MonoBehaviour, IBattle, IHealth
     private void Start()
     {
         hp = maxHp;
+        isAlive = true;
         weaponBlade.enabled = false;
         animator.SetBool("isAlive", true);
-        isAlive = true;
+
+        inven = new Inventory(this);
+        GameManager.Inst.InvenUI.InitailizeInventory(inven);
     }
     public void WeaponEffectSwitch(bool on)
     {
@@ -134,14 +139,19 @@ public class Player : MonoBehaviour, IBattle, IHealth
         ShowWeaponAndSheild(true);
         Debug.Log($"Player Class {isAlive}");
     }
-     public void ItemPickUp()
+    public void ItemPickUp()
     {
-        Collider[] items = Physics.OverlapSphere(transform.position, 
+        Collider[] items = Physics.OverlapSphere(transform.position,
             itemPickupRange, LayerMask.GetMask("Item"));
 
-        foreach(var item in items)
+        foreach (var itemCollider in items)
         {
-            Destroy(item.gameObject);
+            Item item = itemCollider.gameObject.GetComponent<Item>();
+            if (inven.AddItem(item.data))
+            {
+                Destroy(itemCollider.gameObject);
+            }
+           // inven.AddItem(item.data);
         }
     }
 

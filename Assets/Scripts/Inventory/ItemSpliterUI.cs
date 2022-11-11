@@ -58,16 +58,24 @@ public class ItemSpliterUI : MonoBehaviour, IScrollHandler
         decrease.onClick.AddListener(() => ItemSplitCount--);
 
         Button ok = transform.GetChild(4).GetComponent<Button>();
-        ok.onClick.AddListener(() =>
-        {
-            onOKClick?.Invoke(targetSlot.Index, ItemSplitCount);    // ¾î¶² ½½·Ô¿¡¼­ ¸î°³ÀÇ ¾ÆÀÌÅÛÀ» ¿Å±æÁö ¾Ë·ÁÁÖ±â
-            Close();                                                // ¾ÆÀÌÅÛ ºĞ¸®Ã¢ ´İ±â
-        });
+        ok.onClick.AddListener(Test);
+        //ok.onClick.AddListener(() =>
+        //{
+        //    Debug.Log("OK Button");
+        //    onOKClick?.Invoke(targetSlot.Index, ItemSplitCount);    // ì–´ë–¤ ìŠ¬ë¡¯ì—ì„œ ëª‡ê°œì˜ ì•„ì´í…œì„ ì˜®ê¸¸ì§€ ì•Œë ¤ì£¼ê¸°
+        //    Close();                                                // ì•„ì´í…œ ë¶„ë¦¬ì°½ ë‹«ê¸°
+        //});
 
         Button cancel = transform.GetChild(5).GetComponent<Button>();
         cancel.onClick.AddListener(() => Close());
 
         itemImage = transform.GetChild(6).GetComponent<Image>();
+    }
+    void Test()
+    {
+        Debug.Log("OK Button");
+        onOKClick?.Invoke(targetSlot.Index, ItemSplitCount);    // ì–´ë–¤ ìŠ¬ë¡¯ì—ì„œ ëª‡ê°œì˜ ì•„ì´í…œì„ ì˜®ê¸¸ì§€ ì•Œë ¤ì£¼ê¸°
+        Close();
     }
 
     //private void ChangeSliderValue(float value)

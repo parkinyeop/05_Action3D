@@ -1981,6 +1981,7 @@ MonoBehaviour:
   defencePower: 3
   hp: 100
   maxHp: 100
+  itemPickupRange: 2
 --- !u!1 &5054163154078906049
 GameObject:
   m_ObjectHideFlags: 0
