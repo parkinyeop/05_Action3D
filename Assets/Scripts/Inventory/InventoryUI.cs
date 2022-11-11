@@ -35,7 +35,7 @@ public class InventoryUI : MonoBehaviour
         detail = GetComponentInChildren<DetailInfoUI>();
 
         spliter = GetComponentInChildren<ItemSpliterUI>();
-        spliter.onOkClick += OnSplitOK;
+        spliter.onOKClick += OnSplitOK;
 
         inputActions = new PlayerInputActions();
         

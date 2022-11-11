@@ -40,7 +40,8 @@ public class ItemSpliterUI : MonoBehaviour, IScrollHandler
         }
     }
 
-    public Action<uint, uint> onOkClick;
+    public Action<uint, uint> onOKClick;
+
     private void Awake()
     {
         inpuField = GetComponentInChildren<TMP_InputField>();
@@ -59,8 +60,8 @@ public class ItemSpliterUI : MonoBehaviour, IScrollHandler
         Button ok = transform.GetChild(4).GetComponent<Button>();
         ok.onClick.AddListener(() =>
         {
-            onOkClick?.Invoke(targetSlot.Index, ItemSplitCount);
-            Close();
+            onOKClick?.Invoke(targetSlot.Index, ItemSplitCount);    // 어떤 슬롯에서 몇개의 아이템을 옮길지 알려주기
+            Close();                                                // 아이템 분리창 닫기
         });
 
         Button cancel = transform.GetChild(5).GetComponent<Button>();
@@ -115,9 +116,7 @@ public class ItemSpliterUI : MonoBehaviour, IScrollHandler
             {
                 Close();
             }
-
         }
-        
     }
 
     public void OnScroll(PointerEventData eventData)

@@ -30,13 +30,13 @@ public class TempItemSlotUI : ItemSlotUI
         if(!ItemSlot.IsEmpty)
         {
             transform.position = Mouse.current.position.ReadValue();
-            gameObject.SetActive(true);
             onTempSlotOpenClose?.Invoke(true);
+            gameObject.SetActive(true);
         }
     }
     public void Close()
     {
-        gameObject.SetActive(false);
         onTempSlotOpenClose?.Invoke(false);
+        gameObject.SetActive(false);
     }
 }
