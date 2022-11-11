@@ -14,6 +14,7 @@ public class DetailInfoUI : MonoBehaviour
     CanvasGroup canvasGroup;
 
     bool isPause = false;
+    public float time = 0.1f;
     public bool IsOpen => (canvasGroup.alpha > 0);
     public bool IsPause
     {
@@ -45,14 +46,25 @@ public class DetailInfoUI : MonoBehaviour
             itemName.text = itemData.itemName;
             itemValue.text = itemData.value.ToString()+"골드";
             itemDesc.text = itemData.itemDescription;
-            canvasGroup.alpha = 1.0f;
-
+            float delta = 0;
+            while(delta < 1)
+            {
+                delta += Time.deltaTime * time;
+                canvasGroup.alpha = delta;
+                Debug.Log(delta);
+            }
             MovePosition(Mouse.current.position.ReadValue());
         }
     }
     public void Close()
     {
-        canvasGroup.alpha = 0.0f;
+        float delta = 1;
+        while (delta > 0)
+        {
+            delta -= Time.deltaTime * time;
+            canvasGroup.alpha = delta;
+        }
+        //canvasGroup.alpha = Mathf.Lerp(1,0, Time.deltaTime * 30f);
     }
     public void MovePosition(Vector2 pos)
     {

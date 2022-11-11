@@ -100,8 +100,17 @@ public class ItemSpliterUI : MonoBehaviour, IScrollHandler
     public void OnMouseClick(InputAction.CallbackContext context)
     {
         Vector2 screenPos = Mouse.current.position.ReadValue();
-        Debug.Log(screenPos);
-        if(true)
+        Vector2 basePos = new Vector2(400, 170);
+
+        RectTransform rect = (RectTransform)transform;
+
+        float minScreenPosX = basePos.x;
+        float maxScreenPosX = basePos.x + rect.rect.width;
+        float minScreenPosY = basePos.y;
+        float maxScreenPosY = basePos.y + rect.rect.height;
+
+        if(screenPos.x < minScreenPosX || screenPos.x > maxScreenPosX 
+            || screenPos.y < minScreenPosY || screenPos.y > maxScreenPosY ) 
         {
             Close();
         }
@@ -109,6 +118,16 @@ public class ItemSpliterUI : MonoBehaviour, IScrollHandler
 
     public void OnScroll(PointerEventData eventData)
     {
+        if(eventData.scrollDelta.y> 0)
+        {
+            ItemSplitCount++;
+        }
+        else if(eventData.scrollDelta.y< 0)
+        {
+            ItemSplitCount--;
+        }
+        
         //eventData.scrollDelta;
+        Debug.Log(eventData.scrollDelta);
     }
 }
