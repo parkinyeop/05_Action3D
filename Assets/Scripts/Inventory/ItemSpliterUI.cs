@@ -97,18 +97,38 @@ public class ItemSpliterUI : MonoBehaviour, IScrollHandler
         this.gameObject.SetActive(false);
     }
 
+    bool IsAreaInside(Vector2 screenPos)
+    {
+        RectTransform rect = (RectTransform)transform;
+        float harfWidth = rect.rect.width * 0.5f;
+        Vector2 min = new Vector2(rect.position.x - harfWidth, rect.position.y);
+        Vector2 max = new Vector2(rect.position.x + harfWidth, rect.position.y + rect.rect.height*0.5f);
+            
+        return min.x < screenPos.x && screenPos.x < max.x && min.y < screenPos.y && screenPos.y < max.y;
+    }
     public void OnMouseClick(InputAction.CallbackContext context)
     {
-        Vector2 screenPos = Mouse.current.position.ReadValue();
-        Debug.Log(screenPos);
-        if(true)
+        if(gameObject.activeSelf)
         {
-            Close();
+        Vector2 screenPos = Mouse.current.position.ReadValue();
+            if(!IsAreaInside(screenPos))
+            {
+                Close();
+            }
+
         }
+        
     }
 
     public void OnScroll(PointerEventData eventData)
     {
-        //eventData.scrollDelta;
+        if(eventData.scrollDelta.y > 0)
+        {
+            ItemSplitCount++;
+        }
+        else
+        {
+            ItemSplitCount--;
+        }
     }
 }
