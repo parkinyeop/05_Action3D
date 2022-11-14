@@ -116,4 +116,17 @@ public class ItemSlot
             //Debug.Log($"인벤토리 {Index}번 슬롯에 {ItemData.itemName} 아이템 {count}개 감소");
         }
     }
+
+    public void UseSlotItem(GameObject target = null)
+    {
+        IUsable usable =  ItemData as IUsable;
+
+        if(usable != null)
+        {
+            if(usable.Use(target))
+            {
+                DecreaseSlotItem();
+            }
+        }
+    }
 }

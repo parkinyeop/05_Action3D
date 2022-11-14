@@ -93,7 +93,7 @@ public class InventoryUI : MonoBehaviour
             slotUIs[i].onDragStart += OnItemMoveStart;
             slotUIs[i].onDragEnd += OnItemMoveEnd;
             slotUIs[i].onDragCancel += OnItemMoveCancel;
-            slotUIs[i].onClick += OnItemMoveEnd;
+            slotUIs[i].onClick += OnClick;
             slotUIs[i].onShiftClick += OnItemSplit;
             slotUIs[i].onPointerEnter += OnItemDetailOn;
             slotUIs[i].onPointerExit += OnItemDetailOff;
@@ -104,6 +104,8 @@ public class InventoryUI : MonoBehaviour
         tempSlotUI.onTempSlotOpenClose += OnDetailPause;
         tempSlotUI.Close();
     }
+
+    
 
     public bool IsInInventoryArea(Vector2 screenPos)
     {
@@ -130,6 +132,20 @@ public class InventoryUI : MonoBehaviour
         }
         detail.Open(inven[(int)slotID].ItemData);
     }
+
+    private void OnClick(uint slotID)
+    {
+        if(tempSlotUI.ItemSlot.IsEmpty)
+        {
+            ItemSlot useItemSlot = inven[(int)slotID];
+            useItemSlot.UseSlotItem(Owner.gameObject);
+        }
+        else
+        {
+            OnItemMoveStart(slotID);
+        }
+    }
+
     private void OnItemSplit(uint slotID)
     {
         spliter.Open(slotUIs[slotID]);
