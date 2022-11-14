@@ -14,6 +14,8 @@ public class GameManager : Singleton<GameManager>
 
     protected override void Initialize()
     {
+        base.Initialize();
+
         itemData = GetComponent<ItemDataManager>();
         player = FindObjectOfType<Player>();
         inventoryUI = FindObjectOfType<InventoryUI>();

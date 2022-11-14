@@ -48,6 +48,8 @@ public class TempItemSlotUI : ItemSlotUI
             Ray ray = Camera.main.ScreenPointToRay(screenPos);
             if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f, LayerMask.GetMask("Ground")))
             {
+                Debug.Log(hit.point);
+
                 ItemFactory.MakeItem((int)ItemSlot.ItemData.id,(int)itemSlot.ItemCount, hit.point, true);
                 ItemSlot.ClearSlotItem();
                 Close();

@@ -1,3 +1,5 @@
+#define PRINT_DEBUG_INFO
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +20,7 @@ using UnityEngine.SceneManagement;
 public class Singleton<T> : MonoBehaviour where T : Component
 {
     private static bool isShutDown = false;
-    private static T _instance;
+    private static T _instance = null;
     public static T Inst
     {
         get
@@ -32,16 +34,15 @@ public class Singleton<T> : MonoBehaviour where T : Component
             {
                     //한번도 사용된 적이 없음
                 var obj = FindObjectOfType<T>();    //같은 타입의 컴포넌트가 있는지 찾아보기
-                if(obj != null)
-                {   
-                    _instance = obj;     //이미 다른 객체가 있으니까 있는 객체를 사용한다.
-                }
-                else
+                if(obj == null)
+                
                 {
                     GameObject gameObj = new GameObject();  // 다른 객체가 없으면 새로 만든다.
                     gameObj.name = $"{typeof(T).Name}";
-                    _instance = gameObj.AddComponent<T>();
+                    obj = gameObj.AddComponent<T>();
                 }
+                _instance = obj;                            //찾거나 새로 만든 객체를 인스턴스로 설정
+                DontDestroyOnLoad(_instance.gameObject);
             }
             return _instance;   //무조건 null이 아닌 값이 리턴된다.
         }
@@ -55,9 +56,9 @@ public class Singleton<T> : MonoBehaviour where T : Component
         if (_instance == null)
         {
             ////처음 만들어진 싱글톤 게임 오브젝트
-            //_instance = this as T;              // _instance에 이 스크립트의 객체를 저장
-            //DontDestroyOnLoad(this.gameObject); //씬이 사라지더라도 게임 오브젝트를 삭제하지 않게 하는 코드
-            PreInitialize(this as T);
+            _instance = this as T;              // _instance에 이 스크립트의 객체를 저장
+            DontDestroyOnLoad(this.gameObject); //씬이 사라지더라도 게임 오브젝트를 삭제하지 않게 하는 코드
+            //PreInitialize(this as T);
         }
         else
         {
@@ -67,8 +68,15 @@ public class Singleton<T> : MonoBehaviour where T : Component
                 Destroy(this.gameObject);       // 내가 아닌 같은 종류의 오브젝트가 이미 있으면 자신을 바로 삭제
             }
         }
+    }
+
+    private void OnEnable()
+    {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        Initialize();
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnApplicationQuit()
@@ -76,13 +84,6 @@ public class Singleton<T> : MonoBehaviour where T : Component
         isShutDown = true;
     }
 
-    void PreInitialize(T instance)
-    {
-        _instance= instance;
-        DontDestroyOnLoad(_instance.gameObject);
-        Initialize();
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         Initialize();
