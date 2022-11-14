@@ -20,6 +20,7 @@ public class InventoryUI : MonoBehaviour
 
     PlayerInputActions inputActions;
 
+    public Player Owner => inven.Owner;
     private void Awake()
     {
         Transform slotParent = transform.GetChild(0);
@@ -30,7 +31,7 @@ public class InventoryUI : MonoBehaviour
             Transform child = slotParent.GetChild(i);
             slotUIs[i] = child.GetComponent<ItemSlotUI>();
         }
-        
+
         tempSlotUI = GetComponentInChildren<TempItemSlotUI>();
         detail = GetComponentInChildren<DetailInfoUI>();
         spliter = GetComponentInChildren<ItemSpliterUI>();
@@ -104,7 +105,16 @@ public class InventoryUI : MonoBehaviour
         tempSlotUI.Close();
     }
 
-  
+    public bool IsInInventoryArea(Vector2 screenPos)
+    {
+        bool result = false;
+
+        RectTransform rect = (RectTransform)transform;
+
+        Vector2 min = new(rect.position.x - rect.sizeDelta.x, rect.position.y);
+        Vector2 max = new(rect.position.x, rect.sizeDelta.y + rect.position.y);
+        return (min.x < screenPos.x && screenPos.x < max.x && min.y < screenPos.y && screenPos.y < max.y);
+    }
 
     private void OnItemMoveStart(uint slotID)
     {

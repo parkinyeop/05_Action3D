@@ -32,7 +32,7 @@ public class ItemSlotUI : MonoBehaviour,
     public Action<Vector2> onPointerMove;
 
 
-    private void Awake()
+    void Awake()
     {
         itemImage = transform.GetChild(0).GetComponent<Image>();
         itemCountText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();

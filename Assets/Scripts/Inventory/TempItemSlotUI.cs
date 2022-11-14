@@ -1,4 +1,5 @@
 using System;
+using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,17 +9,24 @@ using UnityEngine.InputSystem;
 
 public class TempItemSlotUI : ItemSlotUI
 {
+    Player owner;
+    InventoryUI invenUI;
     public Action<bool> onTempSlotOpenClose;
 
     public override void InitializeSlot(uint id, ItemSlot slot)
     {
         onTempSlotOpenClose = null;
+        invenUI = GameManager.Inst.InvenUI;
+        owner = invenUI.Owner;
 
         base.InitializeSlot(id, slot);
     }
+
     private void Start()
     {
         //Vector2 screen = Mouse.current.position.ReadValue();
+        //InventoryUI invenUI = GetComponentInParent<InventoryUI>();
+        //owner = invenUI.Owner;
     }
 
     private void Update()
@@ -42,15 +50,21 @@ public class TempItemSlotUI : ItemSlotUI
 
     public void OnDrop(InputAction.CallbackContext _)
     {
-        if (!itemSlot.IsEmpty)
-        {
             Vector2 screenPos = Mouse.current.position.ReadValue();
+        if (!invenUI.IsInInventoryArea(screenPos)&&!itemSlot.IsEmpty)
+        {
             Ray ray = Camera.main.ScreenPointToRay(screenPos);
             if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f, LayerMask.GetMask("Ground")))
             {
-                Debug.Log(hit.point);
+                Vector3 dropDir = hit.point - owner.transform.position;
+                Vector3 dropPos = hit.point;
 
-                ItemFactory.MakeItem((int)ItemSlot.ItemData.id,(int)itemSlot.ItemCount, hit.point, true);
+                if (dropDir.sqrMagnitude > owner.itemPickupRange * owner.itemPickupRange)
+                {
+                    dropPos = dropDir.normalized * owner.itemPickupRange + owner.transform.position;
+                }
+
+                ItemFactory.MakeItem((int)ItemSlot.ItemData.id, (int)itemSlot.ItemCount, dropPos, true);
                 ItemSlot.ClearSlotItem();
                 Close();
             }

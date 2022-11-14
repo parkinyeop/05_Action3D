@@ -67,7 +67,7 @@ public class ItemSlot
     {
         ItemData = null;
         ItemCount = 0;
-        Debug.Log($"인벤토리 {Index}번 슬롯 아이템 삭제");
+        //Debug.Log($"인벤토리 {Index}번 슬롯 아이템 삭제");
     }
     /// <summary>
     /// 슬롯의 아이템 증가
@@ -86,14 +86,14 @@ public class ItemSlot
             ItemCount = ItemData.maxStackCount; //해당 아이템 슬롯에 최대값 적용
             overCount = (uint)over;             //넘친 갯수 저장
             result = false;
-            Debug.Log($"인벤토리 {slotIndex}번 슬롯에 \"{ItemData.itemName}\" 아이템 최대치까지 증가. 현재 {ItemCount}개. {over}개 넘침.");
+            //Debug.Log($"인벤토리 {slotIndex}번 슬롯에 \"{ItemData.itemName}\" 아이템 최대치까지 증가. 현재 {ItemCount}개. {over}개 넘침.");
         }
         else
         {
             ItemCount += increaseCount;
             overCount = 0;      //underFlow 방지
             result = true;
-            Debug.Log($"인벤토리 {Index}번 슬롯에 {ItemData.itemName} 아이템 {increaseCount}개 증가");
+            //Debug.Log($"인벤토리 {Index}번 슬롯에 {ItemData.itemName} 아이템 {increaseCount}개 증가");
         }
         return result;
     }
@@ -113,7 +113,7 @@ public class ItemSlot
         else
         {
             ItemCount = (uint)newCount;
-            Debug.Log($"인벤토리 {Index}번 슬롯에 {ItemData.itemName} 아이템 {count}개 감소");
+            //Debug.Log($"인벤토리 {Index}번 슬롯에 {ItemData.itemName} 아이템 {count}개 감소");
         }
     }
 }

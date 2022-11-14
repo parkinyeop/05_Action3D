@@ -76,8 +76,8 @@ public class ItemFactory
         if (randomNoise)
         {
             Vector2 noise = Random.insideUnitCircle * 0.5f;
-            position.x = noise.x;
-            position.z = noise.y;
+            position.x += noise.x;
+            position.z += noise.y;
         }
         obj.transform.position = position;
         return obj;
