@@ -46,11 +46,31 @@ public class TempItemSlotUI : ItemSlotUI
         {
             Vector2 screenPos = Mouse.current.position.ReadValue();
             Ray ray = Camera.main.ScreenPointToRay(screenPos);
-            if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f, LayerMask.GetMask("Ground")))
-            {
-                Debug.Log(hit.point);
+            Player player = GameManager.Inst.Player;
+            Vector3 playerPos = player.transform.position;
+            float playerPosX = playerPos.x + player.itemPickupRange;
+            float playerPosz = playerPos.z + player.itemPickupRange;
+            RaycastHit hit;
 
-                ItemFactory.MakeItem((int)ItemSlot.ItemData.id,(int)itemSlot.ItemCount, hit.point, true);
+            if (Physics.Raycast(ray, out hit, 1000.0f, LayerMask.GetMask("Ground")))
+            {
+                //Debug.Log(hit.point);
+                if (hit.point.x > playerPos.x + player.itemPickupRange )
+                {
+                    ItemFactory.MakeItem((int)ItemSlot.ItemData.id,
+                        (int)itemSlot.ItemCount, new Vector3(playerPosX, hit.point.y, hit.point.z), true);
+                    Debug.Log($"x가 큰 경우 HIT :{hit.point} , Player : {playerPos}");
+                }
+                else if (hit.point.z > playerPos.z + player.itemPickupRange)
+                {
+                    ItemFactory.MakeItem((int)ItemSlot.ItemData.id,
+                       (int)itemSlot.ItemCount, new Vector3(hit.point.x, hit.point.y, playerPosz), true);
+                    Debug.Log($"z가 큰 경우 HIT :{hit.point} , Player : {playerPos}");
+                }
+                else
+                {
+                    ItemFactory.MakeItem((int)ItemSlot.ItemData.id, (int)itemSlot.ItemCount, hit.point, true);
+                }
                 ItemSlot.ClearSlotItem();
                 Close();
             }
