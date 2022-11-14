@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fccfdd4d2242ba4f9e3799c9d15da34, type: 3}
   m_Name: 03_HealingPotion
   m_EditorClassIdentifier: 
-  id: 0
+  id: 3
   itemName: "\uC544\uC774\uD15C"
-  modelPrefap: {fileID: 0}
-  itemIcon: {fileID: 0}
-  value: 0
-  maxStackCount: 1
-  itemDescription: 
+  modelPrefap: {fileID: 7136485991339975158, guid: 2c2b367e515e18041933b6e5027a4d91, type: 3}
+  itemIcon: {fileID: 21300000, guid: 117b17facff65dc42b1b57deb7c21551, type: 3}
+  value: 100
+  maxStackCount: 10
+  itemDescription: "\uD790\uB9C1 \uD3EC\uC158\uC774\uB2E4"
   healPoint: 20
