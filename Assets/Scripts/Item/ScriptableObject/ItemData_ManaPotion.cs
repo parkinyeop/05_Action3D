@@ -6,9 +6,8 @@ using UnityEngine;
 public class ItemData_ManaPotion : ItemData, IUsable
 {
     [Header("------ 마나포션 데이터")]
-    public float mpGenPoint = 10f;
-    public float genTime = 10f;
-    public int genCount = 3;
+    public float mpGenPoint = 30f;
+    public float genCount = 3f;
 
     public bool Use(GameObject target = null)
     {
@@ -17,16 +16,7 @@ public class ItemData_ManaPotion : ItemData, IUsable
         if (mp != null)
         {
             float oldMP = mp.MP;
-
-            for (int i = 1; i < genCount; i++)
-            {
-                genTime += Time.deltaTime * 10f;
-                if (genTime % 10 == 0)
-                {
-                    mp.MP += mpGenPoint;
-                    genCount--;
-                }
-            }
+            mp.MP += mpGenPoint;
             //Debug.Log($"{itemName}을 사용했습니다. HP가 {healPoint}만큼 증갑니다. HP: {health.HP}->{health.HP += healPoint}");
             result = true;
         }

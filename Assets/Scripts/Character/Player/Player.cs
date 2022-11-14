@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -100,6 +101,11 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
         inven = new Inventory(this);
         GameManager.Inst.InvenUI.InitailizeInventory(inven);
     }
+
+    private void Update()
+    {
+        ManaRegenerate();
+    }
     public void WeaponEffectSwitch(bool on)
     {
         if (weaponPS != null)
@@ -186,6 +192,6 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
 
     public void ManaRegenerate()
     {
-        
+        MP += 1f * Time.deltaTime;
     }
 }
