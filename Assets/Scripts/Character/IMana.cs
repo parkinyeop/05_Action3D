@@ -9,7 +9,7 @@ public interface IMana
     float MaxMP { get; }
 
 
-    Action<float> onManaChange { get; set; }
+    Action<float> onMPChange { get; set; }
 
     void ManaRegenerate();
 }

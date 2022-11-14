@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-public class Player : MonoBehaviour, IBattle, IHealth
+public class Player : MonoBehaviour, IBattle, IHealth, IMana
 {
     ParticleSystem weaponPS;
     Transform weaponR;
@@ -21,6 +21,8 @@ public class Player : MonoBehaviour, IBattle, IHealth
     public float defencePower = 3f;
     public float hp = 100f;
     public float maxHp = 100f;
+    public float mp = 100f;
+    public float maxMp = 100f;
 
     bool isAlive = true;
     public float itemPickupRange = 2f;
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour, IBattle, IHealth
     public float AttackPower => attackPower;
     public float DefencePower => defencePower;
     public float MaxHP => maxHp;
+    public float MaxMP => maxMp;
     public bool IsAlive => isAlive;
     public float HP
     {
@@ -52,14 +55,30 @@ public class Player : MonoBehaviour, IBattle, IHealth
         }
     }
 
+    public float MP
+    {
+        get => mp;
+        set
+        {
+            //플레이어가 살아있고 mp의 값이 바뀌었으면
+            if (isAlive && mp != value)
+            {
+                mp = value; //현재 mp 를 갱신
+                // Clamp 는 최소값/최대값을 설정하고 hp가 이 값을 넘지 못하도록 방지
+                mp = Mathf.Clamp(mp, 0.0f, maxMp);
+
+                onMPChange?.Invoke(mp / maxMp);
+            }
+        }
+    }
+
 
     /// <summary>
     /// 델리게이트
     /// </summary>
     public Action<float> onHealthChange { get; set; }
+    public Action<float> onMPChange { get; set; }
     public Action onDie { get; set; }
-
-
 
     private void Awake()
     {
@@ -130,6 +149,11 @@ public class Player : MonoBehaviour, IBattle, IHealth
         }
     }
 
+    public void UseMana(float value)
+    {
+        MP -= value;
+    }
+
     public void Die()
     {
         isAlive = false;
@@ -158,5 +182,10 @@ public class Player : MonoBehaviour, IBattle, IHealth
     private void OnDrawGizmos()
     {
         Handles.DrawWireDisc(transform.position, transform.up, itemPickupRange);
+    }
+
+    public void ManaRegenerate()
+    {
+        
     }
 }
