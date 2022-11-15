@@ -7,7 +7,7 @@ using UnityEditor;
 /// <summary>
 /// ItemData용 커스텀 에디터 작성
 /// </summary>
-[CustomEditor(typeof(ItemData))]
+[CustomEditor(typeof(ItemData),true)]
 public class ItemDataEditor : Editor
 {
     ItemData itemData;

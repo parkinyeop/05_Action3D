@@ -20,6 +20,8 @@ public class InventoryUI : MonoBehaviour
 
     PlayerInputActions inputActions;
 
+    MoneyPanelUI moneyPanel;
+
     public Player Owner => inven.Owner;
     private void Awake()
     {
@@ -35,6 +37,7 @@ public class InventoryUI : MonoBehaviour
         tempSlotUI = GetComponentInChildren<TempItemSlotUI>();
         detail = GetComponentInChildren<DetailInfoUI>();
         spliter = GetComponentInChildren<ItemSpliterUI>();
+        moneyPanel = GetComponentInChildren<MoneyPanelUI>();
         spliter.onOKClick += OnSplitOK;
 
         inputActions = new PlayerInputActions();
@@ -103,6 +106,9 @@ public class InventoryUI : MonoBehaviour
         tempSlotUI.InitializeSlot(Inventory.TempSlotIndex, inven.TempSlot);
         tempSlotUI.onTempSlotOpenClose += OnDetailPause;
         tempSlotUI.Close();
+
+        Owner.onMoneyChange += moneyPanel.Refresh;
+        moneyPanel.Refresh(Owner.money);
     }
 
     

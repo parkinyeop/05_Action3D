@@ -28,8 +28,8 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
     bool isAlive = true;
     public float itemPickupRange = 2f;
 
-    int money;
-    
+    public int money;
+
     Inventory inven;
 
     public float AttackPower => attackPower;
@@ -42,7 +42,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
         get => money;
         set
         {
-            if(money != value)
+            if (money != value)
             {
                 money = value;
                 onMoneyChange?.Invoke(money);
@@ -96,7 +96,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
     /// </summary>
     public Action<float> onHealthChange { get; set; }
     public Action<float> onManaChange { get; set; }
-    public Action<int> onMoneyChange{get; set; }
+    public Action<int> onMoneyChange { get; set; }
     public Action onDie { get; set; }
 
 
@@ -187,11 +187,19 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
         foreach (var itemCollider in items)
         {
             Item item = itemCollider.gameObject.GetComponent<Item>();
-            if (inven.AddItem(item.data))
+            IConsumable consumable = item.data as IConsumable;
+            if (consumable != null)
             {
+                consumable.Consume(this.gameObject);
                 Destroy(itemCollider.gameObject);
             }
-            // inven.AddItem(item.data);
+            else
+            {
+                if (inven.AddItem(item.data))
+                {
+                    Destroy(itemCollider.gameObject);
+                }
+            }
         }
     }
     public void ManaRegenerate(float totalRegen, float duration)
@@ -224,7 +232,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
         }
     }
 
-    
+
 
     private void OnDrawGizmos()
     {
