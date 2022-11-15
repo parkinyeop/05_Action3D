@@ -22,19 +22,35 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
     public float defencePower = 3f;
     public float hp = 100f;
     public float maxHp = 100f;
+    public float maxMP = 100f;
+    float mp = 100f;
 
     bool isAlive = true;
     public float itemPickupRange = 2f;
 
-    public float maxMP = 100f;
-    float mp = 100f;
-
+    int money;
+    
     Inventory inven;
 
     public float AttackPower => attackPower;
     public float DefencePower => defencePower;
     public float MaxHP => maxHp;
     public bool IsAlive => isAlive;
+
+    public int Money
+    {
+        get => money;
+        set
+        {
+            if(money != value)
+            {
+                money = value;
+                onMoneyChange?.Invoke(money);
+            }
+        }
+    }
+
+    Action<int> onMoneyChange;
     public float HP
     {
         get => hp;
