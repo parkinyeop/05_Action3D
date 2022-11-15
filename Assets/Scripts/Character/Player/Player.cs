@@ -28,7 +28,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
     bool isAlive = true;
     public float itemPickupRange = 2f;
 
-    public int money;
+    int money;
 
     Inventory inven;
 

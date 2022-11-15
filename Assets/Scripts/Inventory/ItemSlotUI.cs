@@ -16,8 +16,9 @@ public class ItemSlotUI : MonoBehaviour,
     uint id;        //몇번째 슬롯인가
     protected ItemSlot itemSlot;    // UI와 연결된 아이템 슬롯
 
-    TextMeshProUGUI itemCountText;
-    Image itemImage;
+    Image itemImage;                //ItemData Image 출력
+    TextMeshProUGUI itemCountText;  //아이템 갯수 출력 Text
+    TextMeshProUGUI itemEquiptText;
 
     public uint ID => id;
     public ItemSlot ItemSlot => itemSlot;
@@ -36,6 +37,17 @@ public class ItemSlotUI : MonoBehaviour,
     {
         itemImage = transform.GetChild(0).GetComponent<Image>();
         itemCountText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        if (transform.childCount > 2)
+        {
+
+            Transform equip = transform.GetChild(2);
+            if (equip != null)
+            {
+                itemEquiptText = GetComponent<TextMeshProUGUI>();
+
+            }
+        }
+        ClearEquiptMark();
     }
     /// <summary>
     /// 슬롯 초기화 함수
@@ -73,6 +85,16 @@ public class ItemSlotUI : MonoBehaviour,
             itemImage.color = Color.white;
             itemCountText.text = ItemSlot.ItemCount.ToString();
         }
+        ClearEquiptMark();
+    }
+
+    public void SetEquiptMark()
+    {
+        itemEquiptText.color = Color.red;
+    }
+    public void ClearEquiptMark()
+    {
+        itemEquiptText.color = Color.clear;
     }
 
     public void Resize(float iconSize)

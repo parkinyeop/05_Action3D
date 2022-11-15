@@ -10,28 +10,24 @@ public class InventoryUI : MonoBehaviour
     public GameObject slotPrefab;
 
     Inventory inven;
-
     ItemSlotUI[] slotUIs;
     TempItemSlotUI tempSlotUI;
-
     DetailInfoUI detail;
-
     ItemSpliterUI spliter;
-
     PlayerInputActions inputActions;
-
     MoneyPanelUI moneyPanel;
 
     public Player Owner => inven.Owner;
+
     private void Awake()
     {
-        Transform slotParent = transform.GetChild(0);
-        slotUIs = new ItemSlotUI[slotParent.childCount];
-        //slotUIs = new ItemSlotUI[slotParent.childCount];
+        //itemSlot들을 생성하고 붙일 상위 오브젝트(GridObjectGroup)을 가지고 있음
+        Transform slotParent = transform.GetChild(0);   
+        slotUIs = new ItemSlotUI[slotParent.childCount];    //slotParent의 자식 갯수 만큼 ItemSlotUI배열을 생성
         for (int i = 0; i < slotParent.childCount; i++)
         {
             Transform child = slotParent.GetChild(i);
-            slotUIs[i] = child.GetComponent<ItemSlotUI>();
+            slotUIs[i] = child.GetComponent<ItemSlotUI>();  //각 Child 에 ItemSlotUI 콤포넌트를 할당
         }
 
         tempSlotUI = GetComponentInChildren<TempItemSlotUI>();
@@ -108,7 +104,7 @@ public class InventoryUI : MonoBehaviour
         tempSlotUI.Close();
 
         Owner.onMoneyChange += moneyPanel.Refresh;
-        moneyPanel.Refresh(Owner.money);
+        moneyPanel.Refresh(Owner.Money);
     }
 
     

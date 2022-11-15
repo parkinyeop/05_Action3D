@@ -12,4 +12,12 @@ public enum ItemIdCode
     Coin_Bronze,
     Coin_Silver,
     Coin_Gold,
+    IronSword,
+    SilverSword,
+}
+
+public enum EquipPartType
+{
+    Weapon =1,
+    Sheild,
 }

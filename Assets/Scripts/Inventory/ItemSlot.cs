@@ -119,13 +119,21 @@ public class ItemSlot
 
     public void UseSlotItem(GameObject target = null)
     {
-        IUsable usable =  ItemData as IUsable;
-
-        if(usable != null)
+        IEquipItem equip = ItemData as IEquipItem;
+        if (equip != null)
         {
-            if(usable.Use(target))
+
+        }
+        else
+        {
+            IUsable usable = ItemData as IUsable;
+
+            if (usable != null)
             {
-                DecreaseSlotItem();
+                if (usable.Use(target))
+                {
+                    DecreaseSlotItem();
+                }
             }
         }
     }
