@@ -8,4 +8,5 @@ public enum ItemIdCode
     Emerald,
     Sapphire,
     HealingPotion,
+    ManaPotion,
 }
