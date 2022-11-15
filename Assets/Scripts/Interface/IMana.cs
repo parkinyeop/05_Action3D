@@ -8,8 +8,7 @@ public interface IMana
     float MP { get; set; }
     float MaxMP { get; }
 
-
     Action<float> onManaChange { get; set; }
 
-    void ManaRegenerate();
+    void ManaRegenerate(float totalRegen, float duration);
 }

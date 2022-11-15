@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-public class Player : MonoBehaviour, IBattle, IHealth
+public class Player : MonoBehaviour, IBattle, IHealth, IMana
 {
     ParticleSystem weaponPS;
     Transform weaponR;
@@ -24,6 +25,9 @@ public class Player : MonoBehaviour, IBattle, IHealth
 
     bool isAlive = true;
     public float itemPickupRange = 2f;
+
+    public float maxMP = 100f;
+    float mp = 100f;
 
     Inventory inven;
 
@@ -52,11 +56,31 @@ public class Player : MonoBehaviour, IBattle, IHealth
         }
     }
 
+    public float MP
+    {
+        get => mp;
+        set
+        {
+            //플레이어가 살아있고 hp의 값이 바뀌었으면
+            if (isAlive && mp != value)
+            {
+                mp = value; //현재 mp 를 갱신
+
+                // Clamp 는 최소값/최대값을 설정하고 hp가 이 값을 넘지 못하도록 방지
+                hp = Mathf.Clamp(value, 0.0f, maxMP);
+
+                onManaChange?.Invoke(mp / maxMP);
+            }
+        }
+    }
+
+    public float MaxMP => maxMP;
 
     /// <summary>
     /// 델리게이트
     /// </summary>
     public Action<float> onHealthChange { get; set; }
+    public Action<float> onManaChange { get; set; }
     public Action onDie { get; set; }
 
 
@@ -151,7 +175,36 @@ public class Player : MonoBehaviour, IBattle, IHealth
             {
                 Destroy(itemCollider.gameObject);
             }
-           // inven.AddItem(item.data);
+            // inven.AddItem(item.data);
+        }
+    }
+    public void ManaRegenerate(float totalRegen, float duration)
+    {
+        //StartCoroutine(ManaRegenation(totalRegen, duration));
+        StartCoroutine(ManaRegenation_Tick(totalRegen, duration));
+    }
+
+    IEnumerator ManaRegenation(float totalRegen, float duration)
+    {
+        float regenPerSec = totalRegen / duration;
+        float timeElapsed = 0.0f;
+        while (timeElapsed < duration)
+        {
+            timeElapsed += Time.deltaTime;
+            MP += Time.deltaTime * regenPerSec;
+            yield return null;
+        }
+    }
+
+    IEnumerator ManaRegenation_Tick(float totalRegen, float duration)
+    {
+        float tick = 1f;
+        int regenCount = Mathf.FloorToInt(duration / tick);
+        float regenPerTick = totalRegen / regenCount;
+        for (int i = 0; i < regenCount; i++)
+        {
+            MP += regenPerTick;
+            yield return new WaitForSeconds(tick);
         }
     }
 
@@ -159,4 +212,5 @@ public class Player : MonoBehaviour, IBattle, IHealth
     {
         Handles.DrawWireDisc(transform.position, transform.up, itemPickupRange);
     }
+
 }

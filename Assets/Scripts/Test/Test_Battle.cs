@@ -11,21 +11,21 @@ public class Test_Battle :  Test_Base
     private void Start()
     {
         player = GameManager.Inst.Player;
+        player.MP = 20;
+        player.HP = 50;
     }
     protected override void Test1(InputAction.CallbackContext _)
     {
-        player.Defence(50);
+        player.ManaRegenerate(50, 3);
     }
     protected override void Test2(InputAction.CallbackContext _)
     {
-        player.HP = 100;
+        player.MP += 10;
     }
 
     protected override void Test3(InputAction.CallbackContext _)
     {
-        GameObject obj = ItemFactory.MakeItem(0);
-        GameObject obj2 = ItemFactory.MakeItem(ItemIdCode.Emerald, new Vector3(0,0,2f));
-        GameObject obj3 = ItemFactory.MakeItem(ItemIdCode.Sapphire, new Vector3(0,0,2f), true);
+        player.MP -= 20;
     }
     protected override void Test4(InputAction.CallbackContext _)
     {
