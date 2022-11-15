@@ -9,4 +9,7 @@ public enum ItemIdCode
     Sapphire,
     HealingPotion,
     ManaPotion,
+    Coin_Bronze,
+    Coin_Silver,
+    Coin_Gold,
 }

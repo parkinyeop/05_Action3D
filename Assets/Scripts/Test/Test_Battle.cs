@@ -29,9 +29,9 @@ public class Test_Battle :  Test_Base
     }
     protected override void Test4(InputAction.CallbackContext _)
     {
-        GameObject[] objs = ItemFactory.MakeItem(ItemIdCode.Sapphire, 2);
-        GameObject[] objs2 = ItemFactory.MakeItem(ItemIdCode.Emerald, 3, new Vector3(0, 0, 2f));
-        GameObject[] objs3 = ItemFactory.MakeItem(ItemIdCode.Ruby,5, new Vector3(1, 0, 2f), true);
+        GameObject[] objs = ItemFactory.MakeItem(ItemIdCode.Coin_Bronze, 2);
+        GameObject[] objs2 = ItemFactory.MakeItem(ItemIdCode.Coin_Silver, 3, new Vector3(0, 0, 2f));
+        GameObject[] objs3 = ItemFactory.MakeItem(ItemIdCode.Coin_Gold,5, new Vector3(1, 0, 2f), true);
         GameObject[] objs4 = ItemFactory.MakeItem(ItemIdCode.HealingPotion,5, new Vector3(1, 0, 2f), true);
         GameObject[] objs5 = ItemFactory.MakeItem(ItemIdCode.ManaPotion,5, new Vector3(1, 0, 2f), true);
 
