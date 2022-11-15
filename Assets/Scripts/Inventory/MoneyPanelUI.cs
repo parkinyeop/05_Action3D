@@ -10,4 +10,8 @@ public class MoneyPanelUI : MonoBehaviour
     {
         moneyText= GetComponentInChildren<TextMeshProUGUI>();
     }
+    private void Update()
+    {
+        
+    }
 }

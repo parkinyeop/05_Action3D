@@ -50,7 +50,6 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
         }
     }
 
-    Action<int> onMoneyChange;
     public float HP
     {
         get => hp;
@@ -97,6 +96,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
     /// </summary>
     public Action<float> onHealthChange { get; set; }
     public Action<float> onManaChange { get; set; }
+    public Action<int> onMoneyChange{get; set; }
     public Action onDie { get; set; }
 
 
@@ -223,6 +223,8 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
             yield return new WaitForSeconds(tick);
         }
     }
+
+    
 
     private void OnDrawGizmos()
     {
