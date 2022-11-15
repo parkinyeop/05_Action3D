@@ -18,6 +18,6 @@ public enum ItemIdCode
 
 public enum EquipPartType
 {
-    Weapon =1,
+    Weapon = 0,
     Sheild,
 }

@@ -39,15 +39,9 @@ public class ItemSlotUI : MonoBehaviour,
         itemCountText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         if (transform.childCount > 2)
         {
-
             Transform equip = transform.GetChild(2);
-            if (equip != null)
-            {
-                itemEquiptText = GetComponent<TextMeshProUGUI>();
-
-            }
+            itemEquiptText = equip.GetComponent<TextMeshProUGUI>();
         }
-        ClearEquiptMark();
     }
     /// <summary>
     /// 슬롯 초기화 함수

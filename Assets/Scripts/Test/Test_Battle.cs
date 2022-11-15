@@ -34,6 +34,8 @@ public class Test_Battle :  Test_Base
         GameObject[] objs3 = ItemFactory.MakeItem(ItemIdCode.Coin_Gold,5, new Vector3(1, 0, 2f), true);
         GameObject[] objs4 = ItemFactory.MakeItem(ItemIdCode.HealingPotion,5, new Vector3(1, 0, 2f), true);
         GameObject[] objs5 = ItemFactory.MakeItem(ItemIdCode.ManaPotion,5, new Vector3(1, 0, 2f), true);
+        GameObject[] objs6 = ItemFactory.MakeItem(ItemIdCode.IronSword,1, new Vector3(1, 0, 2f), true);
+        GameObject[] objs7 = ItemFactory.MakeItem(ItemIdCode.SilverSword,1, new Vector3(1, 0, 2f), true);
 
     }
 

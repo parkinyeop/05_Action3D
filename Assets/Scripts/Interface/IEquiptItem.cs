@@ -4,9 +4,10 @@ using UnityEngine;
 
 public interface IEquipItem 
 {
+    EquipPartType EquipPart { get; }
 
-    void EquipItem(GameObject target) { }
-    void UnEquipItem(GameObject target) { }
-    void ToggleItem(GameObject target) { }
+    public void EquipItem(GameObject target);
+    public void UnEquipItem(GameObject target);
+    public void ToggleEquipItem(GameObject target);
 
 }
