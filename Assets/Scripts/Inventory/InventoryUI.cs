@@ -22,7 +22,7 @@ public class InventoryUI : MonoBehaviour
     private void Awake()
     {
         //itemSlot들을 생성하고 붙일 상위 오브젝트(GridObjectGroup)을 가지고 있음
-        Transform slotParent = transform.GetChild(0);   
+        Transform slotParent = transform.GetChild(0);
         slotUIs = new ItemSlotUI[slotParent.childCount];    //slotParent의 자식 갯수 만큼 ItemSlotUI배열을 생성
         for (int i = 0; i < slotParent.childCount; i++)
         {
@@ -103,11 +103,24 @@ public class InventoryUI : MonoBehaviour
         tempSlotUI.onTempSlotOpenClose += OnDetailPause;
         tempSlotUI.Close();
 
+        Owner.onEquipItemClear += OnEquipClear;
+
         Owner.onMoneyChange += moneyPanel.Refresh;
         moneyPanel.Refresh(Owner.Money);
     }
 
-    
+    private void OnEquipClear(EquipPartType part)
+    {
+
+        foreach (var slotUI in slotUIs)
+        {
+            ItemData_EquipItem equipItem = slotUI.ItemSlot.ItemData as ItemData_EquipItem;
+            if (equipItem != null && equipItem.EquipPart == part)
+            {
+                slotUI.ClearEquiptMark();
+            }
+        }
+    }
 
     public bool IsInInventoryArea(Vector2 screenPos)
     {
@@ -137,7 +150,7 @@ public class InventoryUI : MonoBehaviour
 
     private void OnClick(uint slotID)
     {
-        if(tempSlotUI.ItemSlot.IsEmpty)
+        if (tempSlotUI.ItemSlot.IsEmpty)
         {
             ItemSlot useItemSlot = inven[(int)slotID];
             useItemSlot.UseSlotItem(Owner.gameObject);

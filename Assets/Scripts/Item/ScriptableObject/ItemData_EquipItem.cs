@@ -24,8 +24,9 @@ public class ItemData_EquipItem : ItemData,IEquipItem
             equipTarget.UnEquipItem(EquipPart);
         }
     }
-    public virtual void AutoEquipItem(GameObject target) 
+    public virtual bool AutoEquipItem(GameObject target) 
     {
+        bool result = false;
         IEquipTarget equipTarget = target.GetComponent<IEquipTarget>();
         if (equipTarget != null)
         {
@@ -37,12 +38,15 @@ public class ItemData_EquipItem : ItemData,IEquipItem
                 if(equipItem != this)
                 {
                     EquipItem(target);
+                    result = true;
                 }
             }
             else
             {
                 EquipItem(target);
+                result = true;
             }
         }
+        return result;
     }
 }

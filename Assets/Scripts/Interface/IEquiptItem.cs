@@ -6,10 +6,8 @@ public interface IEquipItem
 {
     EquipPartType EquipPart { get; }
 
-    public void EquipItem(GameObject target)
-    {
-    }
-    public void UnEquipItem(GameObject target);
-    public void AutoEquipItem(GameObject target);
+    void EquipItem(GameObject target);
+     void UnEquipItem(GameObject target);
+    bool AutoEquipItem(GameObject target);
 
 }

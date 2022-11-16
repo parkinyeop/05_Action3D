@@ -10,6 +10,7 @@ public class ItemSlot
     uint slotIndex;
     ItemData slotsItemData = null;
     uint itemCount = 0;
+    bool isItemEquip;
 
     /// <summary>
     /// 슬롯에 들어있는 아이템 데이터 프로퍼티
@@ -40,7 +41,17 @@ public class ItemSlot
         }
     }
 
+    public bool IsItemEquip
+    {
+        get => isItemEquip;
+        private set
+        {
+
+        }
+    }
+
     public Action onSlotItemChange;
+    public Action onSlotItemEquip;
 
     public bool IsEmpty => slotsItemData == null;
     public uint Index => slotIndex;
@@ -122,7 +133,11 @@ public class ItemSlot
         IEquipItem equip = ItemData as IEquipItem;
         if (equip != null)
         {
-            equip.AutoEquipItem(target);
+            bool isEquip = equip.AutoEquipItem(target);
+            if (isEquip)
+            {
+                onSlotItemEquip?.Invoke();
+            }
         }
         else
         {

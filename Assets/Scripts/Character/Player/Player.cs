@@ -105,7 +105,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     public Action<int> onMoneyChange { get; set; }
     public Action onDie { get; set; }
 
-    
+    public Action<EquipPartType> onEquipItemClear;
 
     private void Awake()
     {
@@ -249,6 +249,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
         Transform partTransform = GetPartTransform(part);
         Instantiate(itemData.equipPrefab, partTransform);
         partsItems[(int)part] = itemData;
+        //onEquipItemC?.Invoke(part, true);
     }
 
     public void UnEquipItem(EquipPartType part)
@@ -261,6 +262,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
             Destroy(child.gameObject);
         }
         partsItems[(int)part] = null;
+        onEquipItemClear?.Invoke(part);
     }
     /// <summary>
     /// 파츠별 장비할 위치를 확인하고 리턴

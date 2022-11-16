@@ -31,6 +31,7 @@ public class ItemSlotUI : MonoBehaviour,
     public Action<uint> onPointerEnter;
     public Action<uint> onPointerExit;
     public Action<Vector2> onPointerMove;
+    public Action<bool> onEquipStateChange;
 
 
     void Awake()
@@ -53,7 +54,8 @@ public class ItemSlotUI : MonoBehaviour,
         this.id = id;
         this.itemSlot = slot;
         this.itemSlot.onSlotItemChange = Refresh;
-
+        this.itemSlot.onSlotItemEquip = SetEquiptMark;
+        
         onDragStart = null;
         onDragEnd = null;
         onDragCancel = null;
@@ -62,7 +64,9 @@ public class ItemSlotUI : MonoBehaviour,
         onClick = null;
         onShiftClick = null;
         onPointerMove = null;
+
         Refresh();
+        ClearEquiptMark();
     }
 
     void Refresh()
@@ -79,7 +83,6 @@ public class ItemSlotUI : MonoBehaviour,
             itemImage.color = Color.white;
             itemCountText.text = ItemSlot.ItemCount.ToString();
         }
-        ClearEquiptMark();
     }
 
     public void SetEquiptMark()
