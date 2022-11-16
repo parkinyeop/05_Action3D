@@ -90,6 +90,9 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     }
 
     public float MaxMP => maxMP;
+    /// <summary>
+    /// 아이템 장비 확인을 위한 프로퍼티
+    /// </summary>
     public ItemData_EquipItem[] PartsItem
     {
         get => partsItems;
@@ -236,6 +239,11 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
             yield return new WaitForSeconds(tick);
         }
     }
+    /// <summary>
+    /// 아이템 장비함수
+    /// </summary>
+    /// <param name="part">부위</param>
+    /// <param name="itemData">아이템</param>
     public void EquipItem(EquipPartType part, ItemData_EquipItem itemData)
     {
         Transform partTransform = GetPartTransform(part);
@@ -250,10 +258,15 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
         {
             Transform child = partTransform.GetChild(0);
             child.parent = null;
-            Destroy(child);
+            Destroy(child.gameObject);
         }
         partsItems[(int)part] = null;
     }
+    /// <summary>
+    /// 파츠별 장비할 위치를 확인하고 리턴
+    /// </summary>
+    /// <param name="part">확인 부위</param>
+    /// <returns>장착 위치</returns>
     private Transform GetPartTransform(EquipPartType part)
     {
         Transform result = null;

@@ -8,9 +8,8 @@ public interface IEquipItem
 
     public void EquipItem(GameObject target)
     {
-
     }
     public void UnEquipItem(GameObject target);
-    public void ToggleEquipItem(GameObject target);
+    public void AutoEquipItem(GameObject target);
 
 }
