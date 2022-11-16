@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: 09_SilverSword
   m_EditorClassIdentifier: 
   id: 9
-  itemName: "\uC544\uC774\uD15C"
-  modelPrefap: {fileID: 726123980392875945, guid: 0359b2bce40c5b74e99754520f5e111e, type: 3}
+  itemName: "\uC2E4\uBC84\uC18C\uB4DC"
+  modelPrefap: {fileID: 7136485991339975158, guid: 4fa7a1979afa4b148b9e74ca7fcc8126, type: 3}
   itemIcon: {fileID: 21300000, guid: 95052c6b62fb3de4695beaa99f842ac2, type: 3}
-  value: 0
+  value: 1000
   maxStackCount: 1
-  itemDescription: 
-  attackPower: 30
+  itemDescription: "\uC740\uC73C\uB85C \uB9CC\uB4E0 \uAC80\uC774\uB2E4. \uACF5\uACA9\uB825
+    60"
+  equipPrefab: {fileID: 726123980392875945, guid: 0359b2bce40c5b74e99754520f5e111e, type: 3}
+  attackPower: 60

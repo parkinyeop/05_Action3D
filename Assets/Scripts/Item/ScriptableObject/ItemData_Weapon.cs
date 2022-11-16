@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Weapon Item Data", menuName = "Scriptable Object/Item Data-Weapon", order = 5)]
-public class ItemData_Weapon : ItemData,IEquipItem
+public class ItemData_Weapon : ItemData_EquipItem
 {
+    //public GameObject equipPrefab;
     [Header("------ [무기 데이터] ")]
     public float attackPower = 30f;
 
-    public EquipPartType EquipPart => EquipPartType.Weapon;
+    public new EquipPartType EquipPart => EquipPartType.Weapon;
 
-    public void EquipItem(GameObject target) { }
-    public void UnEquipItem(GameObject target) { }
-    public void ToggleEquipItem(GameObject target) { }
 }

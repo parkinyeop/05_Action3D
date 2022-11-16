@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 using UnityEditor;
 #endif
 
-public class Player : MonoBehaviour, IBattle, IHealth, IMana
+public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
 {
     ParticleSystem weaponPS;
     Transform weaponR;
@@ -29,7 +29,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
     public float itemPickupRange = 2f;
 
     int money;
-
+    ItemData_EquipItem[] partsItems;
     Inventory inven;
 
     public float AttackPower => attackPower;
@@ -90,7 +90,10 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
     }
 
     public float MaxMP => maxMP;
-
+    public ItemData_EquipItem[] PartsItem
+    {
+        get => partsItems;
+    }
     /// <summary>
     /// 델리게이트
     /// </summary>
@@ -99,7 +102,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
     public Action<int> onMoneyChange { get; set; }
     public Action onDie { get; set; }
 
-
+    
 
     private void Awake()
     {
@@ -108,6 +111,8 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
 
         weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
         weaponBlade = weaponR.GetComponentInChildren<Collider>();
+
+        partsItems = new ItemData_EquipItem[Enum.GetValues(typeof(EquipPartType)).Length];
 
         animator = GetComponent<Animator>();
     }
@@ -231,7 +236,38 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana
             yield return new WaitForSeconds(tick);
         }
     }
+    public void EquipItem(EquipPartType part, ItemData_EquipItem itemData)
+    {
+        Transform partTransform = GetPartTransform(part);
+        Instantiate(itemData.equipPrefab, partTransform);
+        partsItems[(int)part] = itemData;
+    }
 
+    public void UnEquipItem(EquipPartType part)
+    {
+        Transform partTransform = GetPartTransform(part);
+        while (partTransform.childCount > 0)
+        {
+            Transform child = partTransform.GetChild(0);
+            child.parent = null;
+            Destroy(child);
+        }
+        partsItems[(int)part] = null;
+    }
+    private Transform GetPartTransform(EquipPartType part)
+    {
+        Transform result = null;
+        switch (part)
+        {
+            case EquipPartType.Weapon:
+                result = weaponR;
+                break;
+            case EquipPartType.Sheild:
+                result = weaponL;
+                break;
+        }
+        return result;
+    }
 
 
     private void OnDrawGizmos()

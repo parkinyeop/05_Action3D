@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: 08_IronSword
   m_EditorClassIdentifier: 
   id: 8
-  itemName: "\uC544\uC774\uD15C"
-  modelPrefap: {fileID: 5610884078883986163, guid: b6abe3efe0c81734f89a2014808d7af9, type: 3}
+  itemName: "\uC544\uC774\uC5B8\uC18C\uB4DC"
+  modelPrefap: {fileID: 7136485991339975158, guid: 56d7f4707c888274793de66b075be654, type: 3}
   itemIcon: {fileID: 21300000, guid: 8f28955d92038974a9b04aafaeea79b0, type: 3}
-  value: 0
+  value: 500
   maxStackCount: 1
-  itemDescription: 
+  itemDescription: "\uCCA0\uB85C\uB9CC\uB4E0 \uAC80\uC774\uB2E4. \uACF5\uACA9\uB825
+    30"
+  equipPrefab: {fileID: 5610884078883986163, guid: b6abe3efe0c81734f89a2014808d7af9, type: 3}
   attackPower: 30

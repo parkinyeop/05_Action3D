@@ -122,7 +122,7 @@ public class ItemSlot
         IEquipItem equip = ItemData as IEquipItem;
         if (equip != null)
         {
-
+            equip.EquipItem(target);
         }
         else
         {
