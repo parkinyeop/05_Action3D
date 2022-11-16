@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea08d5c57a3414f419776d2d40720148, type: 3}
+  m_Name: 10_Sheild01
+  m_EditorClassIdentifier: 
+  id: 10
+  itemName: "\uBC29\uD3281"
+  modelPrefap: {fileID: 7136485991339975158, guid: b0f31596ce6524d4b94762beb34dd001, type: 3}
+  itemIcon: {fileID: 21300000, guid: 615f3cdaa1374bd4db14286066f31cde, type: 3}
+  value: 500
+  maxStackCount: 1
+  itemDescription: 
+  equipPrefab: {fileID: 0}

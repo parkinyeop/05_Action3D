@@ -55,10 +55,10 @@ public class InventoryUI : MonoBehaviour
     /// <summary>
     /// 입력 받은 인벤토리에 맞게 각종 초기화
     /// </summary>
-    /// <param name="plaeyrInven">UI에 표기할 플레이어 인벤토리</param>
-    public void InitailizeInventory(Inventory plaeyrInven)
+    /// <param name="playerInven">UI에 표기할 플레이어 인벤토리</param>
+    public void InitailizeInventory(Inventory playerInven)
     {
-        inven = plaeyrInven;
+        inven = playerInven;
         Transform slotParent = transform.GetChild(0);
         GridLayoutGroup grid = slotParent.GetComponent<GridLayoutGroup>();
         //기본 사이즈와 다르면 기존 슬롯을 전부 삭제하고 새로 만들기

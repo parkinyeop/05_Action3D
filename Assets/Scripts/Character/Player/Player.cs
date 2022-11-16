@@ -112,8 +112,8 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
         weaponR = GetComponentInChildren<WeaponPosition>().transform;
         weaponL = GetComponentInChildren<ShieldPosition>().transform;
 
-        weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
-        weaponBlade = weaponR.GetComponentInChildren<Collider>();
+        //weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
+        //weaponBlade = weaponR.GetComponentInChildren<Collider>();
 
         partsItems = new ItemData_EquipItem[Enum.GetValues(typeof(EquipPartType)).Length];
 
@@ -123,7 +123,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     {
         hp = maxHp;
         isAlive = true;
-        weaponBlade.enabled = false;
+        //weaponBlade.enabled = false;
         animator.SetBool("isAlive", true);
 
         inven = new Inventory(this);
@@ -249,6 +249,12 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
         Transform partTransform = GetPartTransform(part);
         Instantiate(itemData.equipPrefab, partTransform);
         partsItems[(int)part] = itemData;
+
+        if(part == EquipPartType.Weapon)
+        {
+            weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
+            weaponBlade = weaponR.GetComponentInChildren<Collider>();
+        }
         //onEquipItemC?.Invoke(part, true);
     }
 
