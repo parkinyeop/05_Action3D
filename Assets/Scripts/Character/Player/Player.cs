@@ -250,7 +250,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
         Instantiate(itemData.equipPrefab, partTransform);
         partsItems[(int)part] = itemData;
 
-        if(part == EquipPartType.Weapon)
+        if (part == EquipPartType.Weapon)
         {
             weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
             weaponBlade = weaponR.GetComponentInChildren<Collider>();
@@ -278,6 +278,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     private Transform GetPartTransform(EquipPartType part)
     {
         Transform result = null;
+        //Debug.Log(part);
         switch (part)
         {
             case EquipPartType.Weapon:

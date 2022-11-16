@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea08d5c57a3414f419776d2d40720148, type: 3}
-  m_Name: 10_Sheild01
+  m_Name: 11_Sheild02
   m_EditorClassIdentifier: 
-  id: 10
-  itemName: "\uBC29\uD3281"
-  modelPrefap: {fileID: 7136485991339975158, guid: b0f31596ce6524d4b94762beb34dd001, type: 3}
-  itemIcon: {fileID: 21300000, guid: 615f3cdaa1374bd4db14286066f31cde, type: 3}
-  value: 500
+  id: 11
+  itemName: "\uBC29\uD32802"
+  modelPrefap: {fileID: 7136485991339975158, guid: f619c3e6d19de084787c5ccc3e0d3d6f, type: 3}
+  itemIcon: {fileID: 21300000, guid: 256205b9c6ca12c45ab7762da8a65631, type: 3}
+  value: 1000
   maxStackCount: 1
   itemDescription: 
-  equipPrefab: {fileID: 4263511268534089885, guid: 74199a75c1524d54b8e1b792038e81ac, type: 3}
+  equipPrefab: {fileID: 2495695665250258272, guid: d75fd0d65f15ce74c8c4d89b269f87d1, type: 3}
