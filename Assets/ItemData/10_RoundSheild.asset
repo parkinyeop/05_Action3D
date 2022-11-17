@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea08d5c57a3414f419776d2d40720148, type: 3}
-  m_Name: 10_Sheild01
+  m_Name: 10_RoundSheild
   m_EditorClassIdentifier: 
   id: 10
-  itemName: "\uBC29\uD3281"
+  itemName: "\uB098\uBB34\uBC29\uD328"
   modelPrefap: {fileID: 7136485991339975158, guid: b0f31596ce6524d4b94762beb34dd001, type: 3}
   itemIcon: {fileID: 21300000, guid: 615f3cdaa1374bd4db14286066f31cde, type: 3}
   value: 500
   maxStackCount: 1
-  itemDescription: 
-  equipPrefab: {fileID: 0}
+  itemDescription: "\uB098\uBB34\uC7AC\uC9C8\uC758 \uBC29\uD328: \uBC29\uC5B4\uB825
+    +15"
+  equipPrefab: {fileID: 4263511268534089885, guid: 74199a75c1524d54b8e1b792038e81ac, type: 3}
+  defencePower: 15

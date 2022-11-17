@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemData_EquipItem : ItemData,IEquipItem
 {
     public GameObject equipPrefab;
-    public EquipPartType EquipPart => EquipPartType.Weapon;
+    public virtual EquipPartType EquipPart => EquipPartType.Weapon;
 
     public  virtual void EquipItem(GameObject target) 
     {

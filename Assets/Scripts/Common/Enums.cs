@@ -14,6 +14,8 @@ public enum ItemIdCode
     Coin_Gold,
     IronSword,
     SilverSword,
+    RoundSheild,
+    IronSheild
 }
 
 public enum EquipPartType
