@@ -381,6 +381,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     {
         //드랍 아이템의 드랍확률의 합을 1로 만들기
         float totoal = 0;
+
        foreach(var item in dropItems)
         {
             totoal += item.dropPercentage;          //전체 합 구하기
@@ -399,6 +400,6 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
 
     void Test_Die()
     {
-        Debug.Log($"{gameObject.name}가 죽었습니다");
+        //Debug.Log($"{gameObject.name}가 죽었습니다");
     }
 }

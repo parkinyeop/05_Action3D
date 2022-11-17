@@ -112,8 +112,8 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
         weaponR = GetComponentInChildren<WeaponPosition>().transform;
         weaponL = GetComponentInChildren<ShieldPosition>().transform;
 
-        //weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
-        //weaponBlade = weaponR.GetComponentInChildren<Collider>();
+        weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
+        weaponBlade = weaponR.GetComponentInChildren<Collider>();
 
         partsItems = new ItemData_EquipItem[Enum.GetValues(typeof(EquipPartType)).Length];
 
