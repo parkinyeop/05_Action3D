@@ -14,14 +14,15 @@ public class ItemData_EquipItem : ItemData, IEquipItem
         IEquipTarget equipTarget = target.GetComponent<IEquipTarget>();
         if (equipTarget != null)
         {
-            if (equipPartType != EquipPartType.Weapon)
+            if (equipPartType == EquipPartType.Weapon)
             {
                 //equipPartType = EquipPartType.Weapon;
                 equipPartType = EquipPartType.Sheild;
             }
             else
             {
-                equipPartType = EquipPartType.Weapon;
+                equipPartType = EquipPartType.Sheild;
+                //equipPartType = EquipPartType.Weapon;
             }
             Debug.Log(equipPartType.ToString());
             equipTarget.EquipItem(EquipPart, this);
