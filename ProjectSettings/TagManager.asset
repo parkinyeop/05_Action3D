@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Coin
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - AttackTarget
   - Item
   - Ground
-  - 
+  - MiniMapIndicator
   - 
   - 
   - 
