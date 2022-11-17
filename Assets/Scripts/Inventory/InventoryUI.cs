@@ -16,7 +16,7 @@ public class InventoryUI : MonoBehaviour
     ItemSpliterUI spliter;
     PlayerInputActions inputActions;
     MoneyPanelUI moneyPanel;
-
+    CanvasGroup canvasGroup;
     public Player Owner => inven.Owner;
 
     private void Awake()
@@ -35,7 +35,7 @@ public class InventoryUI : MonoBehaviour
         spliter = GetComponentInChildren<ItemSpliterUI>();
         moneyPanel = GetComponentInChildren<MoneyPanelUI>();
         spliter.onOKClick += OnSplitOK;
-
+        canvasGroup= GetComponentInChildren<CanvasGroup>();
         inputActions = new PlayerInputActions();
     }
 
@@ -107,8 +107,22 @@ public class InventoryUI : MonoBehaviour
 
         Owner.onMoneyChange += moneyPanel.Refresh;
         moneyPanel.Refresh(Owner.Money);
+
+        Close();
     }
 
+    public void Open()
+    {
+        canvasGroup.alpha= 1.0f;
+        canvasGroup.interactable= true;
+        canvasGroup.blocksRaycasts= true;
+    }
+    public void Close()
+    {
+        canvasGroup.alpha= 0.0f;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
+    }
     private void OnEquipClear(EquipPartType part)
     {
 
