@@ -28,9 +28,10 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     bool isAlive = true;
     public float itemPickupRange = 2f;
 
-    int money;
-    ItemData_EquipItem[] partsItems;
     Inventory inven;
+    int money;
+
+    ItemSlot[] partsSlots;
 
     public float AttackPower => attackPower;
     public float DefencePower => defencePower;
@@ -93,9 +94,9 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     /// <summary>
     /// 아이템 장비 확인을 위한 프로퍼티
     /// </summary>
-    public ItemData_EquipItem[] PartsItem
+    public ItemSlot[] PartsSlots
     {
-        get => partsItems;
+        get => partsSlots;
     }
     /// <summary>
     /// 델리게이트
@@ -115,7 +116,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
         weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
         weaponBlade = weaponR.GetComponentInChildren<Collider>();
 
-        partsItems = new ItemData_EquipItem[Enum.GetValues(typeof(EquipPartType)).Length];
+        partsSlots = new ItemSlot[Enum.GetValues(typeof(EquipPartType)).Length];
 
         animator = GetComponent<Animator>();
     }
@@ -244,18 +245,23 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     /// </summary>
     /// <param name="part">부위</param>
     /// <param name="itemData">아이템</param>
-    public void EquipItem(EquipPartType part, ItemData_EquipItem itemData)
+    public void EquipItem(EquipPartType part, ItemSlot itemSlot)
     {
         Transform partTransform = GetPartTransform(part);
-        Instantiate(itemData.equipPrefab, partTransform);
-        partsItems[(int)part] = itemData;
 
-        if(part == EquipPartType.Weapon)
+        ItemData_EquipItem equipItem = itemSlot.ItemData as ItemData_EquipItem;
+        if (equipItem != null)
         {
-            weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
-            weaponBlade = weaponR.GetComponentInChildren<Collider>();
+
+            Instantiate(equipItem.equipPrefab, partTransform);
+            partsSlots[(int)part] = itemSlot;
+
+            if (part == EquipPartType.Weapon)
+            {
+                weaponPS = weaponR.GetComponentInChildren<ParticleSystem>();
+                weaponBlade = weaponR.GetComponentInChildren<Collider>();
+            }
         }
-        //onEquipItemC?.Invoke(part, true);
     }
 
     public void UnEquipItem(EquipPartType part)
@@ -267,7 +273,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
             child.parent = null;
             Destroy(child.gameObject);
         }
-        partsItems[(int)part] = null;
+        partsSlots[(int)part] = null;
         onEquipItemClear?.Invoke(part);
     }
     /// <summary>

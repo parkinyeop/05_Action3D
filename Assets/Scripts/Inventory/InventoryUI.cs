@@ -44,7 +44,11 @@ public class InventoryUI : MonoBehaviour
         inputActions.UI.Enable();
         inputActions.UI.Click.performed += spliter.OnMouseClick;
         inputActions.UI.Click.canceled += tempSlotUI.OnDrop;
+        inputActions.UI.InventoryOnOff.performed += inventoryShortCut;
     }
+
+   
+
     private void OnDisable()
     {
         inputActions.UI.Click.canceled -= tempSlotUI.OnDrop;
@@ -122,6 +126,17 @@ public class InventoryUI : MonoBehaviour
         canvasGroup.alpha= 0.0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
+    }
+    private void inventoryShortCut(InputAction.CallbackContext _)
+    {
+        if (canvasGroup.interactable)
+        {
+            Close();
+        }
+        else
+        {
+            Open();
+        }
     }
     private void OnEquipClear(EquipPartType part)
     {

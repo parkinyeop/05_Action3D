@@ -2947,6 +2947,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 726123980392875945, guid: 0359b2bce40c5b74e99754520f5e111e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8092818640035629527, guid: 0359b2bce40c5b74e99754520f5e111e, type: 3}
       propertyPath: hitEffect
       value: 
@@ -2968,6 +2972,10 @@ PrefabInstance:
     - target: {fileID: 2495695665250258272, guid: d75fd0d65f15ce74c8c4d89b269f87d1, type: 3}
       propertyPath: m_Name
       value: Shield02
+      objectReference: {fileID: 0}
+    - target: {fileID: 2495695665250258272, guid: d75fd0d65f15ce74c8c4d89b269f87d1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3020135586385696730, guid: d75fd0d65f15ce74c8c4d89b269f87d1, type: 3}
       propertyPath: m_RootOrder
@@ -3295,6 +3303,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sword01
       objectReference: {fileID: 0}
+    - target: {fileID: 5610884078883986163, guid: b6abe3efe0c81734f89a2014808d7af9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6abe3efe0c81734f89a2014808d7af9, type: 3}
 --- !u!4 &1664067396932594312 stripped
@@ -3356,6 +3368,10 @@ PrefabInstance:
     - target: {fileID: 4263511268534089885, guid: 74199a75c1524d54b8e1b792038e81ac, type: 3}
       propertyPath: m_Name
       value: Shield01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4263511268534089885, guid: 74199a75c1524d54b8e1b792038e81ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74199a75c1524d54b8e1b792038e81ac, type: 3}
@@ -3422,6 +3438,10 @@ PrefabInstance:
     - target: {fileID: 726123980392875945, guid: 0359b2bce40c5b74e99754520f5e111e, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 726123980392875945, guid: 0359b2bce40c5b74e99754520f5e111e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8092818640035629527, guid: 0359b2bce40c5b74e99754520f5e111e, type: 3}
       propertyPath: hitEffect

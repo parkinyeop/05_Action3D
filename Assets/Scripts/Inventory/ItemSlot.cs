@@ -133,7 +133,7 @@ public class ItemSlot
         IEquipItem equip = ItemData as IEquipItem;
         if (equip != null)
         {
-            bool isEquip = equip.AutoEquipItem(target);
+            bool isEquip = equip.AutoEquipItem(target, this);
             if (isEquip)
             {
                 onSlotItemEquip?.Invoke();
