@@ -33,6 +33,8 @@ public class ItemSlotUI : MonoBehaviour,
     public Action<Vector2> onPointerMove;
     public Action<bool> onEquipStateChange;
 
+    //protected Player player;
+
 
     void Awake()
     {
@@ -55,7 +57,7 @@ public class ItemSlotUI : MonoBehaviour,
         this.itemSlot = slot;
         this.itemSlot.onSlotItemChange = Refresh;
         this.itemSlot.onSlotItemEquip = SetEquiptMark;
-        
+
         onDragStart = null;
         onDragEnd = null;
         onDragCancel = null;
@@ -85,13 +87,21 @@ public class ItemSlotUI : MonoBehaviour,
         }
     }
 
-    public void SetEquiptMark()
+    public void SetEquiptMark(bool isEquip)
     {
-        itemEquiptText.color = Color.red;
+        if (isEquip)
+        {
+
+            itemEquiptText.color = Color.red;
+        }
+        else
+        {
+            itemEquiptText.color = Color.clear;
+        }
     }
     public void ClearEquiptMark()
     {
-        itemEquiptText.color = Color.clear;
+        SetEquiptMark(false);
     }
 
     public void Resize(float iconSize)

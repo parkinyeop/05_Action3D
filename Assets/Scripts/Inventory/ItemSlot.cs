@@ -10,7 +10,7 @@ public class ItemSlot
     uint slotIndex;
     ItemData slotsItemData = null;
     uint itemCount = 0;
-    bool isItemEquip;
+    bool isEquipped = false;
 
     /// <summary>
     /// 슬롯에 들어있는 아이템 데이터 프로퍼티
@@ -41,17 +41,18 @@ public class ItemSlot
         }
     }
 
-    public bool IsItemEquip
+    public bool IsEquipped
     {
-        get => isItemEquip;
-        private set
+        get => isEquipped;
+        set
         {
-
+            isEquipped = value;
+            onSlotItemEquip?.Invoke(isEquipped);
         }
     }
 
     public Action onSlotItemChange;
-    public Action onSlotItemEquip;
+    public Action<bool> onSlotItemEquip;
 
     public bool IsEmpty => slotsItemData == null;
     public uint Index => slotIndex;
@@ -60,11 +61,12 @@ public class ItemSlot
         slotIndex = index;
     }
 
-    public void AssignSlotItem(ItemData data, uint count = 1)
+    public void AssignSlotItem(ItemData data, bool isEquip, uint count = 1)
     {
         if (data != null)
         {
             ItemCount = count;
+            IsEquipped = isEquip;
             ItemData = data;
             // Debug.Log($"인벤토리 {Index}번 슬롯에 {data.itemName} 아이템 추가");
         }
@@ -76,7 +78,16 @@ public class ItemSlot
 
     public void ClearSlotItem()
     {
+        if(IsEquipped)
+        {
+            ItemData_EquipItem equipItem = ItemData as ItemData_EquipItem;
+            if (equipItem)
+            {
+
+            }
+        }
         ItemData = null;
+        IsEquipped = false;
         ItemCount = 0;
         //Debug.Log($"인벤토리 {Index}번 슬롯 아이템 삭제");
     }
@@ -133,16 +144,13 @@ public class ItemSlot
         IEquipItem equip = ItemData as IEquipItem;
         if (equip != null)
         {
-            bool isEquip = equip.AutoEquipItem(target, this);
-            if (isEquip)
-            {
-                onSlotItemEquip?.Invoke();
-            }
+            equip.AutoEquipItem(target, this);
+            
         }
         else
         {
             IUsable usable = ItemData as IUsable;
-
+            IsEquipped = false;
             if (usable != null)
             {
                 if (usable.Use(target))

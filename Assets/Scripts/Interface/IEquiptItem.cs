@@ -7,7 +7,7 @@ public interface IEquipItem
     EquipPartType EquipPart { get; }
 
     void EquipItem(GameObject target, ItemSlot slot);
-    void UnEquipItem(GameObject target);
-    bool AutoEquipItem(GameObject target, ItemSlot slot);
+    void UnEquipItem(GameObject target, ItemSlot slot);
+    void AutoEquipItem(GameObject target, ItemSlot slot);
 
 }

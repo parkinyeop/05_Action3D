@@ -159,7 +159,7 @@ public class InventoryUI : MonoBehaviour
 
         Vector2 min = new(rect.position.x - rect.sizeDelta.x, rect.position.y);
         Vector2 max = new(rect.position.x, rect.sizeDelta.y + rect.position.y);
-        return (min.x < screenPos.x && screenPos.x < max.x && min.y < screenPos.y && screenPos.y < max.y);
+        return result = (min.x < screenPos.x && screenPos.x < max.x && min.y < screenPos.y && screenPos.y < max.y);
     }
 
     private void OnItemMoveStart(uint slotID)

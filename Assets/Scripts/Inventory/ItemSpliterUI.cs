@@ -11,7 +11,7 @@ public class ItemSpliterUI : MonoBehaviour, IScrollHandler
 {
 
     const int itemCountMin = 1;
-    uint itemCountMax = 1;
+    //uint itemCountMax = 1;
     uint itemSplitCount = itemCountMin;
 
     Image itemImage;

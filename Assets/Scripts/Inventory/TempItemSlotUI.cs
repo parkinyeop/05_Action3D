@@ -50,8 +50,8 @@ public class TempItemSlotUI : ItemSlotUI
 
     public void OnDrop(InputAction.CallbackContext _)
     {
-            Vector2 screenPos = Mouse.current.position.ReadValue();
-        if (!invenUI.IsInInventoryArea(screenPos)&&!itemSlot.IsEmpty)
+        Vector2 screenPos = Mouse.current.position.ReadValue();
+        if (!invenUI.IsInInventoryArea(screenPos) && !itemSlot.IsEmpty)
         {
             Ray ray = Camera.main.ScreenPointToRay(screenPos);
             if (Physics.Raycast(ray, out RaycastHit hit, 1000.0f, LayerMask.GetMask("Ground")))
@@ -63,6 +63,19 @@ public class TempItemSlotUI : ItemSlotUI
                 {
                     dropPos = dropDir.normalized * owner.itemPickupRange + owner.transform.position;
                 }
+
+                if (ItemSlot.IsEquipped)
+                {
+                    ItemData_EquipItem equipItem = ItemSlot.ItemData as ItemData_EquipItem;
+                    {
+                        if (equipItem)
+                        {
+                            equipItem.UnEquipItem(owner.gameObject, ItemSlot);
+
+                        }
+                    }
+                }
+
 
                 ItemFactory.MakeItem((int)ItemSlot.ItemData.id, (int)itemSlot.ItemCount, dropPos, true);
                 ItemSlot.ClearSlotItem();

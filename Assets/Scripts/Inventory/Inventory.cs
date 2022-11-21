@@ -59,7 +59,7 @@ public class Inventory
             ItemSlot emptySlot = FindEmptySlot();
             if (emptySlot != null)
             {
-                emptySlot.AssignSlotItem(data);
+                emptySlot.AssignSlotItem(data,false);
                 result = true;
             }
             else
@@ -85,7 +85,7 @@ public class Inventory
 
             if (targetSlot.IsEmpty)             //해당 슬롯에 아이템이 있는가?
             {
-                targetSlot.AssignSlotItem(data);
+                targetSlot.AssignSlotItem(data,false);
                 result = true;
             }
             else
@@ -171,10 +171,11 @@ public class Inventory
             }
             else
             {
+                bool tempEquip = fromSlot.IsEquipped;
                 ItemData tempData = fromSlot.ItemData;
                 uint tempCount = fromSlot.ItemCount;
-                fromSlot.AssignSlotItem(toSlot.ItemData, toSlot.ItemCount);
-                toSlot.AssignSlotItem(tempData, tempCount);
+                fromSlot.AssignSlotItem(toSlot.ItemData,toSlot.IsEquipped, toSlot.ItemCount);
+                toSlot.AssignSlotItem(tempData, tempEquip,tempCount);
             }
         }
     }
@@ -185,7 +186,7 @@ public class Inventory
         {
             ItemSlot fromSlot = slots[slotID];
             fromSlot.DecreaseSlotItem(count);
-            tempSlot.AssignSlotItem(fromSlot.ItemData, count);
+            tempSlot.AssignSlotItem(fromSlot.ItemData,fromSlot.IsEquipped, count);
         }
     }
 
