@@ -15,8 +15,10 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     Transform weaponL;
     Collider weaponBlade;
     Animator animator;
-    GameObject lockOnEffect;
+    LockEffect lockOnEffect;
+    Inventory inven;
 
+    ItemSlot[] partsSlots;
 
     [Header("-------[Player Status]")]
     public float attackPower = 10f;
@@ -30,10 +32,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     bool isAlive = true;
     public float itemPickupRange = 2f;
 
-    Inventory inven;
     int money;
-
-    ItemSlot[] partsSlots;
 
     public float AttackPower => attackPower;
     public float DefencePower => defencePower;
@@ -121,8 +120,9 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
 
         partsSlots = new ItemSlot[Enum.GetValues(typeof(EquipPartType)).Length];
 
-        lockOnEffect = transform.GetChild(7).gameObject;
+        lockOnEffect = GetComponentInChildren<LockEffect>();
         LockOff();
+
         animator = GetComponent<Animator>();
     }
     private void Start()
@@ -304,36 +304,30 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
 
     public void LockOnToggle()
     {
-        if (lockOnEffect.activeSelf)
-        {
-            LockOff();
-        }
-        else
-        {
-            LockOn();
-        }
+        LockOn();
     }
+    /// <summary>
+    /// 플레이어 락온 기능
+    /// </summary>
     void LockOn()
     {
+        //OverlapSphere를 사용하여 마스크를 읽어 enemies의 배열로 저장
         Collider[] enemies = Physics.OverlapSphere(transform.position, lockOnRange, LayerMask.GetMask("AttackTarget"));
         if (enemies.Length > 0)
         {
             Transform nearest = null;
-            float nearestDistance = float.MaxValue;
+            float nearestDistance = float.MaxValue; //가장 큰값으로 초기화 하는 이유는 현재값보다 작은값을 찾기 위해
             foreach (var enemy in enemies)
             {
                 Vector3 dir = enemy.transform.position - transform.position;
-                float distanceSqr = dir.sqrMagnitude;
+                float distanceSqr = dir.sqrMagnitude;   //두점 사이의 거리를 계산
                 if (distanceSqr < nearestDistance)
                 {
                     nearestDistance = distanceSqr;
                     nearest = enemy.transform;
                 }
             }
-            lockOnEffect.transform.SetParent(nearest);
-            lockOnEffect.transform.localPosition = Vector3.zero;
-
-            lockOnEffect.SetActive(true);
+            lockOnEffect.SetLockOnTarget(nearest);
         }
         else
         {
@@ -343,8 +337,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
 
     void LockOff()
     {
-        lockOnEffect.transform.SetParent(null);
-        lockOnEffect.SetActive(false);
+        lockOnEffect.SetLockOnTarget(null);
     }
     private void OnDrawGizmos()
     {

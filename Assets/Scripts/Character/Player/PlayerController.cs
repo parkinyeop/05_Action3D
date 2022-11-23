@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
 
             if(player.LockOnTransform != null)
             {
-                targetRotation = Quaternion.LookRotation(player.LockOnTransform.position - player.transform.position);
+                targetRotation = Quaternion.LookRotation(player.LockOnTransform.gameObject.transform.position - player.transform.position);
             }
 
             //transform.rotation = targetRotation;
@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour
         player.ItemPickUp();
     }
 
-    private void OnLockOn(InputAction.CallbackContext obj)
+    private void OnLockOn(InputAction.CallbackContext _)
     {
         player.LockOnToggle();
     }
