@@ -758,13 +758,13 @@ MonoBehaviour:
   hp: 100
   maxHp: 100
   dropItems:
-  - id: 8
+  - id: 9
     dropPercentage: NaN
   dropItemPrefabs:
   - {fileID: 7136485991339975158, guid: 0d9edfae17826d847a3aab4ba903fb6d, type: 3}
   - {fileID: 7136485991339975158, guid: ad8b8ca25eca7324288effd04f03b92b, type: 3}
   - {fileID: 7136485991339975158, guid: cb580c94394bcdf4cb6f42c700767869, type: 3}
-  - {fileID: 7136485991339975158, guid: 56d7f4707c888274793de66b075be654, type: 3}
+  - {fileID: 7136485991339975158, guid: 4fa7a1979afa4b148b9e74ca7fcc8126, type: 3}
 --- !u!1 &1796359245954734305
 GameObject:
   m_ObjectHideFlags: 0

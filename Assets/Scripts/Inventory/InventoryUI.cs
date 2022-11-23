@@ -17,7 +17,11 @@ public class InventoryUI : MonoBehaviour
     PlayerInputActions inputActions;
     MoneyPanelUI moneyPanel;
     CanvasGroup canvasGroup;
+    Button closeButton;
     public Player Owner => inven.Owner;
+
+    public Action onInventoryOpen;
+    public Action onInventoryClose;
 
     private void Awake()
     {
@@ -35,6 +39,9 @@ public class InventoryUI : MonoBehaviour
         spliter = GetComponentInChildren<ItemSpliterUI>();
         moneyPanel = GetComponentInChildren<MoneyPanelUI>();
         spliter.onOKClick += OnSplitOK;
+
+        closeButton = transform.GetChild(5).GetComponent<Button>();
+        closeButton.onClick.AddListener(Close);
         canvasGroup= GetComponentInChildren<CanvasGroup>();
         inputActions = new PlayerInputActions();
     }
@@ -120,12 +127,14 @@ public class InventoryUI : MonoBehaviour
         canvasGroup.alpha= 1.0f;
         canvasGroup.interactable= true;
         canvasGroup.blocksRaycasts= true;
+        onInventoryOpen?.Invoke();
     }
     public void Close()
     {
         canvasGroup.alpha= 0.0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
+        onInventoryClose?.Invoke();
     }
     private void inventoryShortCut(InputAction.CallbackContext _)
     {

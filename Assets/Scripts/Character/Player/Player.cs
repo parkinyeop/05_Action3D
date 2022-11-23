@@ -15,6 +15,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     Transform weaponL;
     Collider weaponBlade;
     Animator animator;
+    GameObject lockOnEffect;
 
 
     [Header("-------[Player Status]")]
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     public float hp = 100f;
     public float maxHp = 100f;
     public float maxMP = 100f;
+    public float lockOnRange = 5f;
     float mp = 100f;
 
     bool isAlive = true;
@@ -37,6 +39,7 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     public float DefencePower => defencePower;
     public float MaxHP => maxHp;
     public bool IsAlive => isAlive;
+    public Transform LockOnTransform => lockOnEffect.transform.parent;
 
     public int Money
     {
@@ -118,6 +121,8 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
 
         partsSlots = new ItemSlot[Enum.GetValues(typeof(EquipPartType)).Length];
 
+        lockOnEffect = transform.GetChild(7).gameObject;
+        LockOff();
         animator = GetComponent<Animator>();
     }
     private void Start()
@@ -297,9 +302,61 @@ public class Player : MonoBehaviour, IBattle, IHealth, IMana, IEquipTarget
     }
 
 
+    public void LockOnToggle()
+    {
+        if (lockOnEffect.activeSelf)
+        {
+            LockOff();
+        }
+        else
+        {
+            LockOn();
+        }
+    }
+    void LockOn()
+    {
+        Collider[] enemies = Physics.OverlapSphere(transform.position, lockOnRange, LayerMask.GetMask("AttackTarget"));
+        if (enemies.Length > 0)
+        {
+            Transform nearest = null;
+            float nearestDistance = float.MaxValue;
+            foreach (var enemy in enemies)
+            {
+                Vector3 dir = enemy.transform.position - transform.position;
+                float distanceSqr = dir.sqrMagnitude;
+                if (distanceSqr < nearestDistance)
+                {
+                    nearestDistance = distanceSqr;
+                    nearest = enemy.transform;
+                }
+            }
+            lockOnEffect.transform.SetParent(nearest);
+            lockOnEffect.transform.localPosition = Vector3.zero;
+
+            lockOnEffect.SetActive(true);
+        }
+        else
+        {
+            LockOff();
+        }
+    }
+
+    void LockOff()
+    {
+        lockOnEffect.transform.SetParent(null);
+        lockOnEffect.SetActive(false);
+    }
     private void OnDrawGizmos()
     {
         Handles.DrawWireDisc(transform.position, transform.up, itemPickupRange);
     }
+    public void Test_AddItem(ItemData itemData)
+    {
+        inven.AddItem(itemData);
+    }
 
+    public void Test_UseItem(int index)
+    {
+        inven[index].UseSlotItem(this.gameObject);
+    }
 }

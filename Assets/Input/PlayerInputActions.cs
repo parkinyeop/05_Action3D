@@ -62,6 +62,15 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LockOn"",
+                    ""type"": ""Button"",
+                    ""id"": ""c6b1986c-be85-4f34-8b90-4951f91df3dc"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -161,6 +170,28 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ItemPickUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea3ea25a-ccf1-4aa0-b4c6-90d9f44d856d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LockOn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd7c61cf-c7eb-47d5-b91d-d1cec3a219fe"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LockOn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -365,6 +396,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         m_Player_MoveModeChange = m_Player.FindAction("MoveModeChange", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_ItemPickUp = m_Player.FindAction("ItemPickUp", throwIfNotFound: true);
+        m_Player_LockOn = m_Player.FindAction("LockOn", throwIfNotFound: true);
         // Test
         m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
         m_Test_Test_1 = m_Test.FindAction("Test_1", throwIfNotFound: true);
@@ -442,6 +474,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MoveModeChange;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_ItemPickUp;
+    private readonly InputAction m_Player_LockOn;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -450,6 +483,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         public InputAction @MoveModeChange => m_Wrapper.m_Player_MoveModeChange;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @ItemPickUp => m_Wrapper.m_Player_ItemPickUp;
+        public InputAction @LockOn => m_Wrapper.m_Player_LockOn;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -471,6 +505,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @ItemPickUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnItemPickUp;
                 @ItemPickUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnItemPickUp;
                 @ItemPickUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnItemPickUp;
+                @LockOn.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
+                @LockOn.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
+                @LockOn.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLockOn;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -487,6 +524,9 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
                 @ItemPickUp.started += instance.OnItemPickUp;
                 @ItemPickUp.performed += instance.OnItemPickUp;
                 @ItemPickUp.canceled += instance.OnItemPickUp;
+                @LockOn.started += instance.OnLockOn;
+                @LockOn.performed += instance.OnLockOn;
+                @LockOn.canceled += instance.OnLockOn;
             }
         }
     }
@@ -645,6 +685,7 @@ public partial class @PlayerInputActions : IInputActionCollection2, IDisposable
         void OnMoveModeChange(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
         void OnItemPickUp(InputAction.CallbackContext context);
+        void OnLockOn(InputAction.CallbackContext context);
     }
     public interface ITestActions
     {

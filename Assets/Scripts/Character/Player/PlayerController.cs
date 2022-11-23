@@ -36,6 +36,13 @@ public class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         player = GetComponent<Player>();
     }
+
+    private void Start()
+    {
+        InventoryUI invenUI = GameManager.Inst.InvenUI;
+        invenUI.onInventoryOpen += () => inputActions.Player.Disable();
+        invenUI.onInventoryClose += ()=>inputActions.Player.Enable();
+    }
     private void OnEnable()
     {
         inputActions.Player.Enable();
@@ -44,23 +51,20 @@ public class PlayerController : MonoBehaviour
         inputActions.Player.MoveModeChange.performed += MoveModeChange;
         inputActions.Player.Attack.performed += OnAttack;
         inputActions.Player.ItemPickUp.performed += OnPickUp;
+        inputActions.Player.LockOn.performed += OnLockOn;
     }
+
+   
 
     private void OnDisable()
     {
+        inputActions.Player.LockOn.performed -= OnLockOn;
         inputActions.Player.ItemPickUp.performed -= OnPickUp;
         inputActions.Player.Attack.performed -= OnAttack;
         inputActions.Player.MoveModeChange.performed -= MoveModeChange;
         inputActions.Player.Move.performed -= OnMoveInput;
         inputActions.Player.Move.canceled -= OnMoveInput;
         inputActions.Player.Disable();
-    }
-
-    
-
-    private void Start()
-    {
-
     }
 
     private void Update()
@@ -73,6 +77,11 @@ public class PlayerController : MonoBehaviour
 
             //transform 을 사용하여 이동하는 경우
             //transform.Translate(currentSpeed * Time.deltaTime * inputDir, Space.World);
+
+            if(player.LockOnTransform != null)
+            {
+                targetRotation = Quaternion.LookRotation(player.LockOnTransform.position - player.transform.position);
+            }
 
             //transform.rotation = targetRotation;
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -150,5 +159,10 @@ public class PlayerController : MonoBehaviour
     private void OnPickUp(InputAction.CallbackContext _)
     {
         player.ItemPickUp();
+    }
+
+    private void OnLockOn(InputAction.CallbackContext obj)
+    {
+        player.LockOnToggle();
     }
 }
