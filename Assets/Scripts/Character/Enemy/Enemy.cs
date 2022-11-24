@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
 
     [Header("---------Chasing Data")]
     public float sightRange = 10f;
+    public float closeSightRnage = 2.5f;
     public float sightHalfAngle = 50;
     Transform chaseTarget;
 
