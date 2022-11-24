@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
 
     [Header("---------Chasing Data")]
     public float sightRange = 10f;
-    public float closeSightRnage = 2.5f;
+    public float closeSightRange = 2.5f;
     public float sightHalfAngle = 50;
     Transform chaseTarget;
 
@@ -298,6 +298,10 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
             Physics.OverlapSphere(transform.position, sightRange,
             LayerMask.GetMask("Player"));
 
+        Collider[] closeCollider =
+           Physics.OverlapSphere(transform.position, closeSightRange,
+           LayerMask.GetMask("Player"));
+
         if (collider.Length > 0)
         {
             Vector3 playerPos = collider[0].transform.position;
@@ -315,6 +319,12 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
                     }
                 }
             }
+        }
+        if(closeCollider.Length > 0)
+        {
+            Debug.Log($"{closeCollider[0]}");
+            chaseTarget = closeCollider[0].transform;
+            result = true;
         }
         return result;
     }
@@ -412,6 +422,11 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
 
         Handles.DrawWireArc(transform.position, transform.up, q1 * forward, sightHalfAngle * 2, sightRange, 5.0f);
 #endif
+        Handles.color = Color.yellow;
+        Handles.DrawWireDisc(transform.position, transform.up, closeSightRange);
+
+        Gizmos.color= Color.red;
+        Gizmos.DrawWireSphere(transform.position, 1);
     }
     public void Test()
     {
