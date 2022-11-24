@@ -29,6 +29,9 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     public float hp = 100f;
     public float maxHp = 100f;
 
+    float attackSpeed = 1f;
+    float attackCoolTime = 1f;
+
     [System.Serializable]
     public struct ItemDropInfo
     {
@@ -52,13 +55,15 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     NavMeshAgent agent;
     SphereCollider bodyCollider;
     ParticleSystem dieEffect;
+    IBattle attackTarget;
 
     protected enum EnemyState
     {
         Wait = 0,
         Patrol,
         Chase,
-        Dead
+        Attack,
+        Dead,
     }
 
     Action stateUpdate;
@@ -102,7 +107,12 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
                         animator.SetTrigger("Move");
                         stateUpdate = Update_Chase;
                         break;
-
+                    case EnemyState.Attack:
+                        agent.isStopped = false;
+                        animator.SetTrigger("Stop");
+                        attackCoolTime = attackSpeed;
+                        stateUpdate = Update_Attack;
+                        break;
                     case EnemyState.Dead:
                         animator.SetTrigger("Die");
                         agent.isStopped = true;         //길찾기 정지
@@ -118,6 +128,8 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
             }
         }
     }
+
+
 
     protected float WaitTimer
     {
@@ -166,6 +178,25 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         agent = GetComponent<NavMeshAgent>();
         dieEffect = GetComponentInChildren<ParticleSystem>();
         bodyCollider = GetComponent<SphereCollider>();
+        EnemyAttackArea attackArea = GetComponentInChildren<EnemyAttackArea>();
+        attackArea.onPlayerIn += (target) =>
+        {
+            if (State == EnemyState.Chase)
+            {
+                attackTarget= target;
+                State = EnemyState.Attack;
+            }
+        };
+
+        attackArea.onPlayerOut += (target) =>
+        {
+            State = EnemyState.Chase;
+            if(attackTarget == target)
+            {
+                attackTarget = null;
+                State= EnemyState.Chase;
+            }
+        };
     }
 
     private void Start()
@@ -191,7 +222,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
 
     private void FixedUpdate()
     {
-        if (State != EnemyState.Dead && SearchPlayer())
+        if (State != EnemyState.Dead && State != EnemyState.Attack && SearchPlayer())
         {
             State = EnemyState.Chase;
         }
@@ -238,9 +269,22 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     {
         WaitTimer -= Time.fixedDeltaTime;
     }
+    private void Update_Attack()
+    {
+        attackCoolTime -= Time.fixedDeltaTime;
+        transform.rotation = Quaternion.Slerp(transform.rotation, 
+            Quaternion.LookRotation(attackTarget.transform.position - transform.position), 0.1f);
 
+        if (attackCoolTime < 0)
+        {
+            animator.SetTrigger("Attack");
+            Attack(attackTarget);
+           
+        }
+    }
     void Update_Dead()
     {
+        
     }
 
     bool SearchPlayer()
@@ -277,6 +321,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     public void Attack(IBattle target)
     {
         target?.Defence(AttackPower);
+        attackCoolTime = attackSpeed;
     }
 
     public void Defence(float damage)
@@ -292,7 +337,6 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         State = EnemyState.Dead;
         onDie?.Invoke();
         MakeDpopItem();
-
         //Destroy(this.gameObject);
     }
 
@@ -302,9 +346,9 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         int index = 0;  // 내가 가지고 있는 아이템중 드랍할 아이템의 인덱스
         float max = 0;  //가장 드랍율이 높은 아이템을 찾기 위한 임시 값
 
-        for(int i=0; i<dropItems.Length; i++)
+        for (int i = 0; i < dropItems.Length; i++)
         {
-            if(max < dropItems[i].dropPercentage)
+            if (max < dropItems[i].dropPercentage)
             {
                 max = dropItems[i].dropPercentage;  //가장 높은 드랍율을 가진 아이템 찾기
                 index = i;
@@ -312,17 +356,17 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         }
 
         float checkPercentage = 0f;                 //아이템의 드랍 확율을 누적하는 임시값
-        for(int i=0; i<dropItems.Length; i++)
+        for (int i = 0; i < dropItems.Length; i++)
         {
             checkPercentage += dropItems[i].dropPercentage; //checkPercentage를 단계별로 누적 시킴
             // checkPercentage 와 percentage 비교 (랜점 숫자가 누적된 확율보다 낮은지 확인, 낮은 해당 아이템 생성)
-            if( percentage <= checkPercentage)
+            if (percentage <= checkPercentage)
             {
                 index = i;
                 break;
             }
         }
-        
+
         //GameObject obj = ItemFactory.MakeItem(dropItems[index].id, transform.position, true);
         GameObject obj = ItemFactory.MakeItem(dropItems[index].id);
         obj.transform.position = transform.position;
@@ -382,12 +426,12 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         //드랍 아이템의 드랍확률의 합을 1로 만들기
         float totoal = 0;
 
-       foreach(var item in dropItems)
+        foreach (var item in dropItems)
         {
             totoal += item.dropPercentage;          //전체 합 구하기
         }
 
-       for(int i=0; i < dropItems.Length; i++)
+        for (int i = 0; i < dropItems.Length; i++)
         {
             dropItems[i].dropPercentage /= totoal;  //전체 합으로 나눠서 합이 1로 만듬
         }

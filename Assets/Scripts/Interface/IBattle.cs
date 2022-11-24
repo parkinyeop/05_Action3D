@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IBattle
 {
-
+    Transform transform { get; }
     float AttackPower { get; }
     float DefencePower { get; }
     void Attack(IBattle target);
