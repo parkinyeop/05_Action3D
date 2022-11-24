@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
 
     [Header("---------Chasing Data")]
     public float sightRange = 10f;
-    public float closeSightRnage = 2.5f;
+    public float closeSightRange = 2.5f;
     public float sightHalfAngle = 50;
     Transform chaseTarget;
 
@@ -91,6 +91,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
                 {
                     case EnemyState.Wait:
                         agent.isStopped = true;
+                        agent.velocity= Vector3.zero;
                         waitTimer = waitTime;
                         animator.SetTrigger("Stop");
                         stateUpdate = Update_Wait;
@@ -109,8 +110,9 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
                         stateUpdate = Update_Chase;
                         break;
                     case EnemyState.Attack:
-                        agent.isStopped = false;
+                        agent.isStopped = true;
                         animator.SetTrigger("Stop");
+                        agent.velocity = Vector3.zero;
                         attackCoolTime = attackSpeed;
                         stateUpdate = Update_Attack;
                         break;
@@ -184,7 +186,7 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         {
             if (State == EnemyState.Chase)
             {
-                attackTarget= target;
+                attackTarget = target;
                 State = EnemyState.Attack;
             }
         };
@@ -192,10 +194,10 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         attackArea.onPlayerOut += (target) =>
         {
             State = EnemyState.Chase;
-            if(attackTarget == target)
+            if (attackTarget == target)
             {
                 attackTarget = null;
-                State= EnemyState.Chase;
+                State = EnemyState.Chase;
             }
         };
     }
@@ -273,19 +275,19 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
     private void Update_Attack()
     {
         attackCoolTime -= Time.fixedDeltaTime;
-        transform.rotation = Quaternion.Slerp(transform.rotation, 
+        transform.rotation = Quaternion.Slerp(transform.rotation,
             Quaternion.LookRotation(attackTarget.transform.position - transform.position), 0.1f);
 
         if (attackCoolTime < 0)
         {
             animator.SetTrigger("Attack");
             Attack(attackTarget);
-           
+
         }
     }
     void Update_Dead()
     {
-        
+
     }
 
     bool SearchPlayer()
@@ -302,16 +304,26 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         {
             Vector3 playerPos = collider[0].transform.position;
             Vector3 toPlayerDir = playerPos - transform.position;
+
             float angle = Vector3.Angle(transform.forward, toPlayerDir);
-            if (sightHalfAngle > angle)
+
+            if (toPlayerDir.sqrMagnitude < closeSightRange * closeSightRange)
             {
-                Ray ray = new(transform.position + transform.up * 0.5f, toPlayerDir);
-                if (Physics.Raycast(ray, out RaycastHit hit, sightRange))
+                chaseTarget = collider[0].transform;
+                result = true;
+            }
+            else
+            {
+                if (sightHalfAngle > angle)
                 {
-                    if (hit.collider.CompareTag("Player"))
+                    Ray ray = new(transform.position + transform.up * 0.5f, toPlayerDir);
+                    if (Physics.Raycast(ray, out RaycastHit hit, sightRange))
                     {
-                        chaseTarget = collider[0].transform;
-                        result = true;
+                        if (hit.collider.CompareTag("Player"))
+                        {
+                            chaseTarget = collider[0].transform;
+                            result = true;
+                        }
                     }
                 }
             }
@@ -411,6 +423,9 @@ public class Enemy : MonoBehaviour, IHealth, IBattle
         Handles.DrawLine(transform.position, transform.position + q2 * forward);
 
         Handles.DrawWireArc(transform.position, transform.up, q1 * forward, sightHalfAngle * 2, sightRange, 5.0f);
+
+        Handles.color = Color.yellow;
+        Handles.DrawWireDisc(transform.position, transform.up, closeSightRange);
 #endif
     }
     public void Test()
